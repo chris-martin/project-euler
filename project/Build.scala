@@ -8,7 +8,7 @@ object Build extends sbt.Build {
 
     val modules = immutable.Seq((
       for (x <- file(".").listFiles if x.isDirectory && x.getName.matches("[0-9]+")) yield {
-        Project(id = "problem-%s".format(x.getName), base = x) settings(
+        Project(id = "p%s".format(x.getName), base = x) settings(
           scalaVersion := "2.10.0"
         )
       }
