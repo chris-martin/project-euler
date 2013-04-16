@@ -1,29 +1,37 @@
 object Main {
 
   def main(args: Array[String]) {
-    println((2 to 999).maxBy(oneOver(_).cycle.size))
+    println((2 to 999).map(Fraction(1, _)).maxBy(_.period))
   }
 
-  def oneOver(n: Int): Result = State(n).finalState.result
+}
 
-  case class Result(base: Seq[Int], cycle: Seq[Int]) {
-    def asString(repetitions: Int): String = base.mkString + Stream.fill(repetitions)(cycle.mkString).mkString
-  }
-  object Result {
-    def apply(x: (Seq[Int], Seq[Int])): Result = Result(x._1, x._2)
-    def apply(base: String, cycle: String): Result = Result(base.map(_.toString.toInt), cycle.map(_.toString.toInt))
+case class Fraction(c: BigInt, d: BigInt) {
+
+  lazy val period: Int = {
+
+    /*
+      This algorithm only works for c=1.
+      It relies on the fact that the period of 1/d is less than d
+     */
+    assert(c == 1)
+
+    assert(d.isValidInt)
+
+    (
+      Stream.from(0) flatMap { i =>
+        (1 until d.toInt) find { period =>
+          shiftLeft(i).remainder.reduce == shiftLeft(i+period).remainder.reduce
+        }
+      }
+    ).head
+
   }
 
-  case class State(n: Int, previousState: Option[State] = None) {
-    lazy val previousStates: Stream[State] = (previousState #:: previousStates.map(_.previousState)).takeWhile(_.isDefined).map(_.get)
-    lazy val previousDigits: Seq[Int] = previousState map (_.digits) getOrElse Nil
-    lazy val lastDigit: Int = ( ( (BigInt(10) pow (previousDigits.size + 1)) - (BigInt(10) * previousInteger * n) ) / n ).toInt
-    lazy val digits: Seq[Int] = previousDigits :+ lastDigit
-    lazy val nextState: State = copy(previousState = Some(this))
-    lazy val isFinal: Boolean = digits contains nextState.lastDigit
-    lazy val previousInteger: BigInt = if (previousDigits.isEmpty) 0 else BigInt(previousDigits.mkString)
-    lazy val finalState: State = { var x: State = this; while (!x.isFinal) x = x.nextState; x }
-    lazy val result: Result = Result(digits.splitAt(digits lastIndexOf nextState.lastDigit))
-  }
+  def remainder: Fraction = Fraction(c mod d, d)
+  def shiftLeft(n: Int): Fraction = *(BigInt(10) pow n)
+  def *(x: BigInt): Fraction = Fraction(c*x, d)
+  def reduce: Fraction = { val x = c gcd d; Fraction(c/x, d/x) }
+  override def toString: String = "%s/%s".format(c, d)
 
 }
