@@ -1,0 +1,8 @@
+object Problem24 extends App {
+
+  println(answer)
+
+  def answer: String =
+    ('0' to '9').permutations.drop(999999).next().mkString
+
+}
