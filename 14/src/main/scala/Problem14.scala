@@ -1,17 +1,18 @@
-import collection.mutable
+object Problem14 extends App {
 
-object Main {
-  def main(args: Array[String]) {
+  println(answer)
+
+  def answer: Int = {
 
     def collatz(i: Long): Long =
       if (i % 2 == 0) (i / 2)
       else (3 * i + 1)
 
-    val memo = mutable.HashMap[Long, Long](1L -> 1L)
+    val memo = collection.mutable.HashMap[Long, Long](1L -> 1L)
 
     def calculate(i: Long) {
       if (!memo.contains(i)) {
-        val stack = mutable.Stack[Long](i)
+        val stack = collection.mutable.Stack[Long](i)
         while (stack.nonEmpty) {
           val c = collatz(stack.head)
           if (memo.contains(c)) memo.put(stack.pop(), 1 + memo(c))
@@ -25,7 +26,8 @@ object Main {
       memo(i)
     }
 
-    println((1L to 1000000L).maxBy(length(_)))
+    (1 to 1000000).maxBy(length(_))
 
   }
+
 }
