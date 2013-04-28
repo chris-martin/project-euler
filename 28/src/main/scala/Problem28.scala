@@ -1,8 +1,6 @@
-object Problem28 extends App {
+object Problem28 {
 
-  println(answer)
-
-  def answer: Int =
+  lazy val answer: Int =
     1 + (1 to 500).flatMap(i => {
       val j = 2*i
       val x = square(j+1)

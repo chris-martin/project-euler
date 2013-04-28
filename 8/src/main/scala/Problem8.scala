@@ -1,18 +1,12 @@
-object Problem8 extends App {
+object Problem8 {
 
-  println(answer)
-
-  def answer: Int =
-    inputString
-      .map(c => Integer.parseInt(c.toString))
+  lazy val answer: Int =
+    io.Source.fromURL(getClass.getResource("number.txt"))
+      .getLines
+      .map(_.trim)
+      .flatMap(_.map(_.toString.toInt))
       .sliding(5)
       .map(_.product)
       .max
-
-  def inputString: String =
-    io.Source.fromURL(
-      getClass.getResource("number.txt")
-    )
-    .mkString.replaceAll("""\s""", "")
 
 }

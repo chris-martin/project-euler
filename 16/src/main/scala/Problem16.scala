@@ -1,8 +1,6 @@
-object Problem16 extends App {
+object Problem16 {
 
-  println(answer)
-
-  def answer: Int =
+  lazy val answer: Int =
     BigInt(2).pow(1000).toString(10)
       .map(_.toString.toInt).sum
 

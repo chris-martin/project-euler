@@ -1,8 +1,6 @@
-object Problem6 extends App {
+object Problem6 {
 
-  println(answer)
-
-  def answer: Int =
+  lazy val answer: Int =
     (1 to 100).sum.square - (1 to 100).map(_.square).sum
 
   implicit class Sq(x: Int) {

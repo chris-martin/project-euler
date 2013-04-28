@@ -1,9 +1,6 @@
 object Problem32 extends App {
 
-  println("Products: %s".format(products.mkString(", ")))
-  println("Sum: %s".format(answer))
-
-  def answer = products.sum
+  lazy val answer = products.sum
 
   lazy val products = Set((
     for (

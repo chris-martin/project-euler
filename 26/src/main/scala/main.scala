@@ -1,8 +1,6 @@
-object Problem26 extends App {
+object Problem26 {
 
-  println(answer)
-
-  def answer: Int =
+  lazy val answer: Int =
     (2 to 999).map(Fraction(1, _)).maxBy(_.period).d.toInt
 
   case class Fraction(c: BigInt, d: BigInt) {

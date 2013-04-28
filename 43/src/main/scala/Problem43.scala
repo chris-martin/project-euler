@@ -1,8 +1,6 @@
-object Problem43 extends App {
+object Problem43 {
 
-  println(answer)
-
-  def answer: Long =
+  lazy val answer: Long =
     (0 to 9).permutations.map(_.mkString)
       .filter({ s =>
         s.substring(1, 4).toInt % 2 == 0 &&

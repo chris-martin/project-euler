@@ -1,8 +1,6 @@
-object Problem3 extends App {
+object Problem3 {
 
-  println(answer)
-
-  def answer: Int = {
+  lazy val answer: Int = {
 
     val primes = Stream.from(0).map(BigInt(_))
       .filter(_.isProbablePrime(10)).map(_.toInt)

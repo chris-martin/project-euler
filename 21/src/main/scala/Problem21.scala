@@ -1,8 +1,7 @@
 object Problem21 {
 
-  println(answer)
-
-  def answer: Int = (2 to max).filter(isAmicable(_)).sum
+  lazy val answer: Int =
+    (2 to max).filter(isAmicable(_)).sum
 
   lazy val max = 9999
 

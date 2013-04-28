@@ -1,8 +1,6 @@
-object Problem27 extends App {
+object Problem27 extends {
 
-  println(answer)
-
-  def answer: Int = {
+  lazy val answer: Int = {
 
     val expressions =
       for {

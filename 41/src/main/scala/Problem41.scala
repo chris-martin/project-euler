@@ -1,8 +1,6 @@
-object Problem41 extends App {
+object Problem41 {
 
-  println(answer)
-
-  def answer: Int =
+  lazy val answer: Int =
     (1 to 9)
       .flatMap(i => (1 to i).permutations)
       .map(_.mkString).sorted.reverse

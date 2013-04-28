@@ -1,8 +1,6 @@
-object Problem19 extends App {
+object Problem19 {
 
-  println(answer)
-
-  def answer: Int = {
+  lazy val answer: Int = {
 
     val dates = for (
       year <- (1900 to 2000);

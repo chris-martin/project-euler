@@ -1,9 +1,8 @@
-object Problem39 extends App {
+object Problem39 {
 
-  println(answer)
+  val maxPerimeter = 1000L
 
-  def answer: Int = {
-    val maxPerimeter = 1000L
+  lazy val answer: Int =
     (
       for (
         a <- (1L to maxPerimeter);
@@ -16,7 +15,6 @@ object Problem39 extends App {
     .groupBy(identity)
     .maxBy(_._2.size)
     ._1.toInt
-  }
 
   def sqrt(i: Long): Option[Long] = {
     val x = math.sqrt(i).round

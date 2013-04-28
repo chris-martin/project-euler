@@ -1,9 +1,4 @@
-object Problem30 extends App {
-
-  Seq(
-    "Numbers: %s".format(magicNrs.mkString(", ")),
-    "Sum: %s".format(answer)
-  ).foreach(println(_))
+object Problem30 {
 
   case class NrOfDigits(n: Int) {
     def maxPowerSum: Int = n * BigInt(9).pow(5).toInt

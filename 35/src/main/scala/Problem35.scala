@@ -1,8 +1,6 @@
-object Problem35 extends App {
+object Problem35 {
 
-  println(answer)
-
-  def answer: Int =
+  lazy val answer: Int =
     (2 to 999999) count { x =>
       val s = x.toString
       (0 to s.size) forall { i =>

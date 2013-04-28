@@ -1,6 +1,4 @@
-object Problem11 extends App {
-
-  println(answer)
+object Problem11 {
 
   type Grid = Array[Array[Int]]
 
@@ -14,7 +12,7 @@ object Problem11 extends App {
       (Array.fill(i)(0) ++ row).padTo(2 * grid.size, 0)
     }).transpose[Int]
 
-  def answer:Int =
+  lazy val answer:Int =
     Stream(
       grid,
       grid.transpose[Int],

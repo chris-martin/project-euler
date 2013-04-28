@@ -1,8 +1,6 @@
-object Problem22 extends App {
+object Problem22 {
 
-  println(answer)
-
-  def answer: Int =
+  lazy val answer: Int =
     io.Source.fromURL(getClass.getResource("names.txt"))
       .getLines.mkString.toUpperCase.split(",")
       .map(_.trim.stripPrefix("\"").stripSuffix("\""))

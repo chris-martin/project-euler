@@ -1,10 +1,6 @@
-object Problem17 extends App {
+object Problem17 {
 
-  println(strings.grouped(100).map(_.mkString(" ")).mkString("\n\n"))
-
-  println(answer)
-
-  def answer: Int = strings.map(_.size).sum
+  lazy val answer: Int = strings.map(_.size).sum
 
   lazy val strings: Seq[String] = {
 

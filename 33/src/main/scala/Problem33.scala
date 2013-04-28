@@ -1,7 +1,4 @@
-object Problem33 extends App {
-
-  println("Fractions: %s".format(specialFractions.mkString(",")))
-  println("Answer: %s".format(answer))
+object Problem33 {
 
   implicit class IntString(s: String) {
     def digit(i: Int): Int = s(i).toString.toInt
@@ -50,6 +47,7 @@ object Problem33 extends App {
     (for (c <- 10 to 99; d <- c+1 to 99) yield Fraction(c, d))
       .filter(_.isCurious)
 
-  def answer: Int = specialFractions.product.reduce.d
+  lazy val answer: Int =
+    specialFractions.product.reduce.d
 
 }

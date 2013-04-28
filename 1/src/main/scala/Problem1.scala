@@ -1,8 +1,6 @@
-object Problem1 extends App {
+object Problem1 {
 
-  println(answer)
-
-  def answer: Int =
+  lazy val answer: Int =
     (1 to 999)
       .filter(i => (i % 3 == 0) || (i % 5 == 0))
       .sum

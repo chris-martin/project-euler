@@ -1,8 +1,6 @@
-object Problem5 extends App {
+object Problem5 {
 
-  println(answer)
-
-  def answer: Int = (
+  lazy val answer: Int = (
     Stream from 1
       filter { a =>
         (3 to 20) forall {

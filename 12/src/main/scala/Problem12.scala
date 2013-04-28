@@ -1,6 +1,4 @@
-object Problem12 extends App {
-
-  println(answer)
+object Problem12 {
 
   lazy val primes: Stream[BigInt] =
     Stream.from(2).map(BigInt(_)).filter(_.isProbablePrime(45))
@@ -19,7 +17,7 @@ object Problem12 extends App {
     fs.values.map(1 + _).product
   }
 
-  def answer: Int =
+  lazy val answer: Int =
     triangles.drop(1).filter(nrOfFactors(_) > 500).head.toInt
 
 }

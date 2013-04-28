@@ -1,8 +1,4 @@
-object Problem37 extends App {
-
-  println("Primes: %s".format(interestingPrimes.mkString(", ")))
-
-  println("Sum: %s".format(answer))
+object Problem37 {
 
   def truncations(s: String): Seq[String] =
     Seq(s) ++
@@ -13,6 +9,6 @@ object Problem37 extends App {
     truncations(i.toString()).forall(BigInt(_).isProbablePrime(40))
   }).take(11)
 
-  def answer = interestingPrimes.sum
+  lazy val answer = interestingPrimes.sum
 
 }

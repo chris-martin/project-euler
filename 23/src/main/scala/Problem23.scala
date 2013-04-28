@@ -1,28 +1,26 @@
-object Problem23 extends App {
+object Problem23 {
 
-  println(answer)
+  val max = 28123
 
-  def answer: Int = {
+  val primes: Stream[Int] = Stream.from(2).filter(BigInt(_).isProbablePrime(45))
 
-    val max = 28123
+  type Factors = List[Int]
 
-    val primes: Stream[Int] = Stream.from(2).filter(BigInt(_).isProbablePrime(45))
+  // prime factorizations of numbers in [2, max] in no particular order
+  def factorizations(tail: Factors = Nil): Stream[Factors] =
+    primes.map(f => f :: tail match {
+      case fs if fs.product > max => None
+      case fs => Some(Stream.cons(fs, factorizations(fs)))
+    }).takeWhile(_.isDefined).map(_.get).flatten
 
-    type Factors = List[Int]
-
-    // prime factorizations of numbers in [2, max] in no particular order
-    def factorizations(tail: Factors = Nil): Stream[Factors] =
-      primes.map(f => f :: tail match {
-        case fs if fs.product > max => None
-        case fs => Some(Stream.cons(fs, factorizations(fs)))
-      }).takeWhile(_.isDefined).map(_.get).flatten
-
-    // the proper divisors of the product of the factors
-    def properDivisors(fs: Factors): Set[Int] = {
-      (0 until fs.size).toSet.flatMap { n: Int =>
-        fs.combinations(n).map(_.product)
-      }
+  // the proper divisors of the product of the factors
+  def properDivisors(fs: Factors): Set[Int] = {
+    (0 until fs.size).toSet.flatMap { n: Int =>
+      fs.combinations(n).map(_.product)
     }
+  }
+
+  lazy val answer: Int = {
 
     // function : n in [2, max] -> sum of proper divisors of n
     println("generating divisor sums")

@@ -1,4 +1,4 @@
-object Main extends App {
+object Problem44 {
 
   case class Pentagonal(n: Long) {
     val p = n * (3*n-1) / 2
@@ -40,7 +40,7 @@ object Main extends App {
 
   lazy val stream = Stream.from(1).map(Pentagonal(_))
 
-  println(
+  lazy val answer =
     stream.map(_.p).filter({ D =>
       println(D)
       stream.takeWhile(_.step <= D).map(_.p)
@@ -49,6 +49,5 @@ object Main extends App {
           isPentagonal(b) && isPentagonal(a+b)
         })
     }).head
-  )
 
 }

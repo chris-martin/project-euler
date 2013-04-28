@@ -1,8 +1,6 @@
-object Problem36 extends App {
+object Problem36 {
 
-  println(answer)
-
-  def answer: Int =
+  lazy val answer: Int =
     (
       (1 to 999999)
         map(BigInt(_))

@@ -1,14 +1,12 @@
 object Problem18 {
 
-  println(answer)
-
   lazy val rows: Array[Array[Int]] = io.Source
     .fromURL(getClass.getResource("triangle.txt"))
     .getLines.map(_.trim).filter(_.nonEmpty)
     .map(_.split(' ').map(_.toInt)).toArray
 
   // position (row, col) -> utility of that node
-  lazy val utility = {
+  lazy val utility: (Int, Int) => Int = {
 
     val u = new collection.mutable.HashMap[(Int, Int), Int] {
       // the triangle has implicit 0 values below it
@@ -29,9 +27,9 @@ object Problem18 {
       )
     }
 
-    u
+    u.apply(_, _)
   }
 
-  def answer: Int = utility((0, 0))
+  lazy val answer: Int = utility(0, 0)
 
 }
