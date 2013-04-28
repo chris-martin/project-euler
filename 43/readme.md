@@ -5,7 +5,7 @@ made up of each of the digits 0 to 9 in some order, but it also has
 a rather interesting sub-string divisibility property.
 
 Let d<sub>1</sub> be the 1<sup>st</sup> digit, d<sub>2</sub> be the
-2<sup>nd</sup> digit, and so on. In this way, we note the following:
+2<sup>nd</sub> digit, and so on. In this way, we note the following:
 
 * d<sub>2</sub>d<sub>3</sub>d<sub>4</sub>=406 is divisible by 2
 * d<sub>3</sub>d<sub>4</sub>d<sub>5</sub>=063 is divisible by 3
