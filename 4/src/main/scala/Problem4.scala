@@ -1,4 +1,4 @@
-object Main extends App {
+object Problem4 extends App {
 
   println(answer)
 
