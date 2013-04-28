@@ -1,5 +1,8 @@
-object Main extends App {
-  println(
+object Problem43 extends App {
+
+  println(answer)
+
+  def answer: Long =
     (0 to 9).permutations.map(_.mkString)
       .filter({ s =>
         s.substring(1, 4).toInt % 2 == 0 &&
@@ -12,5 +15,5 @@ object Main extends App {
       })
       .map(_.toLong)
       .sum
-  )
+
 }
