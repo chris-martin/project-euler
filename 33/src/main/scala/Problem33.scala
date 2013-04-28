@@ -1,4 +1,7 @@
-object Main {
+object Problem33 extends App {
+
+  println("Fractions: %s".format(specialFractions.mkString(",")))
+  println("Answer: %s".format(answer))
 
   implicit class IntString(s: String) {
     def digit(i: Int): Int = s(i).toString.toInt
@@ -43,12 +46,10 @@ object Main {
     def compare(x: Fraction, y: Fraction) = ???
   }
 
-  def main(args: Array[String]) {
-    val candidates = for (c <- 10 to 99; d <- c+1 to 99) yield Fraction(c, d)
-    val matches = candidates.filter(_.isCurious)
-    println("Fractions: %s".format(matches.mkString(",")))
-    assert(matches.size == 4)
-    println("Answer: %s".format(matches.product.reduce.d))
-  }
+  lazy val specialFractions: Seq[Fraction] =
+    (for (c <- 10 to 99; d <- c+1 to 99) yield Fraction(c, d))
+      .filter(_.isCurious)
+
+  def answer: Int = specialFractions.product.reduce.d
 
 }
