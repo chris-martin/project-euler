@@ -1,9 +1,20 @@
-object Main {
-  def main(args: Array[String]) {
+object Main extends App {
 
-    val candidates = for (i <- 1 to 999; j <- i to 999) yield i * j
-    val isPalindrome = {x: String => x == x.reverse}
-    println(candidates.filter(x => isPalindrome(x.toString)).max)
+  println(answer)
+
+  def answer: Int =
+    (1 to 999).combinations(2)
+      .map(x => x(0) * x(1))
+      .filter(_.isPalindrome)
+      .max
+
+  implicit class RichInt(i: Int) {
+
+    def isPalindrome: Boolean = {
+      val s = i.toString
+      s == s.reverse
+    }
 
   }
+
 }
