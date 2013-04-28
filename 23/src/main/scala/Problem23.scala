@@ -1,5 +1,8 @@
-object Main {
-  def main(args: Array[String]) {
+object Problem23 extends App {
+
+  println(answer)
+
+  def answer: Int = {
 
     val max = 28123
 
@@ -42,7 +45,8 @@ object Main {
       X -= (abundant(x) + abundant(y))
     }
 
-    println(X.sum)
+    X.sum
 
   }
+
 }
