@@ -1,3 +1,5 @@
+http://projecteuler.net/problem=27
+
 Euler published the remarkable quadratic formula:
 
 n<sup>2</sup> + n + 41
