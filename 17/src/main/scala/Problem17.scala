@@ -1,5 +1,12 @@
-object Main {
-  def main(args: Array[String]) {
+object Problem17 extends App {
+
+  println(strings.grouped(100).map(_.mkString(" ")).mkString("\n\n"))
+
+  println(answer)
+
+  def answer: Int = strings.map(_.size).sum
+
+  lazy val strings: Seq[String] = {
 
     val lows = """one two three four five six seven eight nine ten
       eleven twelve thirteen fourteen fifteen sixteen seventeen
@@ -27,10 +34,7 @@ object Main {
 
     val all = oneAndTwoDigit ++ threeDigit :+ "OneThousand"
     assert(all.size == 1000)
-
-    println(all.grouped(100).map(_.mkString(" ")).mkString("\n\n"))
-    println(all.map(_.size).sum)
-
+    all
   }
 
 }
