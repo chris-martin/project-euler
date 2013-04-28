@@ -1,13 +1,9 @@
-object Main extends App {
+object Problem39 extends App {
 
-  def sqrt(i: Long): Option[Long] = {
-    val x = math.sqrt(i).round
-    if (x*x == i) Some(x) else None
-  }
+  println(answer)
 
-  val maxPerimeter = 1000L
-
-  println(
+  def answer: Int = {
+    val maxPerimeter = 1000L
     (
       for (
         a <- (1L to maxPerimeter);
@@ -19,7 +15,12 @@ object Main extends App {
     }).filter(_ <= maxPerimeter)
     .groupBy(identity)
     .maxBy(_._2.size)
-    ._1
-  )
+    ._1.toInt
+  }
+
+  def sqrt(i: Long): Option[Long] = {
+    val x = math.sqrt(i).round
+    if (x*x == i) Some(x) else None
+  }
 
 }
