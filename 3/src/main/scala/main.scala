@@ -1,11 +1,18 @@
-object Main {
-  def main(args: Array[String]) {
+object Main extends App {
 
-    var x = BigInt(600851475143L)
-    while (!x.isProbablePrime(30)) {
-      x /= Stream.from(2).find(i => (x mod i) == 0).get
+  println(answer)
+
+  def answer: Int = {
+
+    val primes = Stream.from(0).map(BigInt(_))
+      .filter(_.isProbablePrime(10)).map(_.toInt)
+
+    var x = BigInt("600851475143")
+    while (!x.isProbablePrime(40)) {
+      x /= primes.filter(i => (x mod i) == 0).head
     }
-    println(x)
 
+    x.toInt
   }
+
 }
