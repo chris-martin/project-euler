@@ -1,12 +1,13 @@
-object Main {
-  def main(args: Array[String]) {
+object Main extends App {
 
-    val fibs = {
-      var x = List(0, 1)
-      Stream.continually { x = List(x(1), x.sum); x(1) }
-    }
+  println(answer)
 
-    println(fibs.takeWhile(_ < 4000000).filter(_ % 2 == 0).sum)
+  def answer: Int = {
 
+    lazy val fibs: Stream[Int] = 0 #:: 1 #::
+      fibs.zip(fibs.tail).map { n => n._1 + n._2 }
+
+    fibs.takeWhile(_ < 4000000).filter(_ % 2 == 0).sum
   }
+
 }
