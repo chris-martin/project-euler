@@ -1,4 +1,6 @@
-object Main extends App {
+object Problem38 extends App {
+
+  println(answer)
 
   def catProduct(k: BigInt, n: Int): BigInt =
     BigInt((1 to n).map(_ * k).mkString)
@@ -10,12 +12,14 @@ object Main extends App {
     s.size == 9 && (1 to 9).forall({ i => s.contains(i.toString) })
   }
 
-  println(
-    (1 to 99999).flatMap({ k =>
-      Stream.from(2).
-        map({ n => catProduct(k, n) }).
-        takeWhile(_ <= 999999999)
-    }).filter(pan9(_)).max
-  )
+  def answer =
+    (1 to 99999)
+      .flatMap({ k =>
+        Stream.from(2).
+          map({ n => catProduct(k, n) }).
+          takeWhile(_ <= 999999999)
+      })
+      .filter(pan9(_))
+      .max
 
 }
