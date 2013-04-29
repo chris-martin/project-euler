@@ -1,5 +1,29 @@
 object Problem44 {
 
+  case class Pentagonal(n: Int, p: Long) {
+    def next: Pentagonal = Pentagonal(n+1, p + 3*(n+1) - 2)
+  }
+
+  lazy val pentagonals: Stream[Pentagonal] =
+    Pentagonal(1, 1) #:: pentagonals.map(_.next)
+
+  lazy val sumCandidates =
+    (for (a <- pentagonals; b <- pentagonals.takeWhile(_.n < a.n)) yield (a, b))
+      .filter(x => isPentagonal(x._1.p + x._2.p))
+
+  lazy val answer: Long =
+    sumCandidates
+      .filter(x => isPentagonal(x._1.p - x._2.p))
+      .map(x => x._1.p - x._2.p)
+      .head
+
+  def pentagonal(n: Long): Long =
+    n * (3*n-1) / 2
+
+  // solution of 0 = (3n^2 - n - 2p) is integral
+  def isPentagonal(p: Long): Boolean =
+    Polynomial(List(-2*p, -1, 3)).rootBetween(0, p).isDefined
+
   case class Polynomial(coeffs: List[Long]) {
 
     // http://rosettacode.org/wiki/Horner's_rule_for_polynomial_evaluation
@@ -31,29 +55,5 @@ object Problem44 {
     }
 
   }
-
-  // solution of 0 = (3n^2 - n - 2p) is integral
-  def isPentagonal(p: Long): Boolean =
-    Polynomial(List(-2*p, -1, 3)).rootBetween(0, p).isDefined
-
-  case class Pentagonal(n: Long) {
-    val p = pentagonal(n)
-    lazy val step = p - Pentagonal(n-1).p
-  }
-
-  def pentagonal(n: Long): Long =
-    n * (3*n-1) / 2
-
-  def stream = Stream.from(1).map(Pentagonal(_)).iterator
-
-  lazy val answer =
-    stream.map(_.p).dropWhile(_ < 4300000).filter({ D =>
-      println(D)// + " | " + stream.takeWhile(_.step <= D).last.p + " | " + Long.MaxValue)
-      stream.takeWhile(_.step <= D).map(_.p)
-        .exists({ a =>
-          val b = a + D
-          isPentagonal(b) && isPentagonal(a+b)
-        })
-    }).next()
 
 }
