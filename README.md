@@ -16,6 +16,11 @@ I realize that Project Euler requests that solutions be kept in secret, but all 
 * Python 3
 * [Nose](https://github.com/nose-devs/nose)
 
+### CoffeeScript
+
+* [Node.js](http://nodejs.org/)
+* [jasmine-unit](https://github.com/mhevery/jasmine-node)
+
 ### JavaScript
 
 * [Node.js](http://nodejs.org/)
