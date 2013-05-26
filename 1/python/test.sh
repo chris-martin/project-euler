@@ -1,1 +1,1 @@
-python3 problem1-test.py
+nosetests problem1-test.py
