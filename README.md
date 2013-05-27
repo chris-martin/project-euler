@@ -25,3 +25,7 @@ I realize that Project Euler requests that solutions be kept in secret, but all 
 
 * [Node.js](http://nodejs.org/)
 * [nodeunit](https://github.com/caolan/nodeunit)
+
+### Haskell
+
+* [Cabal](http://www.haskell.org/cabal/)
