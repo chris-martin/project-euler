@@ -29,3 +29,7 @@ I realize that Project Euler requests that solutions be kept in secret, but all 
 ### Haskell
 
 * [Cabal](http://www.haskell.org/cabal/)
+
+### Ruby
+
+* Ruby
