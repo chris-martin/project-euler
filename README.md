@@ -30,6 +30,3 @@ I realize that Project Euler requests that solutions be kept in secret, but all 
 
 * [Cabal](http://www.haskell.org/cabal/)
 
-### Ruby
-
-* Ruby
