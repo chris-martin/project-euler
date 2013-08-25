@@ -1,4 +1,4 @@
-object Problem49 extends App {
+object Problem49 {
 
   lazy val answer =
     (1000 to 9999).filter(BigInt(_).isProbablePrime(32))
