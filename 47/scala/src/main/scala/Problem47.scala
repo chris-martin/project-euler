@@ -1,34 +1,29 @@
+import scala.collection.mutable
+
 object Problem47 {
 
-  type Prime = Stream[Int]
+  lazy val primes: Stream[Int] = Stream.from(2).filter(BigInt(_).isProbablePrime(32))
 
-  val primes: Stream[Prime] = Stream.iterate
-    { Stream.from(2).filter(BigInt(_).isProbablePrime(40)) }
-    { _.drop(1) }
+  lazy val answer: Long = {
 
-  type PrimeSet = Stream[List[Prime]]
+    var bound = 200000
 
-  val firstPrimeSet: PrimeSet = Stream(Nil)
+    (Stream continually {
 
+      val factorCount = mutable.ArrayBuffer.fill(bound)(0)
 
+      primes.takeWhile(_ < bound) foreach { prime =>
+        (Stream from 1).map(_ * prime).takeWhile(_ < bound) foreach { multiple =>
+          factorCount(multiple) += 1
+        }
+      }
 
+      bound *= 2
 
+      factorCount.zipWithIndex.sliding(4).find(_.forall(_._1 == 4)).map(_.head._2)
 
-  /** @param factors list of (factor -> multiplicity)
-    *                with factors in descending order
-    */
-  case class Factorization(factors: List[(Prime, Int)])
+    }).flatten.head
 
-  val factorizations = new collection.mutable.ArrayBuffer[Option[Factorization]] {
-    override def apply(idx: Int) = if (idx >= length) None else super.apply(idx)
-  }
-
-  factorizations.update(1, Some(Factorization(Nil)))
-
-  var highestFactorizedValue = 1
-
-  lazy val answer: Int = {
-    5
   }
 
 }
