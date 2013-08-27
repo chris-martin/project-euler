@@ -1,4 +1,4 @@
-name := "problem-55"
+name := "problem-58"
 
 scalaVersion := "2.10.0"
 
