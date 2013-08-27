@@ -5,7 +5,7 @@ import scala.util.parsing.combinator.RegexParsers
 object Problem54 {
 
   lazy val answer: Int = {
-    val games: Seq[Game] = PokerParser.parseFile(Source.fromFile("../poker.txt").reader())
+    val games: Seq[Game] = Parser.parseFile(Source.fromFile("../poker.txt").reader())
     games.count(_.winner == 0)
   }
 
@@ -56,8 +56,6 @@ object Problem54 {
 
     def isFlush: Boolean = cards.toSeq.map(_.suit).distinct.size == 1
 
-    def isStraightFlush: Boolean = isStraight && isFlush
-
     def nOfAKind(n: Int): Set[Ordinal] =
       cards.groupBy(_.ordinal).filter(_._2.size == n).map(_._1).toSet
 
@@ -82,12 +80,19 @@ object Problem54 {
   }
 
   object Hand {
-    def parse(s: String): Hand = PokerParser.parseAll(PokerParser.hand, s).get
+    def parse(s: String): Hand = Parser.parseAll(Parser.hand, s).get
   }
 
-  object StraightFlush {
-    def unapply(hand: Hand): Option[Ordinal] =
-      if (hand.isStraightFlush) Some(hand.high) else None
+  case class RankOrdinals(categoryOrdinals: Seq[Ordinal], otherOrdinals: Seq[Ordinal])
+
+  trait RankCategory {
+    def unapply(hand: Hand): Option[RankOrdinals]
+  }
+
+  object StraightFlush extends RankCategory {
+    def unapply(hand: Hand) = hand match {
+      case h if h.isStraight && h.isFlush => Some(RankOrdinals(Seq(h.high), Nil))
+    }
   }
 
   object FourOfAKind {
@@ -127,7 +132,7 @@ object Problem54 {
     }
   }
 
-  implicit val handRanking: Ordering[Hand] = Ordering.by[Hand, Seq[Int]]({ hand: Hand =>
+  implicit val handRanking: Ordering[Hand] = Ordering.by[Hand, Rank]({ hand: Hand =>
     val w = hand match {
       case StraightFlush(a) => Seq(9, a.toInt)
       case FourOfAKind(a)   => Seq(8, a.toInt)
@@ -142,6 +147,8 @@ object Problem54 {
     w ++ hand.sortedOrdinals.reverse.map(_.toInt)
   })
 
+  case class Rank(category: RankCategory, ordinals: RankOrdinals)
+
   case class Game(hands: Seq[Hand]) {
     def winner: Int = hands.zipWithIndex.maxBy(_._1)._2
   }
@@ -151,7 +158,7 @@ object Problem54 {
       new Game(handStrings.map(Hand.parse))
   }
 
-  object PokerParser extends RegexParsers {
+  object Parser extends RegexParsers {
 
     def cardAttributeParser[A <: CardAttribute](implicit companion: CardAttributeCompanion[A]): Parser[A] =
       s"[${companion.characters}]".r ^^ { s => companion.apply(s.head) }

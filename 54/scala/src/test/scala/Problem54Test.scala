@@ -104,8 +104,12 @@ class Problem54Test extends org.scalatest.FreeSpec {
     }
   }
 
+  "straight flush" in {
+    StraightFlush. Hand.parse("4H 5H 6H 7H 8H")
+  }
+
   "parse card" in {
-    import PokerParser._
+    import Parser._
     assert(
       parseAll(card, "5D").get
       ===
@@ -114,7 +118,7 @@ class Problem54Test extends org.scalatest.FreeSpec {
   }
 
   "parse hand" in {
-    import PokerParser._
+    import Parser._
     assert(
       parseAll(hand, "JS 7S 5C KD 6D").get
       ===
@@ -129,7 +133,7 @@ class Problem54Test extends org.scalatest.FreeSpec {
   }
 
   "parse game" in {
-    import PokerParser._
+    import Parser._
     assert(
       parseAll(game, "TS QH TD QS 3C JH AH 2C 8D 7D").get
       ===
@@ -153,7 +157,7 @@ class Problem54Test extends org.scalatest.FreeSpec {
   }
 
   "parse file" in {
-    import PokerParser._
+    import Parser._
     assert(
       parseAll(file,
         """JH 5C TD 4C 6H JS KD KH QS 4H
