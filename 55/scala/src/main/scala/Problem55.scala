@@ -16,11 +16,3 @@ object Problem55 {
     }
 
 }
-
-/*
-
-Points of this question that need clarification:
-- Is a palindrome a Lychrel number at 0 iterations?
-- Does "below ten-thousand" mean starting at 0?
-
- */
