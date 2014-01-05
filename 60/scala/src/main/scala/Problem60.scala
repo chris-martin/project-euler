@@ -14,12 +14,13 @@ object Problem60 {
     primality((x + y).toLong) &&
     primality((y + x).toLong)
 
-  class Clique(vs: ArrayBuffer[Long]) {
+  class Clique(vs: Seq[Long]) {
     def sum: Long = vs.sum
     def accepts(p: Long): Boolean = vs forall (isEdge(p, _))
-    def +=(p: Long) { vs += p }
+    def :+(p: Long): Clique = new Clique(vs :+ p)
     def size: Int = vs.size
     def toSet: Set[Long] = vs.toSet
+    override def toString = s"${vs.mkString(" + ")} = ${vs.sum}"
   }
   object Clique {
     def apply(ps: Long*): Clique = new Clique(ArrayBuffer(ps: _*))
@@ -37,14 +38,18 @@ object Problem60 {
     var result: Option[Clique] = None
 
     for (p <- Iterator.iterate(2L)(_+1).takeWhile(_ <= maxSum).filter(primality)) {
+      println(p)
       for (clique <- cliques) {
         if (clique.sum + p >= maxSum) {
           cliques -= clique
         }
         if (clique accepts p) {
-          clique += p
-          if (clique.size == n) {
-            result = Some((Seq(clique) ++ result).minBy(_.sum))
+          val newClique = clique :+ p
+          if (newClique.size == n) {
+            result = Some((Seq(newClique) ++ result).minBy(_.sum))
+            println(result.get)
+          } else {
+            cliques += newClique
           }
         }
       }
@@ -54,7 +59,7 @@ object Problem60 {
   }
 
   lazy val smallestCliqueOfSize4 = smallestCliqueOfSize(4, 1000)
-  lazy val smallestCliqueOfSize5 = smallestCliqueOfSize(5, 110000)
+  lazy val smallestCliqueOfSize5 = smallestCliqueOfSize(5, 30000)
 
   lazy val answer: Long = smallestCliqueOfSize5.get.sum
 }
