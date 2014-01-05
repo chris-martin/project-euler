@@ -32,13 +32,10 @@ object Problem60 {
 
   def smallestCliqueOfSize(n: Int, maxSum: Long): Option[Set[Long]] = {
 
-    println(n)
-
     val cliques = mutable.TreeSet[Clique]()(new HashCodeOrdering)
     var result: Option[Clique] = None
 
     for (p <- Iterator.iterate(2L)(_+1).takeWhile(_ <= maxSum).filter(primality)) {
-      println(p)
       for (clique <- cliques) {
         if (clique.sum + p >= maxSum) {
           cliques -= clique
@@ -47,7 +44,6 @@ object Problem60 {
           val newClique = clique :+ p
           if (newClique.size == n) {
             result = Some((Seq(newClique) ++ result).minBy(_.sum))
-            println(result.get)
           } else {
             cliques += newClique
           }
@@ -59,7 +55,7 @@ object Problem60 {
   }
 
   lazy val smallestCliqueOfSize4 = smallestCliqueOfSize(4, 1000)
-  lazy val smallestCliqueOfSize5 = smallestCliqueOfSize(5, 30000)
+  lazy val smallestCliqueOfSize5 = smallestCliqueOfSize(5, 27000)
 
   lazy val answer: Long = smallestCliqueOfSize5.get.sum
 }
