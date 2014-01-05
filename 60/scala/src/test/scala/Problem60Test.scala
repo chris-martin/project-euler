@@ -7,7 +7,7 @@ class Problem60Test extends org.scalatest.FreeSpec {
   }
 
   "Size 5" in {
-    assert ( smallestCliqueOfSize5 === Some(Set(13, 5197, 5701, 6733, 8389)) )
+    assert ( smallestCliqueOfSize5 === Some(Set(13 + 5197 + 5701 + 6733 + 8389)) )
   }
 
   "Answer is correct" in {
