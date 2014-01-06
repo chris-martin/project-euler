@@ -1,5 +1,3 @@
-import collection.{immutable, mutable}
-
 object Problem63 {
 
   lazy val answer: Int = powerfulNumbers.size
@@ -12,5 +10,4 @@ object Problem63 {
         .takeWhile({ case (n, x) => x >= (BigInt(10) pow (n-1)) })
         .map({ case (n, x) => x })
     }).toSet + BigInt(1)
-
 }
