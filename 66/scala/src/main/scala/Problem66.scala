@@ -28,15 +28,17 @@ object Problem66 {
     ).toSeq :_*)
 
     var x = 2
+    var xSquaredMinusOne = 3
     var lastD = 0
     while (unsolvedD.nonEmpty) {
       for (d <- unsolvedD) {
-        solveForY(x = x, d = d) foreach { y =>
+        divide(xSquaredMinusOne, d) flatMap (Roots.get(_)) foreach { y =>
           lastD = d
           unsolvedD -= d
-          println(s"${unsolvedD.size}\td = $d  \tx = $x\ty = $y")
+          println(s"${unsolvedD.size}\td = $d   \tx = $x   \ty = $y")
         }
       }
+      xSquaredMinusOne = xSquaredMinusOne + 1 + x + x
       x += 1
     }
 
