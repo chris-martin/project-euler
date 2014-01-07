@@ -41,7 +41,7 @@ Hence the sequence of the first ten convergents for sqrt(2) are:
 1, 3/2, 7/5, 17/12, 41/29, 99/70, 239/169, 577/408, 1393/985, 3363/2378, ...
 
 What is most surprising is that the important mathematical constant,
-_e_ = [2; 1,2,1, 1,4,1, 1,6,1 , ... , 1,2_k_,1, ...].
+_e_ = [2; 1,2,1, 1,4,1, 1,6,1 , ... , 1,2<i>k</i>,1, ...].
 
 The first ten terms in the sequence of convergents for _e_ are:
 
