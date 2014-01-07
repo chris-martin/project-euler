@@ -13,11 +13,11 @@ By finding minimal solutions in _x_ for D = {2, 3, 5, 6, 7}, we obtain the
 following:
 
 ```
-32 – 222 = 1
-22 – 312 = 1
-92 – 542 = 1
-52 – 622 = 1
-82 – 732 = 1
+3^2 – 2 × 2^2 = 1
+2^2 – 3 × 1^2 = 1
+9^2 – 5 × 4^2 = 1
+5^2 – 6 × 2^2 = 1
+8^2 – 7 × 3^2 = 1
 ```
 
 Hence, by considering minimal solutions in _x_ for D ≤ 7, the largest _x_ is
