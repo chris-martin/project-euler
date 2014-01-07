@@ -3,7 +3,7 @@ class Problem65Test extends org.scalatest.FreeSpec {
   import Problem65._
 
   "Answer is correct" in {
-    assert ( answer === 0 )
+    assert ( answer === 272 )
   }
 
   "First ten convergents of sqrt(2)" in {
