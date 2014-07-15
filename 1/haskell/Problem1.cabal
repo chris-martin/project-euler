@@ -13,11 +13,12 @@ library
 test-suite Main
   type:              exitcode-stdio-1.0
   x-uses-tf:         true
-  hs-source-dirs:    src, tests
+  hs-source-dirs:    tests
   main-is:           Main.hs
   default-language:  Haskell2010
   ghc-options:       -Wall
   build-depends:     base,
+                     problem1,
                      HUnit,
                      test-framework,
                      test-framework-hunit
