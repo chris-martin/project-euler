@@ -30,3 +30,12 @@ I realize that Project Euler requests that solutions be kept in secret, but all 
 
 * [Cabal](http://www.haskell.org/cabal/)
 
+## License
+
+All of the questions are © Project Euler and distributed under the
+[CC BY-NC-SA 2.0 UK](https://creativecommons.org/licenses/by-nc-sa/2.0/uk/)
+Creative Commons License.
+
+My solutions are free to use for whatever the fuck you want to under the
+[WTFPL](http://www.wtfpl.net/txt/copying/) license.
+
