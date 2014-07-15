@@ -1,3 +1,4 @@
 */haskell/dist/*
+*/haskell/out/*
 */scala/target/*
 */scala/*/target/*
