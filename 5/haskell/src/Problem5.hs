@@ -10,5 +10,5 @@ answer = product factors
     factors = map powerUp $ takeWhile (<= bound) primes
 
     powerUp n = last $ takeWhile (<= bound) $ powersOf n
-    powersOf n = map (n^) [(1::Integer)..]
+    powersOf n = map (n^) [ 1 :: Int .. ]
     bound = 20
