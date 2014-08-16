@@ -4,7 +4,7 @@ import Data.Char (digitToInt)
 import Data.Maybe (catMaybes)
 
 answer :: Integer
-answer = maximum $ map product $ sliding 5 digits
+answer = maximum $ map product $ sliding 5 $ map toInteger digits
   where
 
     sliding n xs
@@ -14,7 +14,7 @@ answer = maximum $ map product $ sliding 5 digits
     digits = catMaybes $ map charToIntMaybe $ str
 
     charToIntMaybe c
-      | c `elem` ['0'..'9'] = Just $ toInteger $ digitToInt c
+      | c `elem` ['0'..'9'] = Just $ digitToInt c
       | otherwise = Nothing
 
     str =
