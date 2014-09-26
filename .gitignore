@@ -1,4 +1,7 @@
-*/haskell/dist/*
-*/haskell/out/*
-*/scala/target/*
-*/scala/*/target/*
+/*/haskell/dist
+/*/haskell/out
+/*/scala/target
+/*/scala/*/target
+/*/clojure/target
+/*/clojure/pom.xml
+/*/clojure/.lein-*
