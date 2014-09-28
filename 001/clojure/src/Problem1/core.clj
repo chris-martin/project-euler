@@ -4,7 +4,7 @@
   (= 0 (mod n d)))
 
 (defn isMultiple? [n]
-  (some identity (map (partial dividedBy? n) '(3 5))))
+  (some (partial dividedBy? n) '(3 5)))
 
 (defn answer []
   (reduce + (filter isMultiple? (range 1 1000))))
