@@ -4,11 +4,11 @@
 
 (def primes (filter prime? (range)))
 
-(defn divides [x y]
+(defn divides? [x y]
   (= 0 (rem y x)))
 
 (defn smallest-factor [n]
-  (first (filter #(divides % n) primes)))
+  (first (filter #(divides? % n) primes)))
 
 (defn largest-factor [n]
   (if (prime? n)
