@@ -5,7 +5,8 @@ The first ten pentagonal numbers are:
 
 1, 5, 12, 22, 35, 51, 70, 92, 117, 145, ...
 
-It can be seen that P<sub>4</sub> + P<sub>7</sub> = 22 + 70 = 92 = P<sub>8</sub>.
+It can be seen that
+P<sub>4</sub> + P<sub>7</sub> = 22 + 70 = 92 = P<sub>8</sub>.
 However, their difference, 70  22 = 48, is not pentagonal.
 
 Find the pair of pentagonal numbers, P<sub>j</sub> and P<sub>k</sub>,
