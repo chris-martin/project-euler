@@ -7,7 +7,7 @@ I realize that Project Euler requests that solutions be kept in secret, but all 
 ## Dependencies
 
 * **Scala**:
-  Java 7,
+  Java 8,
   [SBT](http://www.scala-sbt.org/)
 * **Python**:
   Python 3,
@@ -20,6 +20,8 @@ I realize that Project Euler requests that solutions be kept in secret, but all 
   [nodeunit](https://github.com/caolan/nodeunit)
 * **Haskell**:
   [Cabal](http://www.haskell.org/cabal/)
+* **Clojure**:
+  [Leiningen](http://leiningen.org/)
 
 ## License
 
