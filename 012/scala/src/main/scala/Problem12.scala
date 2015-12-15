@@ -1,6 +1,6 @@
-object Problem12 {
+import scala.annotation.tailrec
 
-  println("hi")
+object Problem12 {
 
   lazy val primes: Stream[BigInt] =
     Stream.iterate(BigInt(2))(_ + 1)
@@ -10,16 +10,14 @@ object Problem12 {
     Stream.iterate(BigInt(1))(_ + 1)
       .scanLeft(BigInt(0))(_ + _)
 
-  def nrOfFactors(n: BigInt): Int = {
-    val fs = new collection.mutable.HashMap[BigInt, Int]
-    var i = n
-    while (i != BigInt(1)) {
-      val p = primes.find(p => i % p == 0).get
-      fs.put(p, fs.getOrElse(p, 0) + 1)
-      i /= p
+  @tailrec
+  def nrOfFactors(n: BigInt, fs: Map[BigInt, Int] = Map.empty): Int =
+    if (n == BigInt(1)) {
+      fs.values.map(1 + _).product
+    } else {
+      val p = primes.find(p => n % p == 0).get
+      nrOfFactors(n / p, fs.updated(p, fs.getOrElse(p, 0) + 1))
     }
-    fs.values.map(1 + _).product
-  }
 
   lazy val answer: Int =
     triangles.drop(1).filter(nrOfFactors(_) > 500).head.toInt
