@@ -1,32 +1,52 @@
+import scala.annotation.tailrec
+
 object Problem14 {
 
-  lazy val answer: Int =
-    (1 to 1000000).maxBy(Length.of(_))
-
   def collatz(i: Long): Long =
-    if (i % 2 == 0) (i / 2)
-    else (3 * i + 1)
+    if (i % 2 == 0) i / 2
+    else 3 * i + 1
 
-  object Length {
+  type Lengths = Map[Long, Int]
 
-    val memo = collection.mutable.HashMap[Long, Long](1L -> 1L)
+  @tailrec
+  def getLengths(lengths: Lengths, stack: List[Long]): Lengths =
+    stack match {
 
-    def calculate(i: Long) {
-      if (!memo.contains(i)) {
-        val stack = collection.mutable.Stack[Long](i)
-        while (stack.nonEmpty) {
-          val c = collatz(stack.head)
-          if (memo.contains(c)) memo.put(stack.pop(), 1 + memo(c))
-          else stack.push(c)
+      // The stack is empty, we're done!
+      case Nil => lengths
+
+      // The next item on the stack is already calculated,
+      case knownValue :: newStack if lengths contains knownValue =>
+        // so just pop it off.
+        getLengths(lengths, newStack)
+
+      // We're looking at the tree edge x -> y, where length(x) is unknown
+      case x :: restOfStack =>
+        val y = collatz(x)
+
+        // See if we already know length(y)
+        lengths.get(y) match {
+
+          // length(y) is already known,
+          case Some(yLength) =>
+            // so length(x) is now known to be length(y) + 1
+            getLengths(lengths.updated(x, yLength + 1), restOfStack)
+
+          // We haven't learned anything except that there's a new
+          // value y that we need to know;
+          case None =>
+            // push y onto the stack.
+            getLengths(lengths, y +: stack)
         }
-      }
     }
 
-    def of(i: Int): Long = {
-      calculate(i)
-      memo(i)
-    }
+  def keyWithMaxValue[A, B : Ordering](map: Map[A, B]): A =
+    map.maxBy(_._2)._1
 
-  }
+  val initialLengths = Map(1L -> 1)
 
+  val initialStack = (1 to 1000000).map(_.toLong).toList
+
+  lazy val answer: Long =
+    keyWithMaxValue(getLengths(initialLengths, initialStack))
 }
