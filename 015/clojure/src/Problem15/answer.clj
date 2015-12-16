@@ -1,5 +1,4 @@
-(ns Problem15.answer
-  (:require [clojure.core.match :refer [match]]))
+(ns Problem15.answer)
 
 (defn count-paths [counts stack]
   (let [xy (first stack)
