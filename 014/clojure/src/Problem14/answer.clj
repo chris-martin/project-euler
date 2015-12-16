@@ -1,5 +1,4 @@
-(ns Problem14.answer
-  (:require [clojure.core.match :refer [match]]))
+(ns Problem14.answer)
 
 (defn collatz [i]
   (if (even? i)
@@ -7,30 +6,27 @@
     (+ 1 (* 3 i))))
 
 (defn get-lengths [lengths stack]
-  (match [stack]
+  (cond
 
-         ; The stack is empty, we're done!
-         [([] :seq)] lengths
+    ; The stack is empty, we're done!
+    (empty? stack) lengths
 
-         ; The next item on the stack is already calculated,
-         [([(known-value :guard #(contains? lengths %)) & new-stack] :seq)]
-         (recur lengths new-stack)
+    ; The next item on the stack is already calculated, so just pop it off.
+    (contains? lengths (first stack))
+    (recur lengths (rest stack))
 
-         ; We're looking at the tree edge x -> y, where length(x) is unknown
-         [([x & rest-of-stack] :seq)]
-         (let [y (collatz x)]
-           ; See if we already know length(y)
-           (match [(get lengths y)]
+    ; We're looking at the tree edge x -> y, where length(x) is unknown
+    :else
+    (let [x (first stack)
+          y (collatz x)
+          y-length (get lengths y)]
+      (if (not (nil? y-length))
+        ; length(y) is already known,
+        (recur (assoc lengths x (+ 1 y-length)) (rest stack))
 
-                  ; length(y) is already known,
-                  [(y-length :guard (complement nil?))]
-                  (recur (assoc lengths x (+ 1 y-length)) rest-of-stack)
-
-                  ; We haven't learned anything except that there's a new
-                  ; value y that we need to know;
-                  [nil]
-                  ; push y onto the stack.
-                  (recur lengths (cons y stack))))))
+        ; We haven't learned anything except that there's a new
+        ; value y that we need to know; push y onto the stack.
+        (recur lengths (cons y stack))))))
 
 (defn key-with-max-value [map]
   (key (apply max-key val map)))
@@ -42,4 +38,5 @@
   (->> (range 1 1000001)))
 
 (defn answer []
-  (key-with-max-value (get-lengths initial-lengths initial-stack)))
+  (key-with-max-value
+    (get-lengths initial-lengths initial-stack)))
