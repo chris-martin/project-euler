@@ -1,6 +1,6 @@
-(ns Problem13.test.answer
-  (:use [Problem13.answer :refer [answer]])
+(ns Problem14.test.answer
+  (:use [Problem14.answer :refer [answer]])
   (:use [clojure.test]))
 
 (deftest answer-is-correct
-  (is (= "5537376230" (answer))))
+  (is (= 837799 (answer))))
