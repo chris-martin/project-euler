@@ -5,4 +5,5 @@
 /*/clojure/target
 /*/clojure/pom.xml
 /*/clojure/.lein-*
+/*/clojure/.nrepl-port
 /*/elixir/_build
