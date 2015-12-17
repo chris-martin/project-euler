@@ -1,35 +1,21 @@
+import Math.max
+
 object Problem18 {
 
-  lazy val rows: Array[Array[Int]] = io.Source
+  lazy val rows: Seq[Seq[Int]] = io.Source
     .fromURL(getClass.getResource("triangle.txt"))
     .getLines.map(_.trim).filter(_.nonEmpty)
-    .map(_.split(' ').map(_.toInt)).toArray
+    .map(_.split(' ').map(_.toInt).toSeq).toSeq
 
-  // position (row, col) -> utility of that node
-  lazy val utility: (Int, Int) => Int = {
+  def zip3[A, B, C](as: Seq[A], bs: Seq[B], cs: Seq[C]): Seq[(A, B, C)] =
+    as zip bs zip cs map { case ((a, b), c) => (a, b, c) }
 
-    val u = new collection.mutable.HashMap[(Int, Int), Int] {
-      // the triangle has implicit 0 values below it
-      override def default(key: (Int, Int)) =
-        if (key._1 >= rows.size) 0 else super.default(key)
-    }
+  def reduceRow(xs: Seq[Int], ys: Seq[Int]): Seq[Int] =
+    zip3(xs, ys, ys.drop(1)).map({ case (x, y1, y2) => x + max(y1, y2) })
 
-    for (
-      row <- (0 until rows.size).reverse;
-      col <- (0 to row)
-    ) {
-      u.put(
-        (row, col),
-        rows(row)(col) + Seq(
-          u(row+1, col),
-          u(row+1, col+1)
-        ).max
-      )
-    }
+  def reduceTriangle(rows: Seq[Seq[Int]]): Seq[Seq[Int]] =
+    rows.dropRight(2) :+ reduceRow(rows.dropRight(1).last, rows.last)
 
-    u.apply(_, _)
-  }
-
-  lazy val answer: Int = utility(0, 0)
-
+  lazy val answer: Int =
+    Stream.iterate(rows)(reduceTriangle).find(_.size == 1).get.head.head
 }
