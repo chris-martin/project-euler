@@ -3,9 +3,9 @@ object Problem19 {
   lazy val answer: Int = {
 
     val dates = for (
-      year <- (1900 to 2000);
+      year <- 1900 to 2000;
       month <- (1 to 12);
-      day <- (1 to daysInMonth(month, year))
+      day <- 1 to daysInMonth(month, year)
     ) yield Date(year, month, day)
 
     (dates zip Stream.continually(1 to 7).flatten)
