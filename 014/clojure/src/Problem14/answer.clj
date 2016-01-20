@@ -35,7 +35,7 @@
   {1 1})
 
 (def initial-stack
-  (->> (range 1 1000001)))
+  (range 1 1000001))
 
 (defn answer []
   (key-with-max-value
