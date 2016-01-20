@@ -21,7 +21,7 @@
           y (collatz x)
           y-length (get lengths y)]
       (if (not (nil? y-length))
-        ; length(y) is already known,
+        ; length(y) is already known.
         (recur (assoc lengths x (+ 1 y-length)) (rest stack))
 
         ; We haven't learned anything except that there's a new
