@@ -1,25 +1,25 @@
-name:                problem4
-version:             0
-build-type:          Simple
-cabal-version:       >= 1.10
+name:                  Problem4
+version:               0
+build-type:            Simple
+cabal-version:         >= 1.10
 
 library
-  exposed-modules:   Problem4
-  build-depends:     base,
-                     containers
-  hs-source-dirs:    src
-  default-language:  Haskell2010
-  ghc-options:       -Wall
+  exposed-modules:     Problem4
+  build-depends:       base
+                     , containers
+  hs-source-dirs:      src
+  default-language:    Haskell2010
+  ghc-options:         -Wall
 
 test-suite Main
-  type:              exitcode-stdio-1.0
-  x-uses-tf:         true
-  hs-source-dirs:    tests
-  main-is:           Main.hs
-  default-language:  Haskell2010
-  ghc-options:       -Wall
-  build-depends:     base,
-                     problem4,
-                     HUnit,
-                     test-framework,
-                     test-framework-hunit
+  type:                exitcode-stdio-1.0
+  x-uses-tf:           true
+  hs-source-dirs:      tests
+  main-is:             Main.hs
+  default-language:    Haskell2010
+  ghc-options:         -Wall
+  build-depends:       base
+                     , Problem4
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
