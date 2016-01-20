@@ -5,6 +5,7 @@ module Problem8 where
 import Data.Char (digitToInt)
 import Data.FileEmbed (embedFile)
 import Data.Maybe (catMaybes)
+import Data.Text (unpack)
 import Data.Text.Encoding (decodeUtf8)
 
 answer :: Integer
@@ -15,7 +16,7 @@ answer = maximum $ map product $ sliding 5 $ map toInteger digits
       | length xs >= n = (take n xs) : (sliding n $ tail xs)
       | otherwise = []
 
-    digits = catMaybes $ map charToIntMaybe $ show inputText
+    digits = catMaybes $ map charToIntMaybe $ unpack inputText
 
     charToIntMaybe c
       | c `elem` ['0'..'9'] = Just $ digitToInt c
