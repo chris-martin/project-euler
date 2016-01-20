@@ -6,6 +6,8 @@ cabal-version:         >= 1.10
 library
   exposed-modules:     Problem8
   build-depends:       base
+                     , file-embed
+                     , text
   hs-source-dirs:      src
   default-language:    Haskell2010
   ghc-options:         -Wall
