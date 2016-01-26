@@ -30,5 +30,5 @@ All of the questions are © Project Euler and distributed under the
 Creative Commons License.
 
 My solutions are free to use for whatever the fuck you want to under the
-[WTFPL](http://www.wtfpl.net/txt/copying/) license.
+[Horse license](https://github.com/chris-martin/horse-license).
 
