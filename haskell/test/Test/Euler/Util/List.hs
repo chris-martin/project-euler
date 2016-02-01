@@ -12,10 +12,15 @@ import Euler.Util.List
 tests :: [TF.Test]
 tests =
   [ testGroup "neTails"
-    [ testCase  "1" (neTails (NE.fromList [1]) @=? NE.fromList [NE.fromList [1]])
-    , testCase  "3" (neTails (NE.fromList [1, 2, 3]) @=? NE.fromList [ NE.fromList [1, 2, 3]
-                                                                     , NE.fromList [2, 3]
-                                                                     , NE.fromList [3]
-                                                                     ])
+    [ testCase "1" $
+               neTails (NE.fromList [1])
+               @=? NE.fromList [ NE.fromList [1]
+                               ]
+    , testCase "3" $
+               neTails (NE.fromList [1, 2, 3])
+               @=? NE.fromList [ NE.fromList [1, 2, 3]
+                               , NE.fromList [2, 3]
+                               , NE.fromList [3]
+                               ]
     ]
   ]
