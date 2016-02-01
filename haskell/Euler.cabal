@@ -5,7 +5,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Euler.Util.Fibonacci
+  exposed-modules:     Euler.Util.Digit
+                     , Euler.Util.Fibonacci
                      , Euler.Util.NonEmpty
                      , Euler.Util.Prime
                      , Euler.Util.TrianglePath
