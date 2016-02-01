@@ -12,6 +12,8 @@ import Data.Map            ( Map )
 import Data.Maybe          ( fromMaybe )
 import Data.Numbers.Primes ( isPrime, primes )
 
+import Euler.Util.Arithmetic ( divides )
+
 primeFactors :: (Integral a, Integral b) => a -> [b]
 primeFactors n = sort $ primeFactors' [] n where
     primeFactors' :: (Integral x, Integral y) => [x] -> y -> [x]
@@ -25,7 +27,6 @@ primeFactors n = sort $ primeFactors' [] n where
 -- such that @p@ divides @n@.
 lowestPrimeFactor :: (Integral a, Integral b) => a -> b
 lowestPrimeFactor n = head $ filter (`divides` (fromIntegral n)) primes
-    where n' `divides` d = d `mod` n' == 0
 
 -- | @'largestPrimeFactor' n@ is the largest prime factor @p@
 -- such that @p@ divides @n@.

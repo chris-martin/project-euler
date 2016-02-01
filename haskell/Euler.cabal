@@ -5,7 +5,8 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Euler.Util.Date
+  exposed-modules:     Euler.Util.Arithmetic
+                     , Euler.Util.Date
                      , Euler.Util.Digit
                      , Euler.Util.Fibonacci
                      , Euler.Util.List
