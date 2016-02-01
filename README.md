@@ -6,9 +6,6 @@ I realize that Project Euler requests that solutions be kept in secret, but all 
 
 ## Dependencies
 
-* **Scala**:
-  Java 8,
-  [SBT](http://www.scala-sbt.org/)
 * **Python**:
   Python 3,
   [Nose](https://github.com/nose-devs/nose)
