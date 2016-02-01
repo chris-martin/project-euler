@@ -1,9 +1,12 @@
 module Euler.Problem.Problem14 (answer) where
 
-import Data.Foldable (maximumBy)
 import qualified Data.Map as Map
-import Data.Map (Map)
-import Data.Ord (comparing)
+
+import Data.Foldable ( maximumBy )
+import Data.Map      ( Map )
+import Data.Ord      ( comparing )
+
+import Euler.Util.Arithmetic ( million )
 
 collatz :: Integer -> Integer
 collatz i = if even i then i `div` 2 else 3 * i + 1
@@ -39,4 +42,3 @@ answer :: Integer
 answer = keyWithMaxValue $ getLengths initLengths initStack
     where initLengths = Map.singleton 1 1
           initStack = [1 .. million]
-          million = 10 ^ 6
