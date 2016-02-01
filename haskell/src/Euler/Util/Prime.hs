@@ -1,14 +1,16 @@
 module Euler.Util.Prime
     ( primeFactors
     , lowestPrimeFactor
+    , largestPrimeFactor
     , countDivisors
     ) where
 
-import Data.List (group, sort)
-import Data.Map (Map)
 import qualified Data.Map as Map
-import Data.Maybe (fromMaybe)
-import Data.Numbers.Primes (primes)
+
+import Data.List           ( group, sort )
+import Data.Map            ( Map )
+import Data.Maybe          ( fromMaybe )
+import Data.Numbers.Primes ( isPrime, primes )
 
 primeFactors :: (Integral a, Integral b) => a -> [b]
 primeFactors n = sort $ primeFactors' [] n where
@@ -24,6 +26,13 @@ primeFactors n = sort $ primeFactors' [] n where
 lowestPrimeFactor :: (Integral a, Integral b) => a -> b
 lowestPrimeFactor n = head $ filter (`divides` (fromIntegral n)) primes
     where n' `divides` d = d `mod` n' == 0
+
+-- | @'largestPrimeFactor' n@ is the largest prime factor @p@
+-- such that @p@ divides @n@.
+largestPrimeFactor :: (Integral a, Integral b) => a -> b
+largestPrimeFactor n
+    | isPrime n = fromIntegral n
+    | otherwise = largestPrimeFactor $ n `div` lowestPrimeFactor n
 
 -- | @'countDivisors' n@ is the number of integers d from @[1..n]@
 -- such that @d@ divides @n@.

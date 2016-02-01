@@ -1,14 +1,6 @@
 module Euler.Problem.Problem3 (answer) where
 
-import Data.Numbers.Primes (isPrime, primes)
-import Data.Maybe (fromJust)
-import Data.List (find)
+import Euler.Util.Prime (largestPrimeFactor)
 
 answer :: Integer
-answer = largestPrimeFactor (600851475143 :: Integer)
-  where
-    largestPrimeFactor n
-      | isPrime n = n
-      | otherwise = largestPrimeFactor $ n `div` smallestPrimeFactor n
-    smallestPrimeFactor n = fromJust $ find (`divides` n) primes
-    d `divides` n = n `mod` d == 0
+answer = largestPrimeFactor 600851475143

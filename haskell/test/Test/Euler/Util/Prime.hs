@@ -16,4 +16,12 @@ tests =
     , testCase "24" (primeFactors 24 @=? [2, 2, 2, 3])
     , testCase "28" (primeFactors 28 @=? [2, 2, 7])
     ]
+  , testGroup "largestPrimeFactor"
+    [ testCase  "2" (largestPrimeFactor  2 @=?  2)
+    , testCase  "3" (largestPrimeFactor  3 @=?  3)
+    , testCase  "4" (largestPrimeFactor  4 @=?  2)
+    , testCase "47" (largestPrimeFactor 47 @=? 47)
+    , testCase "94" (largestPrimeFactor 94 @=? 47)
+    , testCase "99" (largestPrimeFactor 99 @=? 11)
+    ]
   ]
