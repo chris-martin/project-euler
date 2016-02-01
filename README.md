@@ -18,8 +18,6 @@ I realize that Project Euler requests that solutions be kept in secret, but all 
 * **JavaScript**:
   [Node.js](http://nodejs.org/),
   [nodeunit](https://github.com/caolan/nodeunit)
-* **Haskell**:
-  [Stack](http://docs.haskellstack.org/en/stable/README.html)
 * **Clojure**:
   [Leiningen](http://leiningen.org/)
 
