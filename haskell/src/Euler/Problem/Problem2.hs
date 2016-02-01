@@ -5,4 +5,4 @@ import Euler.Util.Fibonacci (fibs)
 answer :: Integer
 answer = sum $ filter even $ takeWhile (< bound) fibs where
     bound = 4 * million
-    million = 10 ^ (6 :: Integer)
+    million = 10 ^ 6
