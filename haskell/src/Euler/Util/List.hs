@@ -1,4 +1,4 @@
-module Euler.Util.NonEmpty
+module Euler.Util.List
     ( neTails
     ) where
 

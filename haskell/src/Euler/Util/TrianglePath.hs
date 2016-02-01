@@ -13,7 +13,7 @@ import Data.Text          ( Text )
 import qualified Data.List.NonEmpty as NE
 import qualified Data.Text          as T
 
-import Euler.Util.NonEmpty (neTails)
+import Euler.Util.List (neTails)
 
 type Row      = NonEmpty Int
 type Triangle = NonEmpty Row
