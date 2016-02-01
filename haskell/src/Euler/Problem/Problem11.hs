@@ -3,12 +3,15 @@
 
 module Euler.Problem.Problem11 (answer) where
 
-import qualified Data.Either as Either
-import Data.FileEmbed (embedFile)
-import qualified Data.Text as Text
-import Data.Text (Text)
-import Data.Text.Encoding (decodeUtf8)
+import Data.FileEmbed     ( embedFile )
+import Data.Text          ( Text )
+import Data.Text.Encoding ( decodeUtf8 )
+
+import qualified Data.Either   as Either
+import qualified Data.Text      as Text
 import qualified Data.Text.Read as Read
+
+import Euler.Util.List    ( sliding )
 
 answer :: Integer
 answer = maximum $ map product groups
@@ -31,11 +34,6 @@ answer = maximum $ map product groups
                                 (replicate (2 * (length row)) 0)
 
     reverseRows rows = map reverse rows
-
-sliding :: Int -> [a] -> [[a]]
-sliding n xs
-  | length xs >= n = (take n xs) : (sliding n $ tail xs)
-  | otherwise = []
 
 grid :: [[Integer]]
 grid = map parseLine $ Text.lines inputText

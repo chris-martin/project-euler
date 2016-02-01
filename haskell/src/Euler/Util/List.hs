@@ -1,5 +1,6 @@
 module Euler.Util.List
     ( neTails
+    , sliding
     ) where
 
 import Data.List.NonEmpty ( NonEmpty(..) )
@@ -16,3 +17,8 @@ import qualified Data.List.NonEmpty as NE
 --                                              , NE.fromList "c"]
 neTails :: NonEmpty a -> NonEmpty (NonEmpty a)
 neTails = NE.fromList . catMaybes . NE.toList . (fmap NE.nonEmpty) . NE.tails
+
+sliding :: Int -> [a] -> [[a]]
+sliding n xs
+    | length xs >= n = (take n xs) : (sliding n $ tail xs)
+    | otherwise      = []
