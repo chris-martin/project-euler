@@ -1,6 +1,6 @@
 module Euler.Util.Prime
     ( primeFactors
-    , lowestPrimeFactor
+    , smallestPrimeFactor
     , largestPrimeFactor
     , countDivisors
     ) where
@@ -21,19 +21,19 @@ primeFactors n = sort $ primeFactors' [] n where
     primeFactors' f' n' = primeFactors' f'' n'' where
         f'' = d : f'
         n'' = (fromIntegral n') `div` (fromIntegral d)
-        d = lowestPrimeFactor n'
+        d = smallestPrimeFactor n'
 
--- | @'lowestPrimeFactor' n@ is the smallest prime factor @p@
+-- | @'smallestPrimeFactor' n@ is the smallest prime factor @p@
 -- such that @p@ divides @n@.
-lowestPrimeFactor :: (Integral a, Integral b) => a -> b
-lowestPrimeFactor n = head $ filter (`divides` (fromIntegral n)) primes
+smallestPrimeFactor :: (Integral a, Integral b) => a -> b
+smallestPrimeFactor n = head $ filter (`divides` (fromIntegral n)) primes
 
 -- | @'largestPrimeFactor' n@ is the largest prime factor @p@
 -- such that @p@ divides @n@.
 largestPrimeFactor :: (Integral a, Integral b) => a -> b
 largestPrimeFactor n
     | isPrime n = fromIntegral n
-    | otherwise = largestPrimeFactor $ n `div` lowestPrimeFactor n
+    | otherwise = largestPrimeFactor $ n `div` smallestPrimeFactor n
 
 -- | @'countDivisors' n@ is the number of integers d from @[1..n]@
 -- such that @d@ divides @n@.
