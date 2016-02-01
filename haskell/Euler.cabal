@@ -1,0 +1,290 @@
+name:                Euler
+version:             0.1.0.0
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Euler.Util.Prime
+                     , Euler.Util.TrianglePath
+                     , Euler.Problem.Problem1
+                     , Euler.Problem.Problem2
+                     , Euler.Problem.Problem3
+                     , Euler.Problem.Problem4
+                     , Euler.Problem.Problem5
+                     , Euler.Problem.Problem6
+                     , Euler.Problem.Problem7
+                     , Euler.Problem.Problem8
+                     , Euler.Problem.Problem9
+                     , Euler.Problem.Problem10
+                     , Euler.Problem.Problem11
+                     , Euler.Problem.Problem12
+                     , Euler.Problem.Problem13
+                     , Euler.Problem.Problem14
+                     , Euler.Problem.Problem15
+                     , Euler.Problem.Problem16
+                     , Euler.Problem.Problem17
+                     , Euler.Problem.Problem18
+                     , Euler.Problem.Problem19
+                     , Euler.Problem.Problem67
+  build-depends:       base >= 4.7 && < 5
+                     , containers
+                     , file-embed
+                     , primes
+                     , semigroups
+                     , text
+  default-language:    Haskell2010
+
+test-suite Util
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Util.hs
+  build-depends:       base
+                     , Euler
+                     , containers
+                     , semigroups
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem1
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test1.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem2
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test2.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem3
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test3.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem4
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test4.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem5
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test5.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem6
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test6.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem7
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test7.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem8
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test8.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem9
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test9.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem10
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test10.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem11
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test11.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem12
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test12.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem13
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test13.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem14
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test14.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem15
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test15.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem16
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test16.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem17
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test17.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem18
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test18.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem19
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test19.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem67
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test67.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
