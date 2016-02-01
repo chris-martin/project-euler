@@ -1,5 +1,6 @@
 module Euler.Util.Digit
-    ( textDigits
+    ( intDigits
+    , textDigits
     , stringDigits
     , charIntMaybe
     ) where
@@ -7,6 +8,10 @@ module Euler.Util.Digit
 import Data.Char  ( digitToInt )
 import Data.Maybe ( catMaybes )
 import Data.Text  ( Text, unpack )
+
+intDigits :: (Integral a, Integral b) => a -> [b]
+intDigits = (map charToInt) . show . toInteger
+    where charToInt c = fromIntegral (read [c] :: Int)
 
 textDigits :: Text -> [Int]
 textDigits = stringDigits . unpack

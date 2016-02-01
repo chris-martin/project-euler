@@ -1,6 +1,6 @@
 module Euler.Problem.Problem16 (answer) where
 
+import Euler.Util.Digit ( intDigits )
+
 answer :: Integer
-answer = sum $ digits $ 2 ^ 1000
-    where digits = (map charToInt) . show
-          charToInt c = read [c]
+answer = sum $ intDigits $ 2 ^ 1000
