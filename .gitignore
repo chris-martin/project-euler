@@ -1,8 +1,8 @@
 /haskell/.stack-work
 /scala/target
 /scala/project/target
-/*/clojure/target
-/*/clojure/pom.xml
-/*/clojure/.lein-*
-/*/clojure/.nrepl-port
-/*/elixir/_build
+/clojure/*/target
+/clojure/*/pom.xml
+/clojure/*/.lein-*
+/clojure/*/.nrepl-port
+/elixir/*/_build
