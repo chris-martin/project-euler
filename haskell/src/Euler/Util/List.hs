@@ -1,6 +1,7 @@
 module Euler.Util.List
     ( neTails
     , sliding
+    , transpose
     ) where
 
 import Data.List.NonEmpty ( NonEmpty(..) )
@@ -22,3 +23,8 @@ sliding :: Int -> [a] -> [[a]]
 sliding n xs
     | length xs >= n = (take n xs) : (sliding n $ tail xs)
     | otherwise      = []
+
+transpose :: [[a]] -> [[a]]
+transpose []     = []
+transpose ([]:_) = []
+transpose xs     = (map head xs) : transpose (map tail xs)

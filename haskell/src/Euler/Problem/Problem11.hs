@@ -11,7 +11,7 @@ import qualified Data.Either   as Either
 import qualified Data.Text      as Text
 import qualified Data.Text.Read as Read
 
-import Euler.Util.List    ( sliding )
+import Euler.Util.List    ( sliding, transpose )
 
 answer :: Integer
 answer = maximum $ map product groups
@@ -23,11 +23,6 @@ answer = maximum $ map product groups
             , transpose grid
             , shift grid
             , (shift . reverseRows) grid ]
-
-    transpose [] = []
-    transpose rows
-      | length (head rows) == 0 = []
-      | otherwise = (map head rows) : transpose (map tail rows)
 
     shift rows = transpose $ map shiftRow $ zip rows [0..]
       where shiftRow (row, i) = (replicate i 0) ++ row ++
