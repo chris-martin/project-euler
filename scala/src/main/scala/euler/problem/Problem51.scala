@@ -2,10 +2,9 @@ package euler.problem
 
 import scala.collection.{immutable, mutable}
 
-object Problem51 {
+import euler.util.prime.primes
 
-  lazy val primes: Stream[Int] =
-    Stream.from(2).filter(BigInt(_).isProbablePrime(32))
+object Problem51 {
 
   /** A collection of primes that have the same number of digits. */
   case class PrimeDigitGroup(members: Seq[Int]) {

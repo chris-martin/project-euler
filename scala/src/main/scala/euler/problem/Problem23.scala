@@ -1,16 +1,16 @@
 package euler.problem
 
+import euler.util.prime.primes
+
 object Problem23 {
 
   val max = 28123
-
-  val primes: Stream[Int] = Stream.from(2).filter(BigInt(_).isProbablePrime(45))
 
   type Factors = List[Int]
 
   // prime factorizations of numbers in [2, max] in no particular order
   def factorizations(tail: Factors = Nil): Stream[Factors] =
-    primes.map(f => f :: tail match {
+    primes.map(_.intValue).map(f => f :: tail match {
       case fs if fs.product > max => None
       case fs => Some(Stream.cons(fs, factorizations(fs)))
     }).takeWhile(_.isDefined).flatMap(_.get)

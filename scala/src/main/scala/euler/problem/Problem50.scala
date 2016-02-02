@@ -1,8 +1,10 @@
 package euler.problem
 
+import euler.util.prime.primes
+
 object Problem50 {
 
-  val primeSeq: Seq[Int] = (2 to 999999).filter(BigInt(_).isProbablePrime(32))
+  val primeSeq: Seq[Int] = primes.takeWhile(_ <= 999999).map(_.intValue).toSeq
   val primeSet: Set[Int] = primeSeq.toSet
 
   lazy val answer: Long =

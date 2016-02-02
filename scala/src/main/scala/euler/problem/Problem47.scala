@@ -2,9 +2,9 @@ package euler.problem
 
 import scala.collection.mutable
 
-object Problem47 {
+import euler.util.prime.primes
 
-  lazy val primes: Stream[Int] = Stream.from(2).filter(BigInt(_).isProbablePrime(32))
+object Problem47 {
 
   lazy val answer: Long = {
 
@@ -14,7 +14,7 @@ object Problem47 {
 
       val factorCount = mutable.ArrayBuffer.fill(bound)(0)
 
-      primes.takeWhile(_ < bound) foreach { prime =>
+      primes.map(_.intValue).takeWhile(_ < bound) foreach { prime =>
         (Stream from 1).map(_ * prime).takeWhile(_ < bound) foreach { multiple =>
           factorCount(multiple) += 1
         }

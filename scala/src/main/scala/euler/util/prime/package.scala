@@ -11,13 +11,14 @@ package object prime {
   def divides(x: Int, y: Int): Boolean = y % x == 0
 
   def isPrime(n: Int): Boolean =
-    BigInteger.valueOf(n).isProbablePrime(10)
+    BigInteger.valueOf(n).isProbablePrime(40)
 
-  val primes: Stream[Int] =
-    Stream.from(1).filter(isPrime)
+  lazy val primes: Stream[BigInt] =
+    Stream.iterate(BigInt(2))(_ + 1)
+      .filter(_.isProbablePrime(45))
 
   def smallestFactor(n: Int): Int =
-    primes.filter(divides(_, n)).head
+    primes.map(_.intValue).filter(divides(_, n)).head
 
   @tailrec
   final def factorize(n: Int, agg: Bag[Int] = Bag.empty): Bag[Int] =

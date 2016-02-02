@@ -2,11 +2,9 @@ package euler.problem
 
 import scala.annotation.tailrec
 
-object Problem12 {
+import euler.util.prime.primes
 
-  lazy val primes: Stream[BigInt] =
-    Stream.iterate(BigInt(2))(_ + 1)
-      .filter(_.isProbablePrime(45))
+object Problem12 {
 
   lazy val triangles: Stream[BigInt] =
     Stream.iterate(BigInt(1))(_ + 1)
