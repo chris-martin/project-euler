@@ -1,15 +1,9 @@
 package euler.problem
 
+import euler.util.prime.primes
+
 object Problem7 {
 
-  lazy val answer: Int =
-    Stream.from(2).filter(_.isPrime)(10000)
-
-  implicit class RichInt(i: Int) {
-
-    def isPrime: Boolean =
-      BigInt(i).isProbablePrime(30)
-
-  }
+  lazy val answer: Int = primes(10000).intValue
 
 }
