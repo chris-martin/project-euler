@@ -12,10 +12,12 @@ object Problem21 {
 
   // prime factorizations of numbers in [2, max] in no particular order
   def factorizations(tail: Factors = Nil): Stream[Factors] =
-    primes.map(_.intValue()).map(f => f :: tail match {
-      case fs if fs.product > max => None
-      case fs => Some(Stream.cons(fs, factorizations(fs)))
-    }).takeWhile(_.isDefined).flatMap(_.get)
+    primes.map(_.intValue())
+      .map(_ :: tail)
+      .map(fs => if (fs.product > max) None
+                 else Some(fs #:: factorizations(fs)))
+      .takeWhile(_.isDefined)
+      .flatMap(_.get)
 
   // the proper divisors of the product of the factors
   def properDivisors(fs: Factors): Set[Int] =
@@ -24,7 +26,7 @@ object Problem21 {
     }
 
   // function : n in [2, max] -> Some(sum of proper divisors of n)
-  lazy val divisorSums = {
+  lazy val divisorSums: (Int) => Option[Int] = {
     val ds = new Array[Int](max + 1)
     for (fs <- factorizations())
       ds.update(fs.product, properDivisors(fs).sum)
@@ -33,4 +35,5 @@ object Problem21 {
 
   def isAmicable(i: Int): Boolean =
     divisorSums(i).exists(x => x != i && divisorSums(x) == Some(i))
+
 }

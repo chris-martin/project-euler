@@ -11,6 +11,8 @@ library
                      , Euler.Util.Fibonacci
                      , Euler.Util.List
                      , Euler.Util.Prime
+                     , Euler.Util.Prime.FactorEnum
+                     , Euler.Util.Prime.Factoring
                      , Euler.Util.TrianglePath
                      , Euler.Problem.Problem1
                      , Euler.Problem.Problem2
@@ -32,10 +34,13 @@ library
                      , Euler.Problem.Problem18
                      , Euler.Problem.Problem19
                      , Euler.Problem.Problem20
+                     , Euler.Problem.Problem21
                      , Euler.Problem.Problem67
   build-depends:       base >= 4.7 && < 5
                      , containers
                      , file-embed
+                     , multiset
+                     , multiset-comb
                      , primes
                      , semigroups
                      , text
@@ -287,6 +292,18 @@ test-suite Problem20
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Test/Euler/Problem/Test20.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem21
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test21.hs
   build-depends:       base
                      , Euler
                      , HUnit
