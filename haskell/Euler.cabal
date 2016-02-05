@@ -34,6 +34,7 @@ library
                      , Euler.Problem.Problem20
                      , Euler.Problem.Problem21
                      , Euler.Problem.Problem22
+                     , Euler.Problem.Problem23
                      , Euler.Problem.Problem67
   build-depends:       base >= 4.7 && < 5
                      , containers
@@ -315,6 +316,18 @@ test-suite Problem22
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
   main-is:             Test/Euler/Problem/Test22.hs
+  build-depends:       base
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
+
+test-suite Problem23
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Test/Euler/Problem/Test23.hs
   build-depends:       base
                      , Euler
                      , HUnit
