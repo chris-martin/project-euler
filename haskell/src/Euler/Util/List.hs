@@ -2,10 +2,11 @@ module Euler.Util.List
     ( neTails
     , sliding
     , transpose
+    , untilNothing
     ) where
 
 import Data.List.NonEmpty ( NonEmpty(..) )
-import Data.Maybe         ( catMaybes )
+import Data.Maybe         ( catMaybes, isJust )
 
 import qualified Data.List.NonEmpty as NE
 
@@ -28,3 +29,6 @@ transpose :: [[a]] -> [[a]]
 transpose []     = []
 transpose ([]:_) = []
 transpose xs     = (map head xs) : transpose (map tail xs)
+
+untilNothing :: [Maybe a] -> [a]
+untilNothing = catMaybes . (takeWhile isJust)

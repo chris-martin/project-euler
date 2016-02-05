@@ -3,16 +3,20 @@ module Euler.Util.Prime
     , smallestPrimeFactor
     , largestPrimeFactor
     , countDivisors
+    , factorizations
+    , divisorsOfPrimeProduct
+    , properDivisorsOfPrimeProduct
     ) where
 
-import qualified Data.Map as Map
+import qualified Data.Map.Strict             as Map'
+import qualified Math.Combinatorics.Multiset as MS
 
 import Data.List           ( group, sort )
 import Data.Map            ( Map )
-import Data.Maybe          ( fromMaybe )
 import Data.Numbers.Primes ( isPrime, primes )
 
 import Euler.Util.Arithmetic ( divides )
+import Euler.Util.List       ( untilNothing )
 
 primeFactors :: (Integral a, Integral b) => a -> [b]
 primeFactors n = sort $ primeFactors' [] n where
@@ -39,3 +43,35 @@ largestPrimeFactor n
 -- such that @d@ divides @n@.
 countDivisors :: (Integral a, Integral b) => a -> b
 countDivisors = product . map (fromIntegral . (+1) . length) . group . primeFactors
+
+-- @'factorizations' n@ gives the prime factorizations of numbers in @[1..n]@.
+-- Each factorization is sorted.
+factorizations :: Integer -> Map Integer [Integer]
+factorizations n = toMap $ [] : (f []) where
+
+    f :: [Integer] -> [[Integer]]
+    f tail = concat $ untilNothing $ map g primes where
+        g :: Integer -> Maybe [[Integer]]
+        g p = let fs = p : tail
+              in  if product fs > n then Nothing else Just $ fs : (f fs)
+
+    toMap :: [[Integer]] -> Map Integer [Integer]
+    toMap = Map'.fromList . (map (\fs -> (product fs, sort fs)))
+
+-- | The divisors of @'product' fs@, where @fs@ are all prime,
+-- in no particular order.
+divisorsOfPrimeProduct :: Integral a => [a] -> [a]
+divisorsOfPrimeProduct xs = map product $ maxKSubMultisets (length xs) xs
+
+-- | The proper divisors of @'product' fs@, where @fs@ are all prime,
+-- in no particular order. "Proper divisors" means divisors other than
+-- the number itself.
+properDivisorsOfPrimeProduct :: Integral a => [a] -> [a]
+properDivisorsOfPrimeProduct xs = map product $ maxKSubMultisets (length xs - 1) xs
+
+maxKSubMultisets :: Ord a => MS.Count -> [a] -> [[a]]
+maxKSubMultisets maxK xs =
+    let set = MS.fromList xs
+    in do k      <- [0 .. maxK]
+          subset <- MS.kSubsets k set
+          return $ MS.toList subset

@@ -10,8 +10,7 @@ import qualified Test.Euler.Util.Prime
 import qualified Test.Euler.Util.TrianglePath
 
 main :: IO ()
-main = defaultMain tests where
-  tests = concat
+main = defaultMain $ concat
     [ Test.Euler.Util.Date.tests
     , Test.Euler.Util.List.tests
     , Test.Euler.Util.Prime.tests

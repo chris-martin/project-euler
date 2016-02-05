@@ -4,24 +4,50 @@ import Test.HUnit
 import Test.Framework as TF (testGroup, Test)
 import Test.Framework.Providers.HUnit
 
+import Data.Function ( on )
+import Data.List     ( sort, sortBy )
+
+import qualified Data.Map as Map
+
 import Euler.Util.Prime
 
 tests :: [TF.Test]
-tests =
-  [ testGroup "primeFactors"
-    [ testCase  "1" $ primeFactors  1 @=? []
-    , testCase  "2" $ primeFactors  2 @=? [2]
-    , testCase  "3" $ primeFactors  3 @=? [3]
-    , testCase  "4" $ primeFactors  4 @=? [2, 2]
-    , testCase "24" $ primeFactors 24 @=? [2, 2, 2, 3]
-    , testCase "28" $ primeFactors 28 @=? [2, 2, 7]
-    ]
-  , testGroup "largestPrimeFactor"
-    [ testCase  "2" $ largestPrimeFactor  2 @=?  2
-    , testCase  "3" $ largestPrimeFactor  3 @=?  3
-    , testCase  "4" $ largestPrimeFactor  4 @=?  2
-    , testCase "47" $ largestPrimeFactor 47 @=? 47
-    , testCase "94" $ largestPrimeFactor 94 @=? 47
-    , testCase "99" $ largestPrimeFactor 99 @=? 11
-    ]
-  ]
+tests = [ primeFactorsTest
+        , largestPrimeFactorTest
+        , factorizationsTest
+        , properDivisorsOfPrimeProductTest
+        ]
+
+primeFactorsTest :: TF.Test
+primeFactorsTest = testGroup "primeFactors" $ map t xs where
+    xs = [ []
+         , [2]
+         , [3]
+         , [2, 2]
+         , [2, 2, 2, 3]
+         , [2, 2, 7]
+         ]
+    t fs = let n = product fs
+           in  testCase (show n) $ primeFactors n @?= fs
+
+largestPrimeFactorTest :: TF.Test
+largestPrimeFactorTest = testGroup "largestPrimeFactor" $ map t xs where
+    xs = [ ( 2,  2)
+         , ( 3,  3)
+         , ( 4,  2)
+         , (47, 47)
+         , (94, 47)
+         , (99, 11)
+         ]
+    t (x, y) = testCase (show x) $ largestPrimeFactor x @?= y
+
+factorizationsTest :: TF.Test
+factorizationsTest = testGroup "factorizations" $ map t [1..20] where
+    t n = testCase ("to " ++ show n) $
+            factorizations n @?= (Map.fromList $ map (\i -> (i, primeFactors i)) [1..n])
+
+-- The example from problem 21
+properDivisorsOfPrimeProductTest :: TF.Test
+properDivisorsOfPrimeProductTest = testGroup "properDivisorsOfPrimeProduct"
+    [ testCase "220" $ xs @?= [1, 2, 4, 5, 10, 11, 20, 22, 44, 55, 110] ]
+    where xs = sort $ properDivisorsOfPrimeProduct $ primeFactors 220
