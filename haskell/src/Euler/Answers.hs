@@ -32,6 +32,7 @@ module Euler.Answers
     , answer27
     , answer28
     , answer29
+    , answer30
     , answer67
     ) where
 
@@ -261,6 +262,13 @@ answer28 = show $ (+) 1 $ sum $ concatMap f [1..500] where
 
 answer29 = show $ countDistinct $ [a ^ b | a <- r, b <- r] where r = [2..100]
 
+answer30 = show $ sum $ filter isMagic [2 .. (maxPowerSum maxNrOfDigits)] where
+    maxPowerSum = (* (9 ^ 5))
+    minValue n = 10 ^ (n - 1)
+    isFeasible n = maxPowerSum n >= minValue n
+    maxNrOfDigits = last $ takeWhile isFeasible [1..]
+    isMagic n = (==) n $ sum $ map (^ 5) $ intDigits n
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -310,4 +318,5 @@ answer26  :: String
 answer27  :: String
 answer28  :: String
 answer29  :: String
+answer30  :: String
 answer67  :: String
