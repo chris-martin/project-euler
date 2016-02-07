@@ -30,6 +30,7 @@ module Euler.Answers
     , answer25
     , answer26
     , answer27
+    , answer28
     , answer67
     ) where
 
@@ -52,7 +53,7 @@ import qualified Data.Set        as Set
 import qualified Data.Text       as Text
 import qualified Data.Text.Read  as TextRead
 
-import Euler.Util.Arithmetic ( divides, factorial, million )
+import Euler.Util.Arithmetic ( divides, factorial, million, square )
 import Euler.Util.Amicable   ( amicableNumbers )
 import Euler.Util.Collatz    ( collatzLengths )
 import Euler.Util.Date       ( monthLength )
@@ -87,9 +88,7 @@ answer5 = show $ product factors where
     powersOf n = map (n^) [ 1 :: Int .. ]
     bound = 20
 
-answer6 = show $ (square $ sum xs) - (sum $ map square xs) where
-    square n = n * n
-    xs = [1..100]
+answer6 = show $ (square $ sum xs) - (sum $ map square xs) where xs = [1..100]
 
 answer7 = show $ primes !! 10000
 
@@ -254,6 +253,11 @@ answer27 = show $ (uncurry (*)) $ maximumOn nrOfPrimes expressions where
     apply (a, b) n = n*n + a*n + b
     nrOfPrimes e = length $ takeWhile (isPrime . (apply e)) [0..]
 
+answer28 = show $ (+) 1 $ sum $ concatMap f [1..500] where
+    f i = let j = 2 * i
+              x = square $ j + 1
+          in  [x, x - j, x - 2*j, x - 3*j]
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -301,4 +305,5 @@ answer24  :: String
 answer25  :: String
 answer26  :: String
 answer27  :: String
+answer28  :: String
 answer67  :: String

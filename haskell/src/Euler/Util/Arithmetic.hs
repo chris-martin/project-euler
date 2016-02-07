@@ -3,6 +3,7 @@ module Euler.Util.Arithmetic
     -- * Functions
       divides
     , factorial
+    , square
 
     -- * Constants
     , million
@@ -16,3 +17,6 @@ million = 10 ^ 6
 
 factorial :: Integral a => a -> Integer
 factorial n = product [1 .. fromIntegral n]
+
+square :: Num a => a -> a
+square x = x * x
