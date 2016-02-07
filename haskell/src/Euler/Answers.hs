@@ -34,6 +34,7 @@ module Euler.Answers
     , answer29
     , answer30
     , answer31
+    , answer32
     , answer67
     ) where
 
@@ -49,6 +50,7 @@ import Data.Text.Encoding    ( decodeUtf8 )
 
 import qualified Data.Char       as Char
 import qualified Data.Either     as Either
+import qualified Data.List       as List
 import qualified Data.Map        as Map
 import qualified Data.Map.Strict as Map'
 import qualified Data.Sequence   as Seq
@@ -61,7 +63,7 @@ import Euler.Util.Amicable   ( amicableNumbers )
 import Euler.Util.Collatz    ( collatzLengths )
 import Euler.Util.Date       ( monthLength )
 import Euler.Util.Decimal    ( repetendLength )
-import Euler.Util.Digit      ( intDigits, textDigits )
+import Euler.Util.Digit      ( intDigits, textDigits, digitsInt )
 import Euler.Util.Fibonacci  ( fibs )
 import Euler.Util.List       ( countDistinct, maximumOn, sliding, transpose )
 import Euler.Util.Map        ( keyWithMaxValue )
@@ -284,6 +286,17 @@ answer31 = show $ count [] where
               recurse = sum $ map (\n -> count $ base ++ [n]) $
                         [0 .. (target - p) `div` (denominations !! (length base))]
 
+answer32 = show $ sum $ Set.fromList $ do
+    p <- permutations [1..9]
+    let (q, zs) = splitAt 5 p
+        z = digitsInt zs
+    xl <- [1, 2]
+    let (xs, ys) = splitAt xl q
+        x = digitsInt xs
+        y = digitsInt ys
+    _ <- if x * y == z then [True] else []
+    return z
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -335,4 +348,5 @@ answer28  :: String
 answer29  :: String
 answer30  :: String
 answer31  :: String
+answer32  :: String
 answer67  :: String
