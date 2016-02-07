@@ -33,6 +33,7 @@ module Euler.Answers
     , answer28
     , answer29
     , answer30
+    , answer31
     , answer67
     ) where
 
@@ -269,6 +270,20 @@ answer30 = show $ sum $ filter isMagic [2 .. (maxPowerSum maxNrOfDigits)] where
     maxNrOfDigits = last $ takeWhile isFeasible [1..]
     isMagic n = (==) n $ sum $ map (^ 5) $ intDigits n
 
+answer31 = show $ count [] where
+
+    denominations = [1, 2, 5, 10, 20, 50, 100, 200]
+    target = 200
+    pence = sum . (zipWith (*) denominations)
+
+    count base | p == target                         = 1
+               | p >  target                         = 0
+               | length base == length denominations = 0
+               | otherwise                           = recurse
+        where p = pence base
+              recurse = sum $ map (\n -> count $ base ++ [n]) $
+                        [0 .. (target - p) `div` (denominations !! (length base))]
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -319,4 +334,5 @@ answer27  :: String
 answer28  :: String
 answer29  :: String
 answer30  :: String
+answer31  :: String
 answer67  :: String
