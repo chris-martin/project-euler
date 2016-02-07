@@ -29,17 +29,16 @@ module Euler.Answers
     , answer24
     , answer25
     , answer26
+    , answer27
     , answer67
     ) where
 
 import Data.FileEmbed        ( embedFile )
-import Data.Foldable         ( foldMap, maximumBy, toList )
-import Data.Function         ( on )
+import Data.Foldable         ( foldMap, toList )
 import Data.List             ( findIndex, permutations, sort )
 import Data.Map              ( Map )
 import Data.Maybe            ( catMaybes, fromJust )
-import Data.Numbers.Primes   ( primes )
-import Data.Ord              ( compare )
+import Data.Numbers.Primes   ( isPrime, primes )
 import Data.Sequence         ( replicateM )
 import Data.Text             ( Text )
 import Data.Text.Encoding    ( decodeUtf8 )
@@ -60,7 +59,7 @@ import Euler.Util.Date       ( monthLength )
 import Euler.Util.Decimal    ( repetendLength )
 import Euler.Util.Digit      ( intDigits, textDigits )
 import Euler.Util.Fibonacci  ( fibs )
-import Euler.Util.List       ( sliding, transpose )
+import Euler.Util.List       ( maximumOn, sliding, transpose )
 import Euler.Util.Map        ( keyWithMaxValue )
 import Euler.Util.Prime      ( countDivisors, factorizations, largestPrimeFactor
                              , properDivisorsOfPrimeProduct )
@@ -245,10 +244,15 @@ answer24 = (sort $ permutations ['0'..'9']) !! (million - 1)
 
 answer25 = show $ fromJust $ findIndex (>= x) fibs where x = 10 ^ 999
 
-answer26 = show $ i where
-    i :: Integer
-    i = maximumBy (compare `on` f) [1..999]
+answer26 = show (i :: Integer) where
+    i = maximumOn f [1..999]
     f = repetendLength . (1 /) . fromIntegral
+
+answer27 = show $ (uncurry (*)) $ maximumOn nrOfPrimes expressions where
+    expressions = do a <- range; b <- range; return (a, b)
+                  where x = 999; range = [-x..x]
+    apply (a, b) n = n*n + a*n + b
+    nrOfPrimes e = length $ takeWhile (isPrime . (apply e)) [0..]
 
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
@@ -296,4 +300,5 @@ answer23  :: String
 answer24  :: String
 answer25  :: String
 answer26  :: String
+answer27  :: String
 answer67  :: String

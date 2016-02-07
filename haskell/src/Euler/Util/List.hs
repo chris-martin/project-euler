@@ -3,10 +3,14 @@ module Euler.Util.List
     , sliding
     , transpose
     , untilNothing
+    , maximumOn
     ) where
 
+import Data.Foldable      ( maximumBy )
+import Data.Function      ( on )
 import Data.List.NonEmpty ( NonEmpty(..) )
 import Data.Maybe         ( catMaybes, isJust )
+import Data.Ord           ( compare )
 
 import qualified Data.List.NonEmpty as NE
 
@@ -32,3 +36,8 @@ transpose xs     = (map head xs) : transpose (map tail xs)
 
 untilNothing :: [Maybe a] -> [a]
 untilNothing = catMaybes . (takeWhile isJust)
+
+-- | @'maximumOn' f@ is equivalent to @'maximumBy' ('compare' `'on'` f)@,
+-- but is more efficient when @f@ is costly.
+maximumOn :: Ord b => (a -> b) -> [a] -> a
+maximumOn f = fst . (maximumBy (compare `on` snd)) . (map (\x -> (x, f x)))
