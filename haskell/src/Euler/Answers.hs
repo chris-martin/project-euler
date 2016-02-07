@@ -35,6 +35,7 @@ module Euler.Answers
     , answer30
     , answer31
     , answer32
+    , answer33
     , answer67
     ) where
 
@@ -44,6 +45,7 @@ import Data.List             ( findIndex, permutations, sort )
 import Data.Map              ( Map )
 import Data.Maybe            ( catMaybes, fromJust )
 import Data.Numbers.Primes   ( isPrime, primes )
+import Data.Ratio            ( (%), numerator, denominator )
 import Data.Sequence         ( replicateM )
 import Data.Text             ( Text )
 import Data.Text.Encoding    ( decodeUtf8 )
@@ -297,6 +299,20 @@ answer32 = show $ sum $ Set.fromList $ do
     _ <- if x * y == z then [True] else []
     return z
 
+answer33 = show $ denominator $ product $ map (uncurry (%)) specialFractions where
+
+    specialFractions = filter isCurious $ do c <- [10    .. 99]
+                                             d <- [c + 1 .. 99]
+                                             return (c, d)
+
+    isCurious (c, d) = any f $ do a <- permutations $ intDigits c
+                                  b <- permutations $ intDigits d
+                                  return (a, b) where
+                       f ([a0, a1], [b0, b1]) = a0 /= 0   &&
+                                                b1 /= 0   &&
+                                                a0 == b0  &&
+                                                c % d == a1 % b1
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -349,4 +365,5 @@ answer29  :: String
 answer30  :: String
 answer31  :: String
 answer32  :: String
+answer33  :: String
 answer67  :: String
