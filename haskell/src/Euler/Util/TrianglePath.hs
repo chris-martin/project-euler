@@ -1,10 +1,7 @@
 -- | This isn't a very generally-useful module, but it's included in util
 -- because it's needed by both Euler problems 18 and 67 (which are essentially
 -- the same problem).
-module Euler.Util.TrianglePath
-    ( parseTriangle
-    , reduceTriangle
-    ) where
+module Euler.Util.TrianglePath (parseTriangle, reduceTriangle) where
 
 import Data.Maybe         ( catMaybes )
 import Data.List.NonEmpty ( NonEmpty(..), nonEmpty )

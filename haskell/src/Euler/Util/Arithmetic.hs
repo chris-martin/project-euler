@@ -1,6 +1,10 @@
 module Euler.Util.Arithmetic
-    ( divides
+    (
+    -- * Functions
+      divides
     , factorial
+
+    -- * Constants
     , million
     ) where
 
