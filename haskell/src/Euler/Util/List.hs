@@ -4,6 +4,7 @@ module Euler.Util.List
     , transpose
     , untilNothing
     , maximumOn
+    , countDistinct
     ) where
 
 import Data.Foldable      ( maximumBy )
@@ -13,6 +14,7 @@ import Data.Maybe         ( catMaybes, isJust )
 import Data.Ord           ( compare )
 
 import qualified Data.List.NonEmpty as NE
+import qualified Data.Set           as Set
 
 -- Like 'tails', but only the non-empty tails from a non-empty list.
 -- The result is non-empty because every non-empty list has at least
@@ -41,3 +43,6 @@ untilNothing = catMaybes . (takeWhile isJust)
 -- but is more efficient when @f@ is costly.
 maximumOn :: Ord b => (a -> b) -> [a] -> a
 maximumOn f = fst . (maximumBy (compare `on` snd)) . (map (\x -> (x, f x)))
+
+countDistinct :: Ord a => [a] -> Int
+countDistinct = length . Set.fromList

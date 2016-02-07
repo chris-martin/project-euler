@@ -31,6 +31,7 @@ module Euler.Answers
     , answer26
     , answer27
     , answer28
+    , answer29
     , answer67
     ) where
 
@@ -60,7 +61,7 @@ import Euler.Util.Date       ( monthLength )
 import Euler.Util.Decimal    ( repetendLength )
 import Euler.Util.Digit      ( intDigits, textDigits )
 import Euler.Util.Fibonacci  ( fibs )
-import Euler.Util.List       ( maximumOn, sliding, transpose )
+import Euler.Util.List       ( countDistinct, maximumOn, sliding, transpose )
 import Euler.Util.Map        ( keyWithMaxValue )
 import Euler.Util.Prime      ( countDivisors, factorizations, largestPrimeFactor
                              , properDivisorsOfPrimeProduct )
@@ -258,6 +259,8 @@ answer28 = show $ (+) 1 $ sum $ concatMap f [1..500] where
               x = square $ j + 1
           in  [x, x - j, x - 2*j, x - 3*j]
 
+answer29 = show $ countDistinct $ [a ^ b | a <- r, b <- r] where r = [2..100]
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -306,4 +309,5 @@ answer25  :: String
 answer26  :: String
 answer27  :: String
 answer28  :: String
+answer29  :: String
 answer67  :: String
