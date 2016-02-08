@@ -37,6 +37,7 @@ module Euler.Answers
     , answer32
     , answer33
     , answer34
+    , answer35
     , answer67
     ) where
 
@@ -320,6 +321,10 @@ answer34 = show $ sum $ filter isCurious [3 .. 10 ^ maxDigits] where
     isCurious :: Integer -> Bool
     isCurious n = (==) n $ sum $ map factorial $ digits 10 n
 
+answer35 = show $ length $ filter ((all isPrime) . digitRotations) [2 .. million - 1] where
+    digitRotations x = map (unDigits 10) $ listRotations $ digits 10 x
+    listRotations xs = map (take l) $ take l $ List.tails $ cycle xs where l = length xs
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -374,4 +379,5 @@ answer31  :: String
 answer32  :: String
 answer33  :: String
 answer34  :: String
+answer35  :: String
 answer67  :: String
