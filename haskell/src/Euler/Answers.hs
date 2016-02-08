@@ -39,6 +39,7 @@ module Euler.Answers
     , answer34
     , answer35
     , answer36
+    , answer37
     , answer67
     ) where
 
@@ -328,6 +329,10 @@ answer35 = show $ length $ filter ((all isPrime) . digitRotations) [2 .. million
 answer36 = show $ sum $ filter f [1 .. million - 1] where
     f x = intPalindrome 2 x && intPalindrome 10 x
 
+answer37 = show $ sum $ take 11 $ filter ((all isPrime) . digitTruncations) [11..] where
+    digitTruncations = (map $ unDigits 10) . truncations . (digits 10)
+    truncations xs = filter (not . null) $ List.tails xs ++ List.inits xs
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -384,4 +389,5 @@ answer33  :: String
 answer34  :: String
 answer35  :: String
 answer36  :: String
+answer37  :: String
 answer67  :: String
