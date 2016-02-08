@@ -38,6 +38,7 @@ module Euler.Answers
     , answer33
     , answer34
     , answer35
+    , answer36
     , answer67
     ) where
 
@@ -68,7 +69,7 @@ import Euler.Util.Amicable   ( amicableNumbers )
 import Euler.Util.Collatz    ( collatzLengths )
 import Euler.Util.Date       ( monthLength )
 import Euler.Util.Decimal    ( repetendLength )
-import Euler.Util.Digit      ( textDigits )
+import Euler.Util.Digit      ( intPalindrome, textDigits )
 import Euler.Util.Fibonacci  ( fibs )
 import Euler.Util.List       ( countDistinct, maximumOn, sliding, transpose )
 import Euler.Util.Map        ( keyWithMaxValue )
@@ -85,8 +86,7 @@ answer2 = show $ sum $ filter even $ takeWhile (< 4 * million) fibs
 
 answer3 = show $ largestPrimeFactor 600851475143
 
-answer4 = show $ maximum $ filter isPalindrome $ map product $ pairsOf [1..999] where
-    isPalindrome i = s == reverse s where s = show i
+answer4 = show $ maximum $ filter (intPalindrome 10) $ map product $ pairsOf [1..999] where
     pairsOf xs = map toList $ replicateM 2 xs
 
 answer5 = show $ product factors where
@@ -325,6 +325,9 @@ answer35 = show $ length $ filter ((all isPrime) . digitRotations) [2 .. million
     digitRotations x = map (unDigits 10) $ listRotations $ digits 10 x
     listRotations xs = map (take l) $ take l $ List.tails $ cycle xs where l = length xs
 
+answer36 = show $ sum $ filter f [1 .. million - 1] where
+    f x = intPalindrome 2 x && intPalindrome 10 x
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -380,4 +383,5 @@ answer32  :: String
 answer33  :: String
 answer34  :: String
 answer35  :: String
+answer36  :: String
 answer67  :: String
