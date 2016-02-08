@@ -40,6 +40,7 @@ module Euler.Answers
     , answer35
     , answer36
     , answer37
+    , answer38
     , answer67
     ) where
 
@@ -333,6 +334,11 @@ answer37 = show $ sum $ take 11 $ filter ((all isPrime) . digitTruncations) [11.
     digitTruncations = (map $ unDigits 10) . truncations . (digits 10)
     truncations xs = filter (not . null) $ List.tails xs ++ List.inits xs
 
+answer38 = show $ maximum $ filter pan9 xs where
+    xs = concatMap (\k -> takeWhile (< 10^9) $ map (catProduct k) [2..]) [1 .. 10^5 - 1]
+    catProduct k n = unDigits 10 $ concatMap ((digits 10) . (* k)) [1..n]
+    pan9 x = let ds = digits 10 x in length ds == 9 && all (`elem` ds) [1..9]
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -390,4 +396,5 @@ answer34  :: String
 answer35  :: String
 answer36  :: String
 answer37  :: String
+answer38  :: String
 answer67  :: String
