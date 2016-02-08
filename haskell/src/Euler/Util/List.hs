@@ -5,6 +5,7 @@ module Euler.Util.List
     , untilNothing
     , maximumOn
     , countDistinct
+    , mode
     ) where
 
 import Data.Foldable      ( maximumBy )
@@ -14,6 +15,7 @@ import Data.Maybe         ( catMaybes, isJust )
 import Data.Ord           ( compare )
 
 import qualified Data.List.NonEmpty as NE
+import qualified Data.MultiSet      as MultiSet
 import qualified Data.Set           as Set
 
 -- Like 'tails', but only the non-empty tails from a non-empty list.
@@ -46,3 +48,8 @@ maximumOn f = fst . (maximumBy (compare `on` snd)) . (map (\x -> (x, f x)))
 
 countDistinct :: Ord a => [a] -> Int
 countDistinct = length . Set.fromList
+
+-- | The most common element in the list, assuming the list is nonempty and
+-- has a single most common element.
+mode :: Ord a => [a] -> a
+mode = fst . (maximumOn snd) . MultiSet.toOccurList . MultiSet.fromList

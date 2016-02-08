@@ -41,6 +41,7 @@ module Euler.Answers
     , answer36
     , answer37
     , answer38
+    , answer39
     , answer67
     ) where
 
@@ -66,14 +67,14 @@ import qualified Data.Set        as Set
 import qualified Data.Text       as Text
 import qualified Data.Text.Read  as TextRead
 
-import Euler.Util.Arithmetic ( divides, factorial, factorials, million, square )
+import Euler.Util.Arithmetic ( divides, factorial, factorials, intSqrt, million, square )
 import Euler.Util.Amicable   ( amicableNumbers )
 import Euler.Util.Collatz    ( collatzLengths )
 import Euler.Util.Date       ( monthLength )
 import Euler.Util.Decimal    ( repetendLength )
 import Euler.Util.Digit      ( intPalindrome, textDigits )
 import Euler.Util.Fibonacci  ( fibs )
-import Euler.Util.List       ( countDistinct, maximumOn, sliding, transpose )
+import Euler.Util.List       ( countDistinct, maximumOn, mode, sliding, transpose )
 import Euler.Util.Map        ( keyWithMaxValue )
 import Euler.Util.Prime      ( countDivisors, factorizations, largestPrimeFactor
                              , properDivisorsOfPrimeProduct )
@@ -339,6 +340,12 @@ answer38 = show $ maximum $ filter pan9 xs where
     catProduct k n = unDigits 10 $ concatMap ((digits 10) . (* k)) [1..n]
     pan9 x = let ds = digits 10 x in length ds == 9 && all (`elem` ds) [1..9]
 
+answer39 = show $ mode $ filter (<= maxPerimeter) xs where
+    maxPerimeter = 1000
+    xs = catMaybes $ do a <- [1..maxPerimeter]
+                        b <- [1..maxPerimeter]
+                        return $ fmap (+ (a+b)) $ intSqrt (square a + square b)
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -397,4 +404,5 @@ answer35  :: String
 answer36  :: String
 answer37  :: String
 answer38  :: String
+answer39  :: String
 answer67  :: String
