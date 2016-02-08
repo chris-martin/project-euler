@@ -36,9 +36,11 @@ module Euler.Answers
     , answer31
     , answer32
     , answer33
+    , answer34
     , answer67
     ) where
 
+import Data.Digits           ( digits, digitsRev, unDigits )
 import Data.FileEmbed        ( embedFile )
 import Data.Foldable         ( foldMap, toList )
 import Data.List             ( findIndex, permutations, sort )
@@ -60,12 +62,12 @@ import qualified Data.Set        as Set
 import qualified Data.Text       as Text
 import qualified Data.Text.Read  as TextRead
 
-import Euler.Util.Arithmetic ( divides, factorial, million, square )
+import Euler.Util.Arithmetic ( divides, factorial, factorials, million, square )
 import Euler.Util.Amicable   ( amicableNumbers )
 import Euler.Util.Collatz    ( collatzLengths )
 import Euler.Util.Date       ( monthLength )
 import Euler.Util.Decimal    ( repetendLength )
-import Euler.Util.Digit      ( intDigits, textDigits, digitsInt )
+import Euler.Util.Digit      ( textDigits )
 import Euler.Util.Fibonacci  ( fibs )
 import Euler.Util.List       ( countDistinct, maximumOn, sliding, transpose )
 import Euler.Util.Map        ( keyWithMaxValue )
@@ -99,8 +101,7 @@ answer6 = show $ (square $ sum xs) - (sum $ map square xs) where xs = [1..100]
 
 answer7 = show $ primes !! 10000
 
-answer8 = show $ maximum $ map product $ sliding 5 $ map toInteger digits where
-    digits = textDigits inputText8
+answer8 = show $ maximum $ map product $ sliding 5 $ map toInteger $ textDigits inputText8
 
 answer9 = show $ tupleProduct triple where
     tupleProduct (a, b, c) = a * b * c
@@ -172,7 +173,7 @@ answer15 = show $ fromJust $ Map.lookup d $ countPaths Map.empty [d] where
         where adjacencies = [(x-1, y), (x, y-1)]
               unknownAdjacencies = filter (flip Map.notMember counts) adjacencies
 
-answer16 = show $ sum $ intDigits $ 2 ^ 1000
+answer16 = show $ sum $ digits 10 $ 2 ^ 1000
 
 answer17 = show $ sum $ map length (_1_1000 :: [String]) where
 
@@ -209,7 +210,7 @@ answer19 = show $ length $ filter isMatchingDate datesWithWeekday where
     isMatchingDate ((year, month, day), weekday) =
         year /= 1900 && day == 1 && weekday == 7
 
-answer20 = show $ sum $ intDigits $ factorial 100
+answer20 = show $ sum $ digits 10 $ factorial 100
 
 answer21 = show $ sum $ amicableNumbers 9999
 
@@ -272,7 +273,7 @@ answer30 = show $ sum $ filter isMagic [2 .. (maxPowerSum maxNrOfDigits)] where
     minValue n = 10 ^ (n - 1)
     isFeasible n = maxPowerSum n >= minValue n
     maxNrOfDigits = last $ takeWhile isFeasible [1..]
-    isMagic n = (==) n $ sum $ map (^ 5) $ intDigits n
+    isMagic n = (==) n $ sum $ map (^ 5) $ digits 10 n
 
 answer31 = show $ count [] where
 
@@ -291,11 +292,11 @@ answer31 = show $ count [] where
 answer32 = show $ sum $ Set.fromList $ do
     p <- permutations [1..9]
     let (q, zs) = splitAt 5 p
-        z = digitsInt zs
+        z = unDigits 10 zs
     xl <- [1, 2]
     let (xs, ys) = splitAt xl q
-        x = digitsInt xs
-        y = digitsInt ys
+        x = unDigits 10 xs
+        y = unDigits 10 ys
     _ <- if x * y == z then [True] else []
     return z
 
@@ -305,13 +306,19 @@ answer33 = show $ denominator $ product $ map (uncurry (%)) specialFractions whe
                                              d <- [c + 1 .. 99]
                                              return (c, d)
 
-    isCurious (c, d) = any f $ do a <- permutations $ intDigits c
-                                  b <- permutations $ intDigits d
+    isCurious (c, d) = any f $ do a <- permutations $ digits 10 c
+                                  b <- permutations $ digits 10 d
                                   return (a, b) where
                        f ([a0, a1], [b0, b1]) = a0 /= 0   &&
                                                 b1 /= 0   &&
                                                 a0 == b0  &&
                                                 c % d == a1 % b1
+
+answer34 = show $ sum $ filter isCurious [3 .. 10 ^ maxDigits] where
+    maxDigits = last $ takeWhile f [1..] where
+        f i = (factorial 9) * i >= 10 ^ i
+    isCurious :: Integer -> Bool
+    isCurious n = (==) n $ sum $ map factorial $ digits 10 n
 
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
@@ -366,4 +373,5 @@ answer30  :: String
 answer31  :: String
 answer32  :: String
 answer33  :: String
+answer34  :: String
 answer67  :: String
