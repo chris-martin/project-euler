@@ -5,7 +5,11 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Euler.Answers
+  exposed-modules:     Euler.Problems
+                     , Euler.Problems.Problem11
+                     , Euler.Problems.Problem15
+                     , Euler.Problems.Problem22
+                     , Euler.Problems.Problem42
                      , Euler.Util.Amicable
                      , Euler.Util.Arithmetic
                      , Euler.Util.Collatz
@@ -15,6 +19,7 @@ library
                      , Euler.Util.Fibonacci
                      , Euler.Util.List
                      , Euler.Util.Map
+                     , Euler.Util.NumberWords
                      , Euler.Util.Prime
                      , Euler.Util.TrianglePath
   build-depends:       base >= 4.7 && < 5

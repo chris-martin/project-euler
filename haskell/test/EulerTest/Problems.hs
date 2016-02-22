@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module EulerTest.Answers
+module EulerTest.Problems
     ( fastTest
     , answerTest
     ) where
@@ -15,7 +15,7 @@ import Data.Text.Encoding ( decodeUtf8 )
 import qualified Data.Text    as Text
 import qualified Data.Text.IO as TextIO
 
-import qualified Euler.Answers
+import qualified Euler.Problems
 
 fastTest :: Test
 fastTest = testGroup "Problems with fast answers" $
@@ -26,7 +26,7 @@ fastTest = testGroup "Problems with fast answers" $
 answerTest :: Int -> Test
 answerTest i = testCase ("Problem " ++ (show i) ++ " answer is correct") $ do
     correctAnswer <- getCorrectAnswer i
-    calculatedAnswer <- Euler.Answers.answer i
+    calculatedAnswer <- Euler.Problems.answer i
     calculatedAnswer @?= correctAnswer
 
 getCorrectAnswer :: Int -> IO String
