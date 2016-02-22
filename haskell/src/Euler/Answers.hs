@@ -43,6 +43,7 @@ module Euler.Answers
     , answer38
     , answer39
     , answer40
+    , answer41
     , answer67
     ) where
 
@@ -350,6 +351,10 @@ answer39 = show $ mode $ filter (<= maxPerimeter) xs where
 answer40 = show $ product $ map (d . (10 ^)) [0..6] where
     d i = ((concatMap (digits 10) [1..]) !! (i - 1))
 
+answer41 = show $ head $ filter isPrime pandigitals where
+    pandigitals = concatMap pandigitalsOfLength $ [9, 8 .. 1]
+    pandigitalsOfLength n = map (unDigits 10) $ reverse $ sort $ permutations [n, n-1 .. 1]
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -410,4 +415,5 @@ answer37  :: String
 answer38  :: String
 answer39  :: String
 answer40  :: String
+answer41  :: String
 answer67  :: String
