@@ -24,9 +24,9 @@ import qualified Euler.Problems.Problem42 as Problem42
 
 import Prelude ( (==), (/=), (<=), (<), (>=), (>), (++), (!!), (.), ($)
                , (*), (+), (-), (&&), (^), (/)
-               , all, any, concatMap, cycle, div, elem, even, filter
+               , all, and, any, concatMap, cycle, div, drop, elem, even, filter
                , fmap, fromIntegral, fst, foldMap, last, length, head
-               , map, maximum, not, null, otherwise
+               , map, maximum, mod, not, null, otherwise
                , product, pure, return, reverse, scanl1, splitAt
                , sum, take, takeWhile, toInteger, uncurry, undefined
                , zip, zipWith
@@ -295,6 +295,13 @@ answer 41 = (pure . show . head . (filter isPrime)) pandigitals
 
 answer 42 = do text <- inputText 42
                return (showInt (Problem42.answer text))
+
+answer 43 = (pure . showInteger . sum . (filter predicate) . (map (unDigits 10))) pandigitals
+  where
+    pandigitals = filter (\(x:_) -> x /= 0) (permutations [0..9])
+    predicate i = and (zipWith divides primes (substrings i))
+    -- substrings 1406357289 == [406, 63, 635, 357, 572, 728, 289]
+    substrings = (map (unDigits 10)) . (drop 1) . (sliding 3) . (digits 10)
 
 answer 67 = fmap (show . TrianglePath.reduceTriangle . TrianglePath.parseTriangle) (inputText 67)
 
