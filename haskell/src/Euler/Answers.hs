@@ -42,6 +42,7 @@ module Euler.Answers
     , answer37
     , answer38
     , answer39
+    , answer40
     , answer67
     ) where
 
@@ -346,6 +347,9 @@ answer39 = show $ mode $ filter (<= maxPerimeter) xs where
                         b <- [1..maxPerimeter]
                         return $ fmap (+ (a+b)) $ intSqrt (square a + square b)
 
+answer40 = show $ product $ map (d . (10 ^)) [0..6] where
+    d i = ((concatMap (digits 10) [1..]) !! (i - 1))
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -405,4 +409,5 @@ answer36  :: String
 answer37  :: String
 answer38  :: String
 answer39  :: String
+answer40  :: String
 answer67  :: String

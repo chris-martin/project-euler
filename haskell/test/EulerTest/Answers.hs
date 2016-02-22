@@ -40,6 +40,7 @@ fastTest = testGroup "Problems with fast answers"
     , answerTest 29 answer29
     , answerTest 33 answer33
     , answerTest 38 answer38
+    , answerTest 40 answer40
     , answerTest 67 answer67
     ]
 
