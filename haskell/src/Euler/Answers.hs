@@ -44,6 +44,7 @@ module Euler.Answers
     , answer39
     , answer40
     , answer41
+    , answer42
     , answer67
     ) where
 
@@ -355,6 +356,19 @@ answer41 = show $ head $ filter isPrime pandigitals where
     pandigitals = concatMap pandigitalsOfLength $ [9, 8 .. 1]
     pandigitalsOfLength n = map (unDigits 10) $ reverse $ sort $ permutations [n, n-1 .. 1]
 
+answer42 = show $ length $ filter isTriangleWord words where
+    triangles = map (\n -> (n * (n + 1)) `div` 2) [1..]
+    isTriangleNum v = elem v $ takeWhile (<= v) triangles
+    isTriangleWord = isTriangleNum . wordValue
+
+    words = Text.splitOn "," $ Text.filter (/= '"') inputText42
+
+    -- wordValue "Sky" = 19 + 11 + 25 = 55
+    wordValue = sum . (map letterValue) . Text.unpack . Text.toUpper
+
+    -- A = 1, B = 2, etc.
+    letterValue c = (Char.ord c) - (Char.ord 'A') + 1
+
 answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
 
 ----------------------------------------------------------------------------
@@ -364,6 +378,7 @@ inputText11  :: Text
 inputText13  :: Text
 inputText18  :: Text
 inputText22  :: Text
+inputText42  :: Text
 inputText67  :: Text
 
 inputText8   = decodeUtf8 $(embedFile "../problems/8-data.txt")
@@ -371,6 +386,7 @@ inputText11  = decodeUtf8 $(embedFile "../problems/11-data.txt")
 inputText13  = decodeUtf8 $(embedFile "../problems/13-data.txt")
 inputText18  = decodeUtf8 $(embedFile "../problems/18-data.txt")
 inputText22  = decodeUtf8 $(embedFile "../problems/22-data.txt")
+inputText42  = decodeUtf8 $(embedFile "../problems/42-data.txt")
 inputText67  = decodeUtf8 $(embedFile "../problems/67-data.txt")
 
 ----------------------------------------------------------------------------
@@ -416,4 +432,5 @@ answer38  :: String
 answer39  :: String
 answer40  :: String
 answer41  :: String
+answer42  :: String
 answer67  :: String
