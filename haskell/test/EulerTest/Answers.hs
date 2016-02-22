@@ -1,4 +1,3 @@
-{-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE OverloadedStrings #-}
 
 module EulerTest.Answers
@@ -10,52 +9,30 @@ import Test.HUnit ((@?=))
 import Test.Framework (testGroup, Test)
 import Test.Framework.Providers.HUnit (testCase)
 
-import Data.FileEmbed     ( embedFile )
+import Data.Text          ( Text )
 import Data.Text.Encoding ( decodeUtf8 )
 
-import qualified Data.Text as Text
+import qualified Data.Text    as Text
+import qualified Data.Text.IO as TextIO
 
-import Euler.Answers
+import qualified Euler.Answers
 
 fastTest :: Test
-fastTest = testGroup "Problems with fast answers"
-    [ answerTest  1 answer1
-    , answerTest  2 answer2
-    , answerTest  3 answer3
-    , answerTest  5 answer5
-    , answerTest  6 answer6
-    , answerTest  7 answer7
-    , answerTest  8 answer8
-    , answerTest  9 answer9
-    , answerTest 11 answer11
-    , answerTest 13 answer13
-    , answerTest 15 answer15
-    , answerTest 16 answer16
-    , answerTest 17 answer17
-    , answerTest 18 answer18
-    , answerTest 19 answer19
-    , answerTest 20 answer20
-    , answerTest 22 answer22
-    , answerTest 28 answer28
-    , answerTest 29 answer29
-    , answerTest 33 answer33
-    , answerTest 38 answer38
-    , answerTest 40 answer40
-    , answerTest 42 answer42
-    , answerTest 67 answer67
-    ]
+fastTest = testGroup "Problems with fast answers" $
+    map answerTest [ 1, 2, 3, 5, 6, 7, 8, 9, 11, 13, 15, 16
+                   , 17, 18, 19, 20, 22, 28, 29, 33, 38, 40
+                   , 42, 67 ]
 
-answerTest :: Int -> String -> Test
-answerTest i x = testCase ("Problem " ++ (show i) ++ " answer is correct")
-                          (x @?= answerOf i)
+answerTest :: Int -> Test
+answerTest i = testCase ("Problem " ++ (show i) ++ " answer is correct") $ do
+    correctAnswer <- getCorrectAnswer i
+    calculatedAnswer <- Euler.Answers.answer i
+    calculatedAnswer @?= correctAnswer
 
-answerOf :: Int -> String
-answerOf i = snd $ head $ filter (\(x, _) -> x == s) answers where s = show i
-
-answers :: [(String, String)]
-answers = parseAnswers inputString where
-    parseAnswers = (map parseLine) . lines
-    parseLine line = case words line of [x, y] -> (x, y)
-
-inputString :: String
-inputString = Text.unpack $ decodeUtf8 $(embedFile "../answers.txt")
+getCorrectAnswer :: Int -> IO String
+getCorrectAnswer i = do
+  text <- TextIO.readFile "../answers.txt"
+  let answers = map parseLine $ Text.lines text where
+      parseLine :: Text -> (String, String)
+      parseLine line = case Text.words line of [x, y] -> (Text.unpack x, Text.unpack y)
+  return $ snd $ head $ filter (\(x, _) -> x == s) answers where s = show i

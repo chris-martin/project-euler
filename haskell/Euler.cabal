@@ -20,7 +20,6 @@ library
   build-depends:       base >= 4.7 && < 5
                      , containers
                      , digits
-                     , file-embed
                      , multiset
                      , multiset-comb
                      , primes
@@ -36,7 +35,6 @@ test-suite Fast
   build-depends:       base
                      , Euler
                      , containers
-                     , file-embed
                      , semigroups
                      , text
                      , HUnit
@@ -50,7 +48,6 @@ test-suite Problem4
   hs-source-dirs:      test
   main-is:             Problem4.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -64,7 +61,6 @@ test-suite Problem10
   hs-source-dirs:      test
   main-is:             Problem10.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -78,7 +74,6 @@ test-suite Problem12
   hs-source-dirs:      test
   main-is:             Problem12.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -92,7 +87,6 @@ test-suite Problem14
   hs-source-dirs:      test
   main-is:             Problem14.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -106,7 +100,6 @@ test-suite Problem21
   hs-source-dirs:      test
   main-is:             Problem21.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -120,7 +113,6 @@ test-suite Problem23
   hs-source-dirs:      test
   main-is:             Problem23.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -134,7 +126,6 @@ test-suite Problem24
   hs-source-dirs:      test
   main-is:             Problem24.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -148,7 +139,6 @@ test-suite Problem25
   hs-source-dirs:      test
   main-is:             Problem25.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -162,7 +152,6 @@ test-suite Problem26
   hs-source-dirs:      test
   main-is:             Problem26.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -176,7 +165,6 @@ test-suite Problem27
   hs-source-dirs:      test
   main-is:             Problem27.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -190,7 +178,6 @@ test-suite Problem30
   hs-source-dirs:      test
   main-is:             Problem30.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -204,7 +191,6 @@ test-suite Problem31
   hs-source-dirs:      test
   main-is:             Problem31.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -218,7 +204,6 @@ test-suite Problem32
   hs-source-dirs:      test
   main-is:             Problem32.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -232,7 +217,6 @@ test-suite Problem34
   hs-source-dirs:      test
   main-is:             Problem34.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -246,7 +230,6 @@ test-suite Problem35
   hs-source-dirs:      test
   main-is:             Problem35.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -260,7 +243,6 @@ test-suite Problem36
   hs-source-dirs:      test
   main-is:             Problem36.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -274,7 +256,6 @@ test-suite Problem37
   hs-source-dirs:      test
   main-is:             Problem37.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -288,7 +269,6 @@ test-suite Problem39
   hs-source-dirs:      test
   main-is:             Problem39.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit
@@ -302,7 +282,6 @@ test-suite Problem41
   hs-source-dirs:      test
   main-is:             Problem41.hs
   build-depends:       base
-                     , file-embed
                      , text
                      , Euler
                      , HUnit

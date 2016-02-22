@@ -8,4 +8,4 @@ import Euler.Answers
 import EulerTest.Answers
 
 main :: IO ()
-main = defaultMain [answerTest 31 answer31]
+main = defaultMain [answerTest 31]

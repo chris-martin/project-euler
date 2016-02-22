@@ -1,55 +1,9 @@
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE TemplateHaskell #-}
 
-module Euler.Answers
-    ( answer1
-    , answer2
-    , answer3
-    , answer4
-    , answer5
-    , answer6
-    , answer7
-    , answer8
-    , answer9
-    , answer10
-    , answer11
-    , answer12
-    , answer13
-    , answer14
-    , answer15
-    , answer16
-    , answer17
-    , answer18
-    , answer19
-    , answer20
-    , answer21
-    , answer22
-    , answer23
-    , answer24
-    , answer25
-    , answer26
-    , answer27
-    , answer28
-    , answer29
-    , answer30
-    , answer31
-    , answer32
-    , answer33
-    , answer34
-    , answer35
-    , answer36
-    , answer37
-    , answer38
-    , answer39
-    , answer40
-    , answer41
-    , answer42
-    , answer67
-    ) where
+module Euler.Answers (answer) where
 
-import Data.Digits           ( digits, digitsRev, unDigits )
-import Data.FileEmbed        ( embedFile )
+import Data.Digits           ( digits, unDigits )
 import Data.Foldable         ( foldMap, toList )
 import Data.List             ( findIndex, permutations, sort )
 import Data.Map              ( Map )
@@ -69,6 +23,7 @@ import qualified Data.Sequence   as Seq
 import qualified Data.Set        as Set
 import qualified Data.Text       as Text
 import qualified Data.Text.Read  as TextRead
+import qualified Data.Text.IO    as TextIO
 
 import Euler.Util.Arithmetic ( divides, factorial, factorials, intSqrt, million, square )
 import Euler.Util.Amicable   ( amicableNumbers )
@@ -86,16 +41,23 @@ import qualified Euler.Util.TrianglePath as TrianglePath
 
 ----------------------------------------------------------------------------
 
-answer1 = show $ sum $ filter f [1..999] where f n = any (`divides` n) [3, 5]
+inputText :: Int -> IO Text
+inputText i = TextIO.readFile $ "../problems/" ++ (show i) ++ "-data.txt"
 
-answer2 = show $ sum $ filter even $ takeWhile (< 4 * million) fibs
+----------------------------------------------------------------------------
 
-answer3 = show $ largestPrimeFactor 600851475143
+answer :: Int -> IO String
 
-answer4 = show $ maximum $ filter (intPalindrome 10) $ map product $ pairsOf [1..999] where
+answer 1 = pure $ show $ sum $ filter f [1..999] where f n = any (`divides` n) [3, 5]
+
+answer 2 = pure $ show $ sum $ filter even $ takeWhile (< 4 * million) fibs
+
+answer 3 = pure $ show $ largestPrimeFactor 600851475143
+
+answer 4 = pure $ show $ maximum $ filter (intPalindrome 10) $ map product $ pairsOf [1..999] where
     pairsOf xs = map toList $ replicateM 2 xs
 
-answer5 = show $ product factors where
+answer 5 = pure $ show $ product factors where
 
     -- greatest powers of primes within the bound
     factors = map powerUp $ takeWhile (<= bound) primes
@@ -104,13 +66,14 @@ answer5 = show $ product factors where
     powersOf n = map (n^) [ 1 :: Int .. ]
     bound = 20
 
-answer6 = show $ (square $ sum xs) - (sum $ map square xs) where xs = [1..100]
+answer 6 = pure $ show $ (square $ sum xs) - (sum $ map square xs) where xs = [1..100]
 
-answer7 = show $ primes !! 10000
+answer 7 = pure $ show $ primes !! 10000
 
-answer8 = show $ maximum $ map product $ sliding 5 $ map toInteger $ textDigits inputText8
+answer 8 = fmap f $ inputText 8 where
+    f = show . maximum . (map product) . (sliding 5) . (map toInteger) . textDigits
 
-answer9 = show $ tupleProduct triple where
+answer 9 = pure $ show $ tupleProduct triple where
     tupleProduct (a, b, c) = a * b * c
 
     -- the pythagorean triple the question asks us to find
@@ -128,9 +91,10 @@ answer9 = show $ tupleProduct triple where
     pairsOf :: [a] -> [(a, a)]
     pairsOf xs = foldMap (\a -> map (\b -> (a, b)) xs) xs
 
-answer10 = show $ sum $ takeWhile (< 2 * million) primes
+answer 10 = pure $ show $ sum $ takeWhile (< 2 * million) primes
 
-answer11 = show $ maximum $ map product groups where
+answer 11 = fmap f $ inputText 11 where
+  f t = show $ maximum $ map product groups where
 
     groups = foldMap (sliding 4) (concat grids)
 
@@ -146,20 +110,21 @@ answer11 = show $ maximum $ map product groups where
     reverseRows rows = map reverse rows
 
     grid :: [[Integer]]
-    grid = map parseLine $ Text.lines inputText11 where
+    grid = map parseLine $ Text.lines t where
         parseLine = map fst . Either.rights . (map TextRead.decimal) . Text.words
 
-answer12 = show $ head $ filter (\n -> countDivisors n > 500) $ scanl1 (+) [1..]
+answer 12 = pure $ show $ head $ filter (\n -> countDivisors n > 500) $ scanl1 (+) [1..]
 
-answer13 = take 10 $ show $ sum numbers where
+answer 13 = fmap f $ inputText 13 where
+  f t = take 10 $ show $ sum numbers where
     numbers :: [Integer]
-    numbers = parseNumbers inputText13 where
+    numbers = parseNumbers t where
         parseNumbers = Either.rights . map parseLine . Text.lines
         parseLine = (fmap fst) . TextRead.decimal
 
-answer14 = show $ keyWithMaxValue $ collatzLengths [1 .. million]
+answer 14 = pure $ show $ keyWithMaxValue $ collatzLengths [1 .. million]
 
-answer15 = show $ fromJust $ Map.lookup d $ countPaths Map.empty [d] where
+answer 15 = pure $ show $ fromJust $ Map.lookup d $ countPaths Map.empty [d] where
     d = (20, 20)
 
     -- When the stack is empty, we're done.
@@ -180,9 +145,9 @@ answer15 = show $ fromJust $ Map.lookup d $ countPaths Map.empty [d] where
         where adjacencies = [(x-1, y), (x, y-1)]
               unknownAdjacencies = filter (flip Map.notMember counts) adjacencies
 
-answer16 = show $ sum $ digits 10 $ 2 ^ 1000
+answer 16 = pure $ show $ sum $ digits 10 $ 2 ^ 1000
 
-answer17 = show $ sum $ map length (_1_1000 :: [String]) where
+answer 17 = pure $ show $ sum $ map length (_1_1000 :: [String]) where
 
     _1_9   = [ "one", "two", "three", "four", "five"
              , "six", "seven", "eight", "nine" ]
@@ -203,9 +168,9 @@ answer17 = show $ sum $ map length (_1_1000 :: [String]) where
 
     _1_1000 = _1_99 ++ _100_999 ++ [ "onethousand" ]
 
-answer18 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText18
+answer 18 = fmap (show . TrianglePath.reduceTriangle . TrianglePath.parseTriangle) (inputText 18)
 
-answer19 = show $ length $ filter isMatchingDate datesWithWeekday where
+answer 19 = pure $ show $ length $ filter isMatchingDate datesWithWeekday where
 
     dates = do year  <- [1900 .. 2000]
                month <- [1 .. 12]
@@ -217,12 +182,13 @@ answer19 = show $ length $ filter isMatchingDate datesWithWeekday where
     isMatchingDate ((year, month, day), weekday) =
         year /= 1900 && day == 1 && weekday == 7
 
-answer20 = show $ sum $ digits 10 $ factorial 100
+answer 20 = pure $ show $ sum $ digits 10 $ factorial 100
 
-answer21 = show $ sum $ amicableNumbers 9999
+answer 21 = pure $ show $ sum $ amicableNumbers 9999
 
-answer22 = show $ sum scores where
-    names = sort $ parseNames inputText22
+answer 22 = fmap f $ inputText 22 where
+  f t = show $ sum scores where
+    names = sort $ parseNames t
     scores = zipWith (*) [1..] $ map wordScore names
 
     -- "COLIN, which is worth 3 + 15 + 12 + 9 + 14 = 53"
@@ -239,7 +205,7 @@ answer22 = show $ sum scores where
         unquote = (Text.dropWhile isQ) . (Text.dropWhileEnd isQ)
         isQ = (== '"')
 
-answer23 = show $ sum $ (Set.fromList [1..max]) Set.\\ (Set.fromList xs) where
+answer 23 = pure $ show $ sum $ (Set.fromList [1..max]) Set.\\ (Set.fromList xs) where
 
     max = 28123
 
@@ -254,35 +220,35 @@ answer23 = show $ sum $ (Set.fromList [1..max]) Set.\\ (Set.fromList xs) where
             y <- [x..l]
             return $ (ab x) + (ab y)
 
-answer24 = (sort $ permutations ['0'..'9']) !! (million - 1)
+answer 24 = pure $ (sort $ permutations ['0'..'9']) !! (million - 1)
 
-answer25 = show $ fromJust $ findIndex (>= x) fibs where x = 10 ^ 999
+answer 25 = pure $ show $ fromJust $ findIndex (>= x) fibs where x = 10 ^ 999
 
-answer26 = show (i :: Integer) where
+answer 26 = pure $ show (i :: Integer) where
     i = maximumOn f [1..999]
     f = repetendLength . (1 /) . fromIntegral
 
-answer27 = show $ (uncurry (*)) $ maximumOn nrOfPrimes expressions where
+answer 27 = pure $ show $ (uncurry (*)) $ maximumOn nrOfPrimes expressions where
     expressions = do a <- range; b <- range; return (a, b)
                   where x = 999; range = [-x..x]
     apply (a, b) n = n*n + a*n + b
     nrOfPrimes e = length $ takeWhile (isPrime . (apply e)) [0..]
 
-answer28 = show $ (+) 1 $ sum $ concatMap f [1..500] where
+answer 28 = pure $ show $ (+) 1 $ sum $ concatMap f [1..500] where
     f i = let j = 2 * i
               x = square $ j + 1
           in  [x, x - j, x - 2*j, x - 3*j]
 
-answer29 = show $ countDistinct $ [a ^ b | a <- r, b <- r] where r = [2..100]
+answer 29 = pure $ show $ countDistinct $ [a ^ b | a <- r, b <- r] where r = [2..100]
 
-answer30 = show $ sum $ filter isMagic [2 .. (maxPowerSum maxNrOfDigits)] where
+answer 30 = pure $ show $ sum $ filter isMagic [2 .. (maxPowerSum maxNrOfDigits)] where
     maxPowerSum = (* (9 ^ 5))
     minValue n = 10 ^ (n - 1)
     isFeasible n = maxPowerSum n >= minValue n
     maxNrOfDigits = last $ takeWhile isFeasible [1..]
     isMagic n = (==) n $ sum $ map (^ 5) $ digits 10 n
 
-answer31 = show $ count [] where
+answer 31 = pure $ show $ count [] where
 
     denominations = [1, 2, 5, 10, 20, 50, 100, 200]
     target = 200
@@ -296,7 +262,7 @@ answer31 = show $ count [] where
               recurse = sum $ map (\n -> count $ base ++ [n]) $
                         [0 .. (target - p) `div` (denominations !! (length base))]
 
-answer32 = show $ sum $ Set.fromList $ do
+answer 32 = pure $ show $ sum $ Set.fromList $ do
     p <- permutations [1..9]
     let (q, zs) = splitAt 5 p
         z = unDigits 10 zs
@@ -307,7 +273,7 @@ answer32 = show $ sum $ Set.fromList $ do
     _ <- if x * y == z then [True] else []
     return z
 
-answer33 = show $ denominator $ product $ map (uncurry (%)) specialFractions where
+answer 33 = pure $ show $ denominator $ product $ map (uncurry (%)) specialFractions where
 
     specialFractions = filter isCurious $ do c <- [10    .. 99]
                                              d <- [c + 1 .. 99]
@@ -321,47 +287,48 @@ answer33 = show $ denominator $ product $ map (uncurry (%)) specialFractions whe
                                                 a0 == b0  &&
                                                 c % d == a1 % b1
 
-answer34 = show $ sum $ filter isCurious [3 .. 10 ^ maxDigits] where
+answer 34 = pure $ show $ sum $ filter isCurious [3 .. 10 ^ maxDigits] where
     maxDigits = last $ takeWhile f [1..] where
         f i = (factorial 9) * i >= 10 ^ i
     isCurious :: Integer -> Bool
     isCurious n = (==) n $ sum $ map factorial $ digits 10 n
 
-answer35 = show $ length $ filter ((all isPrime) . digitRotations) [2 .. million - 1] where
+answer 35 = pure $ show $ length $ filter ((all isPrime) . digitRotations) [2 .. million - 1] where
     digitRotations x = map (unDigits 10) $ listRotations $ digits 10 x
     listRotations xs = map (take l) $ take l $ List.tails $ cycle xs where l = length xs
 
-answer36 = show $ sum $ filter f [1 .. million - 1] where
+answer 36 = pure $ show $ sum $ filter f [1 .. million - 1] where
     f x = intPalindrome 2 x && intPalindrome 10 x
 
-answer37 = show $ sum $ take 11 $ filter ((all isPrime) . digitTruncations) [11..] where
+answer 37 = pure $ show $ sum $ take 11 $ filter ((all isPrime) . digitTruncations) [11..] where
     digitTruncations = (map $ unDigits 10) . truncations . (digits 10)
     truncations xs = filter (not . null) $ List.tails xs ++ List.inits xs
 
-answer38 = show $ maximum $ filter pan9 xs where
+answer 38 = pure $ show $ maximum $ filter pan9 xs where
     xs = concatMap (\k -> takeWhile (< 10^9) $ map (catProduct k) [2..]) [1 .. 10^5 - 1]
     catProduct k n = unDigits 10 $ concatMap ((digits 10) . (* k)) [1..n]
     pan9 x = let ds = digits 10 x in length ds == 9 && all (`elem` ds) [1..9]
 
-answer39 = show $ mode $ filter (<= maxPerimeter) xs where
+answer 39 = pure $ show $ mode $ filter (<= maxPerimeter) xs where
     maxPerimeter = 1000
     xs = catMaybes $ do a <- [1..maxPerimeter]
                         b <- [1..maxPerimeter]
                         return $ fmap (+ (a+b)) $ intSqrt (square a + square b)
 
-answer40 = show $ product $ map (d . (10 ^)) [0..6] where
+answer 40 = pure $ show $ product $ map (d . (10 ^)) [0..6] where
     d i = ((concatMap (digits 10) [1..]) !! (i - 1))
 
-answer41 = show $ head $ filter isPrime pandigitals where
+answer 41 = pure $ show $ head $ filter isPrime pandigitals where
     pandigitals = concatMap pandigitalsOfLength $ [9, 8 .. 1]
     pandigitalsOfLength n = map (unDigits 10) $ reverse $ sort $ permutations [n, n-1 .. 1]
 
-answer42 = show $ length $ filter isTriangleWord words where
+answer 42 = fmap f $ (inputText 42) where
+  f t = show $ length $ filter isTriangleWord words where
     triangles = map (\n -> (n * (n + 1)) `div` 2) [1..]
     isTriangleNum v = elem v $ takeWhile (<= v) triangles
     isTriangleWord = isTriangleNum . wordValue
 
-    words = Text.splitOn "," $ Text.filter (/= '"') inputText42
+    words = Text.splitOn "," $ Text.filter (/= '"') t
 
     -- wordValue "Sky" = 19 + 11 + 25 = 55
     wordValue = sum . (map letterValue) . Text.unpack . Text.toUpper
@@ -369,68 +336,4 @@ answer42 = show $ length $ filter isTriangleWord words where
     -- A = 1, B = 2, etc.
     letterValue c = (Char.ord c) - (Char.ord 'A') + 1
 
-answer67 = show $ TrianglePath.reduceTriangle $ TrianglePath.parseTriangle $ inputText67
-
-----------------------------------------------------------------------------
-
-inputText8   :: Text
-inputText11  :: Text
-inputText13  :: Text
-inputText18  :: Text
-inputText22  :: Text
-inputText42  :: Text
-inputText67  :: Text
-
-inputText8   = decodeUtf8 $(embedFile "../problems/8-data.txt")
-inputText11  = decodeUtf8 $(embedFile "../problems/11-data.txt")
-inputText13  = decodeUtf8 $(embedFile "../problems/13-data.txt")
-inputText18  = decodeUtf8 $(embedFile "../problems/18-data.txt")
-inputText22  = decodeUtf8 $(embedFile "../problems/22-data.txt")
-inputText42  = decodeUtf8 $(embedFile "../problems/42-data.txt")
-inputText67  = decodeUtf8 $(embedFile "../problems/67-data.txt")
-
-----------------------------------------------------------------------------
-
-answer1   :: String
-answer2   :: String
-answer3   :: String
-answer4   :: String
-answer5   :: String
-answer6   :: String
-answer7   :: String
-answer8   :: String
-answer9   :: String
-answer10  :: String
-answer11  :: String
-answer12  :: String
-answer13  :: String
-answer14  :: String
-answer15  :: String
-answer16  :: String
-answer17  :: String
-answer18  :: String
-answer19  :: String
-answer20  :: String
-answer21  :: String
-answer22  :: String
-answer23  :: String
-answer24  :: String
-answer25  :: String
-answer26  :: String
-answer27  :: String
-answer28  :: String
-answer29  :: String
-answer30  :: String
-answer31  :: String
-answer32  :: String
-answer33  :: String
-answer34  :: String
-answer35  :: String
-answer36  :: String
-answer37  :: String
-answer38  :: String
-answer39  :: String
-answer40  :: String
-answer41  :: String
-answer42  :: String
-answer67  :: String
+answer 67 = fmap (show . TrianglePath.reduceTriangle . TrianglePath.parseTriangle) (inputText 67)
