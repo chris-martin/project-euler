@@ -9,16 +9,20 @@ import qualified Data.Text as Text
 
 import Prelude ( (.), (+), (-), (*), (/=), (<=)
                , div, elem, filter, length, map, sum, takeWhile
-               , Char, Int )
+               , Bool, Char, Int )
 
 answer :: Text -> Int
-answer t = length (filter isTriangleWord words)
-  where
-    triangles = map (\n -> (n * (n + 1)) `div` 2) [1..]
-    isTriangleNum v = elem v (takeWhile (<= v) triangles)
-    isTriangleWord = isTriangleNum . wordValue
+answer = length . (filter isTriangleWord) . parseWords
+  where isTriangleWord = isTriangleNum . wordValue
 
-    words = Text.splitOn "," (Text.filter (/= '"') t)
+triangles :: [Int]
+triangles = map (\n -> (n * (n + 1)) `div` 2) [1..]
+
+isTriangleNum :: Int -> Bool
+isTriangleNum v = elem v (takeWhile (<= v) triangles)
+
+parseWords :: Text -> [Text]
+parseWords = (Text.splitOn ",") . (Text.filter (/= '"'))
 
 -- | wordValue "Sky" = 19 + 11 + 25 = 55
 wordValue :: Text -> Int
