@@ -22,6 +22,7 @@ import qualified Euler.Problems.Problem9  as Problem9
 import qualified Euler.Problems.Problem11 as Problem11
 import qualified Euler.Problems.Problem15 as Problem15
 import qualified Euler.Problems.Problem22 as Problem22
+import qualified Euler.Problems.Problem31 as Problem31
 import qualified Euler.Problems.Problem42 as Problem42
 import qualified Euler.Problems.Problem43 as Problem43
 
@@ -195,19 +196,7 @@ answer 30 = (pure . showInteger . sum) (filter isMagic [(2 :: Integer) .. (maxPo
     isMagic n = ((== n) . sum . (map pow5) . (digits 10)) n
     pow5 = (^ (5 :: Integer))
 
-answer 31 = (pure . showInt) (count [])
-  where
-    denominations = [1, 2, 5, 10, 20, 50, 100, 200]
-    target = 200 :: Integer
-    pence = sum . (zipWith (*) denominations)
-
-    count base | p == target                         = 1
-               | p >  target                         = 0
-               | length base == length denominations = 0
-               | otherwise                           = recurse
-        where p = pence base
-              recurse = (sum . (map (\n -> count (base ++ [n]))))
-                        [0 .. (target - p) `div` (denominations !! (length base))]
+answer 31 = pure (showInteger Problem31.answer)
 
 answer 32 = (pure . showInteger . sum . Set.fromList) $ do
     p <- permutations [1..9]

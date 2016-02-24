@@ -10,6 +10,7 @@ library
                      , Euler.Problems.Problem11
                      , Euler.Problems.Problem15
                      , Euler.Problems.Problem22
+                     , Euler.Problems.Problem31
                      , Euler.Problems.Problem42
                      , Euler.Problems.Problem43
                      , Euler.Util.Amicable
