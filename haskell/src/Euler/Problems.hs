@@ -31,7 +31,7 @@ import qualified Euler.Problems.Problem43 as Problem43
 import Prelude ( (==), (/=), (<=), (<), (>=), (>), (++), (!!), (.), ($)
                , (*), (+), (-), (&&), (^), (/)
                , all, and, any, concatMap, cycle, elem, even, filter
-               , fromIntegral, fst, last, length, head, map
+               , fromIntegral, last, length, head, map
                , maximum, not, null, product, pure, return, scanl1
                , splitAt, sum, take, takeWhile, toInteger, uncurry
                , zip, zipWith
@@ -46,7 +46,6 @@ import Data.Numbers.Primes   ( isPrime, primes )
 import Data.Sequence         ( replicateM )
 import Data.Text             ( Text )
 
-import qualified Data.Either     as Either
 import qualified Data.List       as List
 import qualified Data.Set        as Set
 import qualified Data.Text       as Text
