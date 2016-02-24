@@ -11,6 +11,7 @@ import Euler.Util.Digit      ( intPalindrome, textDigits )
 import Euler.Util.Fibonacci  ( fibs )
 import Euler.Util.List       ( countDistinct, maximumOn, mode, sliding )
 import Euler.Util.Map        ( keyWithMaxValue )
+import Euler.Util.Pandigital ( pandigitals, pandigitalsRev )
 import Euler.Util.Pentagonal ( pentagonals, isPentagonal )
 import Euler.Util.Prime      ( countDivisors, factorizations, largestPrimeFactor
                              , properDivisorsOfPrimeProduct )
@@ -263,19 +264,13 @@ answer 40 = (pure . showInt . product . (map (d . (10 ^)))) ([0..6] :: [Int])
     d :: Int -> Int
     d i = (concatMap (digits 10) [1..]) !! (i - 1)
 
-answer 41 = (pure . show . head . (filter isPrime)) pandigitals
-  where
-    pandigitals :: [Integer]
-    pandigitals = concatMap pandigitalsOfLength [9, 8 .. 1]
-    pandigitalsOfLength n = ((map (unDigits 10)) . reverse . sort . permutations) [n, n-1 .. 1]
+answer 41 = (pure . showInteger . head . (filter isPrime)) pandigitalsRev
 
 answer 42 = do text <- inputText 42
                return (showInt (Problem42.answer text))
 
-answer 43 = (pure . showInteger . sum . (filter predicate) . (map (unDigits 10))) pandigitals
-  where
-    pandigitals = filter (\(x:_) -> x /= 0) (permutations [0..9])
-    predicate i = and (zipWith divides primes (Problem43.substrings i))
+answer 43 = (pure . showInteger . sum . (filter predicate)) pandigitals
+  where predicate i = and (zipWith divides primes (Problem43.substrings i))
 
 answer 44 = (pure . showInteger . head) $ do
     (n, a) <- zip [0..] pentagonals
