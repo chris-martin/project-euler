@@ -206,7 +206,7 @@ answer 32 = (pure . showInteger . sum . Set.fromList) $ do
     let (xs, ys) = splitAt xl q
         x = unDigits 10 xs
         y = unDigits 10 ys
-    _ <- if x * y == z then [True] else []
+    guard (x * y == z)
     return z
 
 answer 33 = (pure . showInteger . denominator . product) (map (uncurry (%)) specialFractions)
