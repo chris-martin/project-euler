@@ -24,6 +24,7 @@ import qualified Euler.Problems.Problem11 as Problem11
 import qualified Euler.Problems.Problem15 as Problem15
 import qualified Euler.Problems.Problem22 as Problem22
 import qualified Euler.Problems.Problem31 as Problem31
+import qualified Euler.Problems.Problem33 as Problem33
 import qualified Euler.Problems.Problem42 as Problem42
 import qualified Euler.Problems.Problem43 as Problem43
 
@@ -43,7 +44,6 @@ import Data.Foldable         ( toList )
 import Data.List             ( findIndex, permutations, sort )
 import Data.Maybe            ( catMaybes, fromJust )
 import Data.Numbers.Primes   ( isPrime, primes )
-import Data.Ratio            ( (%), denominator )
 import Data.Sequence         ( replicateM )
 import Data.Text             ( Text )
 
@@ -210,20 +210,7 @@ answer 32 = (pure . showInteger . sum . Set.fromList) $ do
     guard (x * y == z)
     return z
 
-answer 33 = (pure . showInteger . denominator . product) (map (uncurry (%)) specialFractions)
-  where
-    specialFractions = filter isCurious $ do c <- [10    .. 99]
-                                             d <- [c + 1 .. 99]
-                                             return (c, d)
-
-    isCurious (c, d) = any f $ do a <- permutations (digits 10 c)
-                                  b <- permutations (digits 10 d)
-                                  return (a, b) where
-                       f ([a0, a1], [b0, b1]) = a0 /= 0   &&
-                                                b1 /= 0   &&
-                                                a0 == b0  &&
-                                                c % d == a1 % b1
-                       f _ = undefined
+answer 33 = pure (showInteger Problem33.answer)
 
 answer 34 = (pure . showInteger . sum . (filter isCurious)) [3 .. 10 ^ maxDigits]
   where
