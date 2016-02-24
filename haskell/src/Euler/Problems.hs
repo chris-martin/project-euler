@@ -51,6 +51,8 @@ import qualified Data.Set        as Set
 import qualified Data.Text       as Text
 import qualified Data.Text.IO    as TextIO
 
+-------------------------------------------------------------------------
+
 inputText :: Int -> IO Text
 inputText i = TextIO.readFile ("../problems/" ++ (show i) ++ "-data.txt")
 
@@ -60,6 +62,18 @@ showInteger = show
 showInt :: Int -> String
 showInt = show
 
+-------------------------------------------------------------------------
+
+-- | @'answer' n@ calculates the answer to Euler problem /n/, or
+-- evaluates to @"?"@ if there is no solution known for problem /n/.
+--
+-- The answers to Project Euler problems are all numeric, but the type
+-- here is 'String' rather than 'Integer' because in some cases the answer
+-- is semantically a "list of digits" rather than an integer, which may
+-- be an important distinction if the first digit of an answer is zero.
+--
+-- Most of the answers are pure, but 'IO' is allowed because some problems
+-- involve reading input data from files.
 answer :: Integral a => a -> IO String
 
 answer 1 = pure (showInteger a)

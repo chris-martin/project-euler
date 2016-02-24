@@ -1,8 +1,17 @@
-module Euler.Util.Date (monthLength, yearLength, leap) where
+module Euler.Util.Date
+    ( monthLength
+    , yearLength
+    , leap) where
 
+-- | @'monthLength' y m@ is the number of days in month @m@ of year @y@.
 monthLength :: Int -> Int -> Int
-yearLength  :: Int        -> Int
-leap        :: Int        -> Bool
+
+-- | The number of days in a year AD.
+yearLength :: Int -> Int
+
+-- | Whether a year AD is a leap year. Leap years contain an extra day
+-- in February.
+leap :: Int -> Bool
 
 -----------------------------------------------------------------------
 

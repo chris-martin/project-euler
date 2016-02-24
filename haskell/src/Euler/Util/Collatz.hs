@@ -1,3 +1,8 @@
+-- | The Collatz sequence is defined for the set of positive integers:
+--
+-- * /n → n\/2/ (/n/ is even)
+-- * /n → 3n + 1/ (/n/ is odd)
+
 module Euler.Util.Collatz (collatz, collatzLengths) where
 
 import Data.Map (Map)

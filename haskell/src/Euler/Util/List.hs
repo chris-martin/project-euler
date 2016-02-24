@@ -18,7 +18,7 @@ import qualified Data.List.NonEmpty as NE
 import qualified Data.MultiSet      as MultiSet
 import qualified Data.Set           as Set
 
--- Like 'tails', but only the non-empty tails from a non-empty list.
+-- | Like 'tails', but only the non-empty tails from a non-empty list.
 -- The result is non-empty because every non-empty list has at least
 -- one non-empy suffix (itself). For example,
 --

@@ -1,23 +1,28 @@
 module Euler.Util.Polynomial
-    ( eval
+    ( Coefficients
+    , eval
     , hasIntRootBetween
     , findIntRootBetween
     ) where
 
 import Data.Maybe (isJust)
 
+-- | Polynomials are represented by coefficient lists. For example,
+-- /7 + 5x - 4x^2 + 12x^4/ has coefficients @[7, 5, -4, 0, 12]@.
+type Coefficients = []
+
 -- | @'eval' cfs x@ is the value of the polynomial with coefficients
 -- @cfs@ at point @x@
-eval :: (Num a) => [a] -> a -> a
+eval :: (Num a) => Coefficients a -> a -> a
 
 -- | @'findIntRootBetween' cfs a b@ is an integral root of the polynomial
 -- having coefficients @cfs@ on the inclusive interval /[a, b]/, if one exists.
-findIntRootBetween :: (Integral a) => [a] -> a -> a -> Maybe a
+findIntRootBetween :: (Integral a) => Coefficients a -> a -> a -> Maybe a
 
 -- | @'hasIntRootBetween' cfs a b@ tells whether there exists an integral
 -- root of the polynomial having coefficients @cfs@ on the inclusive interval
 -- /[a, b]/.
-hasIntRootBetween :: (Integral a) => [a] -> a -> a -> Bool
+hasIntRootBetween :: (Integral a) => Coefficients a -> a -> a -> Bool
 
 -------------------------------------------------------------------------------
 

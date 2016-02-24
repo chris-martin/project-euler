@@ -31,6 +31,6 @@ reduceTriangle (row :| [x :| []]) = x + (maximum $ NE.take 2 row)
 -- Otherwise, collapse the first two rows by reducing small triangles
 -- formed by zipping the second row with suffixes of the first row.
 reduceTriangle (row1 :| row2 : otherRows) =
-    reduceTriangle $ newFirstRow :| otherRows
+    reduceTriangle (newFirstRow :| otherRows)
     where newFirstRow = do (row, x) <- NE.zip (neTails row1) row2
-                           return $ reduceTriangle $ row :| [x :| []]
+                           return (reduceTriangle (row :| [x :| []]))

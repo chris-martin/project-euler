@@ -10,15 +10,20 @@ module Euler.Util.Arithmetic
     , million
     ) where
 
-divides    :: (Integral a, Integral b) => a -> b -> Bool
+divides :: (Integral a, Integral b) => a -> b -> Bool
 
-factorial  :: Integral a => a -> Integer
+factorial :: Integral a => a -> Integer
 factorials :: [Integer]
 
-square     :: Num a      => a -> a
-intSqrt    :: Integral a => a -> Maybe a
+-- | @'square' x@ = /x^2/
+square :: Num a => a -> a
 
-million    :: Integral a => a
+-- | @'intSqrt' x@ is the integer /r/ such that /r^2 = x/, if
+-- such an integer exists.
+intSqrt :: Integral a => a -> Maybe a
+
+-- | One million = 1,000,000
+million :: Integral a => a
 
 ---------------------------------------------------------
 
