@@ -11,6 +11,7 @@ import Euler.Util.Digit      ( intPalindrome, textDigits )
 import Euler.Util.Fibonacci  ( fibs )
 import Euler.Util.List       ( countDistinct, maximumOn, mode, sliding )
 import Euler.Util.Map        ( keyWithMaxValue )
+import Euler.Util.Pentagonal ( pentagonals, isPentagonal )
 import Euler.Util.Prime      ( countDivisors, factorizations, largestPrimeFactor
                              , properDivisorsOfPrimeProduct )
 
@@ -32,6 +33,7 @@ import Prelude ( (==), (/=), (<=), (<), (>=), (>), (++), (!!), (.), ($)
                , zip, zipWith
                , Bool(..), Int, Integer, Show(..), String, IO )
 
+import Control.Monad         ( guard )
 import Data.Digits           ( digits, unDigits )
 import Data.Foldable         ( toList )
 import Data.List             ( findIndex, permutations, sort )
@@ -302,6 +304,14 @@ answer 43 = (pure . showInteger . sum . (filter predicate) . (map (unDigits 10))
     predicate i = and (zipWith divides primes (substrings i))
     -- substrings 1406357289 == [406, 63, 635, 357, 572, 728, 289]
     substrings = (map (unDigits 10)) . (drop 1) . (sliding 3) . (digits 10)
+
+answer 44 = (pure . showInteger . head) $ do
+    (n, a) <- zip [0..] pentagonals
+    b <- take n pentagonals
+    guard (isPentagonal (a + b))
+    let c = (a - b)
+    guard (isPentagonal c)
+    return c
 
 answer 67 = fmap (show . TrianglePath.reduceTriangle . TrianglePath.parseTriangle) (inputText 67)
 
