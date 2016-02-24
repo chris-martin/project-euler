@@ -8,4 +8,7 @@ import qualified EulerTest.Problems
 import qualified EulerTest.Util
 
 main :: IO ()
-main = defaultMain $ EulerTest.Util.tests ++ [EulerTest.Problems.fastTest]
+main = defaultMain $ concat
+    [ EulerTest.Util.tests
+    , EulerTest.Problems.tests
+    ]

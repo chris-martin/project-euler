@@ -22,6 +22,7 @@ import qualified Euler.Problems.Problem11 as Problem11
 import qualified Euler.Problems.Problem15 as Problem15
 import qualified Euler.Problems.Problem22 as Problem22
 import qualified Euler.Problems.Problem42 as Problem42
+import qualified Euler.Problems.Problem43 as Problem43
 
 import Prelude ( (==), (/=), (<=), (<), (>=), (>), (++), (!!), (.), ($)
                , (*), (+), (-), (&&), (^), (/)
@@ -31,7 +32,7 @@ import Prelude ( (==), (/=), (<=), (<), (>=), (>), (++), (!!), (.), ($)
                , product, pure, return, reverse, scanl1, splitAt
                , sum, take, takeWhile, toInteger, uncurry, undefined
                , zip, zipWith
-               , Bool(..), Int, Integer, Show(..), String, IO )
+               , Bool(..), Int, Integer, Integral, Show(..), String, IO )
 
 import Control.Monad         ( guard )
 import Data.Digits           ( digits, unDigits )
@@ -61,7 +62,7 @@ showInteger = show
 showInt :: Int -> String
 showInt = show
 
-answer :: Int -> IO String
+answer :: Integral a => a -> IO String
 
 answer 1 = (pure . showInteger . sum . (filter f)) [1..999]
   where f n = any (`divides` n) ([3, 5] :: [Integer])
@@ -301,9 +302,7 @@ answer 42 = do text <- inputText 42
 answer 43 = (pure . showInteger . sum . (filter predicate) . (map (unDigits 10))) pandigitals
   where
     pandigitals = filter (\(x:_) -> x /= 0) (permutations [0..9])
-    predicate i = and (zipWith divides primes (substrings i))
-    -- substrings 1406357289 == [406, 63, 635, 357, 572, 728, 289]
-    substrings = (map (unDigits 10)) . (drop 1) . (sliding 3) . (digits 10)
+    predicate i = and (zipWith divides primes (Problem43.substrings i))
 
 answer 44 = (pure . showInteger . head) $ do
     (n, a) <- zip [0..] pentagonals
