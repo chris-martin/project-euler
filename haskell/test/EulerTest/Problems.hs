@@ -18,6 +18,7 @@ import qualified Data.Text.IO as TextIO
 
 import qualified Euler.Problems
 
+import qualified EulerTest.Problems.Problem9
 import qualified EulerTest.Problems.Problem43
 
 -----------------------------------------------------------------------
@@ -41,6 +42,7 @@ getCorrectAnswer :: Integral a => a -> IO (Maybe String)
 
 tests = concat
   [ [fastAnswerTests]
+  , EulerTest.Problems.Problem9.tests
   , EulerTest.Problems.Problem43.tests
   ]
   where

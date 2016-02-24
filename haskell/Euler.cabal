@@ -6,6 +6,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Euler.Problems
+                     , Euler.Problems.Problem9
                      , Euler.Problems.Problem11
                      , Euler.Problems.Problem15
                      , Euler.Problems.Problem22

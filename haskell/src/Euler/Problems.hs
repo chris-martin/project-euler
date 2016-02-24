@@ -18,6 +18,7 @@ import Euler.Util.Prime      ( countDivisors, factorizations, largestPrimeFactor
 import qualified Euler.Util.NumberWords  as NumberWords
 import qualified Euler.Util.TrianglePath as TrianglePath
 
+import qualified Euler.Problems.Problem9  as Problem9
 import qualified Euler.Problems.Problem11 as Problem11
 import qualified Euler.Problems.Problem15 as Problem15
 import qualified Euler.Problems.Problem22 as Problem22
@@ -95,24 +96,7 @@ answer 8 =
      return (f text)
   where f = showInteger . maximum . (map product) . (sliding 5) . (map toInteger) . textDigits
 
-answer 9 = (pure . showInteger . tupleProduct) triple
-  where
-    tupleProduct (a, b, c) = a * b * c
-
-    -- the pythagorean triple the question asks us to find
-    triple :: (Integer, Integer, Integer)
-    triple = head (filter isPythagorean triples)
-      where
-        -- candidate triples that aren't necessarily pythagorean
-        triples = map completeTriple (pairsOf [1..magicNumber])
-        completeTriple (a, b) = (a, b, magicNumber - a - b)
-        magicNumber = 1000
-
-    isPythagorean :: (Integer, Integer, Integer) -> Bool
-    isPythagorean (a, b, c) = a*a + b*b == c*c
-
-    pairsOf :: [a] -> [(a, a)]
-    pairsOf xs = foldMap (\a -> map (\b -> (a, b)) xs) xs
+answer 9 = (pure . showInteger) Problem9.answer
 
 answer 10 = (pure . showInteger . sum . (takeWhile (< 2 * million))) primes
 
