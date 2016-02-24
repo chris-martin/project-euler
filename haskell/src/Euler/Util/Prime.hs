@@ -46,16 +46,13 @@ countDivisors = product . map (fromIntegral . (+1) . length) . group . primeFact
 
 -- @'factorizations' n@ gives the prime factorizations of numbers in @[1..n]@.
 -- Each factorization is sorted.
-factorizations :: Integer -> Map Integer [Integer]
+factorizations :: Integral a => a -> Map a [a]
 factorizations n = toMap $ [] : (f []) where
 
-    f :: [Integer] -> [[Integer]]
     f tail = concat $ untilNothing $ map g primes where
-        g :: Integer -> Maybe [[Integer]]
         g p = let fs = p : tail
               in  if product fs > n then Nothing else Just $ fs : (f fs)
 
-    toMap :: [[Integer]] -> Map Integer [Integer]
     toMap = Map'.fromList . (map (\fs -> (product fs, sort fs)))
 
 -- | The divisors of @'product' fs@, where @fs@ are all prime,

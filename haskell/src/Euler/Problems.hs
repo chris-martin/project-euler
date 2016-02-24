@@ -13,8 +13,7 @@ import Euler.Util.List       ( countDistinct, maximumOn, mode, sliding )
 import Euler.Util.Map        ( keyWithMaxValue )
 import Euler.Util.Pandigital ( pandigitals, pandigitalsRev )
 import Euler.Util.Pentagonal ( pentagonals, isPentagonal )
-import Euler.Util.Prime      ( countDivisors, factorizations, largestPrimeFactor
-                             , properDivisorsOfPrimeProduct )
+import Euler.Util.Prime      ( countDivisors, largestPrimeFactor )
 
 import qualified Euler.Util.NumberWords  as NumberWords
 import qualified Euler.Util.TrianglePath as TrianglePath
@@ -23,6 +22,7 @@ import qualified Euler.Problems.Problem9  as Problem9
 import qualified Euler.Problems.Problem11 as Problem11
 import qualified Euler.Problems.Problem15 as Problem15
 import qualified Euler.Problems.Problem22 as Problem22
+import qualified Euler.Problems.Problem23 as Problem23
 import qualified Euler.Problems.Problem31 as Problem31
 import qualified Euler.Problems.Problem33 as Problem33
 import qualified Euler.Problems.Problem42 as Problem42
@@ -49,7 +49,6 @@ import Data.Text             ( Text )
 
 import qualified Data.Either     as Either
 import qualified Data.List       as List
-import qualified Data.Map        as Map
 import qualified Data.Sequence   as Seq
 import qualified Data.Set        as Set
 import qualified Data.Text       as Text
@@ -148,20 +147,7 @@ answer 21 = (pure . showInteger . sum) (amicableNumbers 9999)
 answer 22 = do text <- inputText 22
                return (showInteger (Problem22.answer text))
 
-answer 23 = (pure . showInteger . sum) ((Set.fromList [1..bound]) Set.\\ (Set.fromList xs))
-  where
-    bound = 28123
-
-    divisorSums = fmap (sum . properDivisorsOfPrimeProduct) (factorizations bound)
-    d = (divisorSums Map.!)
-
-    abundants = (Seq.fromList . (filter (\n -> d n > n))) [2..bound]
-    ab = (abundants `Seq.index`)
-    l = (length abundants) - 1
-
-    xs = do x <- [0..l]
-            y <- [x..l]
-            return ((ab x) + (ab y))
+answer 23 = pure (showInteger Problem23.answer)
 
 answer 24 = pure ((sort (permutations ['0'..'9'])) !! (million - 1))
 
