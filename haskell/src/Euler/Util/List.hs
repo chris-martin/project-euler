@@ -22,9 +22,9 @@ import qualified Data.Set           as Set
 -- The result is non-empty because every non-empty list has at least
 -- one non-empy suffix (itself). For example,
 --
--- > neTails (NE.fromList "abc") == NE.fromList [ NE.fromList "abc"
---                                              , NE.fromList "bc"
---                                              , NE.fromList "c"]
+-- @'neTails' ('NE.fromList' "abc") == 'NE.fromList' [ 'NE.fromList' "abc"
+--                                     , 'NE.fromList' "bc"
+--                                     , 'NE.fromList' "c"]@
 neTails :: NonEmpty a -> NonEmpty (NonEmpty a)
 neTails = NE.fromList . catMaybes . NE.toList . (fmap NE.nonEmpty) . NE.tails
 
