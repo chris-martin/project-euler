@@ -30,11 +30,10 @@ import qualified Euler.Problems.Problem43 as Problem43
 
 import Prelude ( (==), (/=), (<=), (<), (>=), (>), (++), (!!), (.), ($)
                , (*), (+), (-), (&&), (^), (/)
-               , all, and, any, concatMap, cycle, div, drop, elem, even, filter
-               , fmap, fromIntegral, fst, foldMap, last, length, head
-               , map, maximum, mod, not, null, otherwise
-               , product, pure, return, reverse, scanl1, splitAt
-               , sum, take, takeWhile, toInteger, uncurry, undefined
+               , all, and, any, concatMap, cycle, elem, even, filter
+               , fmap, fromIntegral, fst, last, length, head, map
+               , maximum, not, null, product, pure, return, scanl1
+               , splitAt, sum, take, takeWhile, toInteger, uncurry
                , zip, zipWith
                , Bool(..), Int, Integer, Integral, Show(..), String, IO )
 
@@ -49,7 +48,6 @@ import Data.Text             ( Text )
 
 import qualified Data.Either     as Either
 import qualified Data.List       as List
-import qualified Data.Sequence   as Seq
 import qualified Data.Set        as Set
 import qualified Data.Text       as Text
 import qualified Data.Text.Read  as TextRead
@@ -243,7 +241,7 @@ answer 42 = do text <- inputText 42
                return (showInt (Problem42.answer text))
 
 answer 43 = (pure . showInteger . sum . (filter predicate)) pandigitals
-  where predicate i = and (zipWith divides primes (Problem43.substrings i))
+  where predicate i = and (zipWith divides (primes :: [Integer]) (Problem43.substrings i))
 
 answer 44 = (pure . showInteger . head) $ do
     (n, a) <- zip [0..] pentagonals
