@@ -7,7 +7,7 @@ import Euler.Util.Amicable   ( amicableNumbers )
 import Euler.Util.Collatz    ( collatzLengths )
 import Euler.Util.Date       ( monthLength )
 import Euler.Util.Decimal    ( repetendLength )
-import Euler.Util.Digit      ( intPalindrome, textDigits )
+import Euler.Util.Digit      ( intPalindrome, textDigits, textIntMaybe )
 import Euler.Util.Fibonacci  ( fibs )
 import Euler.Util.List       ( countDistinct, maximumOn, mode, sliding )
 import Euler.Util.Map        ( keyWithMaxValue )
@@ -31,7 +31,7 @@ import qualified Euler.Problems.Problem43 as Problem43
 import Prelude ( (==), (/=), (<=), (<), (>=), (>), (++), (!!), (.), ($)
                , (*), (+), (-), (&&), (^), (/)
                , all, and, any, concatMap, cycle, elem, even, filter
-               , fmap, fromIntegral, fst, last, length, head, map
+               , fromIntegral, fst, last, length, head, map
                , maximum, not, null, product, pure, return, scanl1
                , splitAt, sum, take, takeWhile, toInteger, uncurry
                , zip, zipWith
@@ -50,7 +50,6 @@ import qualified Data.Either     as Either
 import qualified Data.List       as List
 import qualified Data.Set        as Set
 import qualified Data.Text       as Text
-import qualified Data.Text.Read  as TextRead
 import qualified Data.Text.IO    as TextIO
 
 inputText :: Int -> IO Text
@@ -113,8 +112,7 @@ answer 13 =
     return (f text)
   where
     f = (take 10) . showInteger . sum . parseNumbers
-    parseNumbers = Either.rights . map parseLine . Text.lines
-    parseLine = (fmap fst) . TextRead.decimal
+    parseNumbers = catMaybes . map textIntMaybe . Text.lines
 
 answer 14 = (pure . showInteger . keyWithMaxValue . collatzLengths) [1 .. million]
 
@@ -124,7 +122,10 @@ answer 16 = (pure . showInteger . sum . (digits 10)) (2 ^ (1000 :: Integer))
 
 answer 17 = (pure . show . sum) (map (length . NumberWords.word) [1..1000])
 
-answer 18 = fmap (show . TrianglePath.reduceTriangle . TrianglePath.parseTriangle) (inputText 18)
+answer 18 = do
+  text <- inputText 18
+  (return . show . TrianglePath.reduceTriangle
+                 . TrianglePath.parseTriangle) text
 
 answer 19 = (pure . showInt . length) (filter isMatchingDate datesWithWeekday)
   where
@@ -228,7 +229,8 @@ answer 39 = (pure . showInteger . mode . (filter (<= maxPerimeter))) xs
     maxPerimeter = 1000
     xs = catMaybes $ do a <- [1..maxPerimeter]
                         b <- [1..maxPerimeter]
-                        return $ fmap (+ (a+b)) (intSqrt (square a + square b))
+                        return $ do c <- intSqrt (square a + square b)
+                                    return (a + b + c)
 
 answer 40 = (pure . showInt . product . (map (d . (10 ^)))) ([0..6] :: [Int])
   where
@@ -251,6 +253,9 @@ answer 44 = (pure . showInteger . head) $ do
     guard (isPentagonal c)
     return c
 
-answer 67 = fmap (show . TrianglePath.reduceTriangle . TrianglePath.parseTriangle) (inputText 67)
+answer 67 = do
+  text <- inputText 67
+  (return . show . TrianglePath.reduceTriangle
+                 . TrianglePath.parseTriangle) text
 
 answer _ = pure "?"

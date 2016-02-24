@@ -6,6 +6,10 @@ module Euler.Util.Digit
     -- * Conversions to single digits
     , charIntMaybe
 
+
+    -- * Conversions from digits to integers
+    , textIntMaybe
+
     -- * Other stuff
     , intPalindrome
     ) where
@@ -17,15 +21,23 @@ import Data.Maybe  ( catMaybes )
 import Data.Text   ( Text, unpack )
 
 import qualified Data.Char as Char
+import qualified Data.Text.Read  as TextRead
+
+-----------------------------------------------------------------
 
 textDigits    :: Text   -> [Int]
 stringDigits  :: String -> [Int]
 charIntMaybe  :: Char   -> Maybe Int
+textIntMaybe  :: Integral a => Text   -> Maybe a
 intPalindrome :: Integral a => a -> a -> Bool
 
------------------------------------------------------
+-----------------------------------------------------------------
 
 textDigits = stringDigits . unpack
+
+textIntMaybe = do e <- TextRead.decimal
+                  return $ case e of Right(a, t) -> Just a
+                                     _           -> Nothing
 
 stringDigits = catMaybes . (map charIntMaybe)
 
