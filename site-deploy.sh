@@ -2,6 +2,8 @@
 
 set -e # exit with nonzero exit code if anything fails
 
+cd site
+
 git init
 git add .
 

@@ -13,8 +13,8 @@ script:
 - (cd haskell && stack --no-nix --no-terminal setup)
 - (cd haskell && stack --no-nix --no-terminal --skip-ghc-check test :Fast)
 - (cd haskell && stack --no-nix --no-terminal haddock)
-- cp -r haskell/.stack-work/install/x86_64-linux/lts-5.2/7.10.3/doc .site/haskell
-- (cd .site && ./deploy.sh)
+- cp -r haskell/.stack-work/install/x86_64-linux/lts-5.2/7.10.3/doc site/haskell
+- ./site-deploy.sh
 
 addons:
   apt:
