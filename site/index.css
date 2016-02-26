@@ -1,0 +1,30 @@
+body {
+    margin: 0;
+    padding: 80px 40px;
+    border: 0 solid #003b3b;
+    border-top-width: 100px;
+    font-family: sans-serif;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+h2 {
+    margin-left: 25px;
+}
+
+p {
+    margin-left: 50px;
+}
+
+a {
+    text-decoration: none;
+    color: teal;
+}
+
+a:hover {
+    text-decoration: underline;
+}
