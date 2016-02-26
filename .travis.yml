@@ -10,9 +10,11 @@ before_install:
 - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
 
 script:
-  - cd haskell
-  - stack --no-nix --no-terminal setup
-  - stack --no-nix --no-terminal --skip-ghc-check test :Fast
+- (cd haskell && stack --no-nix --no-terminal setup)
+- (cd haskell && stack --no-nix --no-terminal --skip-ghc-check test :Fast)
+- (cd haskell && stack --no-nix --no-terminal haddock)
+- cp -r haskell/.stack-work/install/x86_64-linux-nix/lts-5.2/7.10.3/doc .out/haskell
+- .travis/deploy.sh
 
 addons:
   apt:
