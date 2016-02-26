@@ -4,6 +4,7 @@
 module Euler.Util.Pandigital
     ( pandigitals
     , pandigitalsRev
+    , pandigitalsRevOfLength
     ) where
 
 import Control.Monad ( guard )
