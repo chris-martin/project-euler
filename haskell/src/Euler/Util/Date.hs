@@ -24,4 +24,4 @@ yearLength year = sum $ [ monthLength year month | month <- [1 .. 12] ]
 leap year | year `mod` 400 == 0 = True
           | year `mod` 100 == 0 = False
           | year `mod`   4 == 0 = True
-          | otherwise       = False
+          | otherwise           = False
