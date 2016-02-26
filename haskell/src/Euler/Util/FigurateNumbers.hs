@@ -1,4 +1,6 @@
-module Euler.Util.Pentagonal
+-- | <https://en.wikipedia.org/wiki/Figurate_number Figurate numbers>
+-- are sets of numbers related to polygon shapes.
+module Euler.Util.FigurateNumbers
     ( pentagonals
     , pentagonalN
     , isPentagonal

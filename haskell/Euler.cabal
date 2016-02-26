@@ -22,11 +22,11 @@ library
                      , Euler.Util.Decimal
                      , Euler.Util.Digit
                      , Euler.Util.Fibonacci
+                     , Euler.Util.FigurateNumbers
                      , Euler.Util.List
                      , Euler.Util.Map
                      , Euler.Util.NumberWords
                      , Euler.Util.Pandigital
-                     , Euler.Util.Pentagonal
                      , Euler.Util.Polynomial
                      , Euler.Util.Prime
                      , Euler.Util.TrianglePath

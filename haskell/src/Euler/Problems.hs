@@ -12,7 +12,7 @@ import Euler.Util.Fibonacci  ( fibs )
 import Euler.Util.List       ( countDistinct, maximumOn, mode, sliding )
 import Euler.Util.Map        ( keyWithMaxValue )
 import Euler.Util.Pandigital ( pandigitals, pandigitalsRev )
-import Euler.Util.Pentagonal ( pentagonals, isPentagonal )
+import Euler.Util.FigurateNumbers ( pentagonals, isPentagonal )
 import Euler.Util.Prime      ( countDivisors, largestPrimeFactor )
 
 import qualified Euler.Util.NumberWords  as NumberWords
