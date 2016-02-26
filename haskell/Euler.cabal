@@ -341,3 +341,16 @@ test-suite Problem44
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
+
+test-suite Problem45
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Problem45.hs
+  build-depends:       base
+                     , text
+                     , Euler
+                     , HUnit
+                     , test-framework
+                     , test-framework-hunit
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010

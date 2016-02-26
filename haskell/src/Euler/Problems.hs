@@ -12,8 +12,9 @@ import Euler.Util.Fibonacci  ( fibs )
 import Euler.Util.List       ( countDistinct, maximumOn, mode, sliding )
 import Euler.Util.Map        ( keyWithMaxValue )
 import Euler.Util.Pandigital ( pandigitals, pandigitalsRev )
-import Euler.Util.FigurateNumbers ( pentagonals, isPentagonal )
 import Euler.Util.Prime      ( countDivisors, largestPrimeFactor )
+
+import Euler.Util.FigurateNumbers
 
 import qualified Euler.Util.NumberWords  as NumberWords
 import qualified Euler.Util.TrianglePath as TrianglePath
@@ -33,14 +34,15 @@ import Prelude ( (==), (/=), (<=), (<), (>=), (>), (++), (!!), (.), ($)
                , all, and, any, concatMap, cycle, elem, even, filter
                , fromIntegral, last, length, head, map
                , maximum, not, null, product, pure, return, scanl1
-               , splitAt, sum, take, takeWhile, toInteger, uncurry
+               , splitAt, sum, toInteger, uncurry
                , zip, zipWith
                , Bool(..), Int, Integer, Integral, Show(..), String, IO )
 
 import Control.Monad         ( guard )
 import Data.Digits           ( digits, unDigits )
 import Data.Foldable         ( toList )
-import Data.List             ( findIndex, permutations, sort )
+import Data.List             ( dropWhile, findIndex, permutations, sort
+                             , take, takeWhile )
 import Data.Maybe            ( catMaybes, fromJust )
 import Data.Numbers.Primes   ( isPrime, primes )
 import Data.Sequence         ( replicateM )
@@ -283,6 +285,10 @@ answer 44 = pure (showInteger a)
                       let c = (a - b)
                       guard (isPentagonal c)
                       return c
+
+answer 45 = pure (showInteger a)
+  where a = head (dropWhile (<= 40755) xs)
+        xs = filter (\n -> isPentagonal n && isTriangle n) hexagonals
 
 answer 67 = do text <- inputText 67
                return (show (f text))
