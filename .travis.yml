@@ -13,3 +13,8 @@ script:
   - cd haskell
   - stack --no-nix --no-terminal setup
   - stack --no-nix --no-terminal --skip-ghc-check test :Fast
+
+addons:
+  apt:
+    packages:
+    - libgmp-dev
