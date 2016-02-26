@@ -8,7 +8,7 @@ packages:
 - '.'
 
 # Packages to be pulled from upstream that are not in the resolver (e.g., acme-missiles-0.3)
-extra-deps: [ multiset-comb-0.2.4 ]
+extra-deps: [ hs-colour-1.24, multiset-comb-0.2.4 ]
 
 # Override default flag values for local packages and extra-deps
 flags: {}
