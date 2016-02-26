@@ -1,7 +1,10 @@
 module Euler.Util.Date
     ( monthLength
     , yearLength
-    , leap) where
+    , leap
+    ) where
+
+-----------------------------------------------------------------------
 
 -- | @'monthLength' y m@ is the number of days in month @m@ of year @y@.
 monthLength :: Int -> Int -> Int
