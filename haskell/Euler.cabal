@@ -385,7 +385,7 @@ test-suite Problem45
 test-suite Problem46
   type:                exitcode-stdio-1.0
   hs-source-dirs:      test
-  main-is:             Problem45.hs
+  main-is:             Problem46.hs
   build-depends:       base
                      , text
                      , Euler
