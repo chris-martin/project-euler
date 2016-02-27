@@ -42,6 +42,7 @@ library
                      , semigroups
                      , text
   default-language:    Haskell2010
+  extensions:          OverloadedStrings
 
 test-suite Fast
   type:                exitcode-stdio-1.0

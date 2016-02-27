@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Euler.Problems.Problem22 (answer) where
 
 import Data.List (sort)

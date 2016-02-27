@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module EulerTest.Problems
     ( tests
     , answerTest

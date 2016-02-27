@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Euler.Problems (answer) where
 
 import Euler.Util.Arithmetic ( divides, factorial, intSqrt, million, square )

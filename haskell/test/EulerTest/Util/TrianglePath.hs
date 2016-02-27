@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module EulerTest.Util.TrianglePath where
 
 import qualified Data.List.NonEmpty as NE
