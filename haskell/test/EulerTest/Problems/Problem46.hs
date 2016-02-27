@@ -1,9 +1,6 @@
 module EulerTest.Problems.Problem46 where
 
-import Test.HUnit ((@?=))
-import Test.Framework (testGroup, Test)
-import Test.Framework.Providers.HUnit (testCase)
-
+import EulerTest.Prelude
 import Euler.Problems.Problem46
 
 tests :: [Test]

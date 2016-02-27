@@ -1,14 +1,11 @@
 module EulerTest.Util.Prime where
 
-import Test.HUnit ((@?=))
-import Test.Framework (testGroup, Test)
-import Test.Framework.Providers.HUnit (testCase)
-
 import Data.Function ( on )
 import Data.List     ( sort, sortBy )
 
 import qualified Data.Map as Map
 
+import EulerTest.Prelude
 import Euler.Util.Prime
 
 tests :: [Test]

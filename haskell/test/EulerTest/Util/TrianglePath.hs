@@ -2,12 +2,9 @@
 
 module EulerTest.Util.TrianglePath where
 
-import Test.HUnit ((@=?))
-import Test.Framework (testGroup, Test)
-import Test.Framework.Providers.HUnit (testCase)
-
 import qualified Data.List.NonEmpty as NE
 
+import EulerTest.Prelude
 import Euler.Util.TrianglePath
 
 tests :: [Test]

@@ -3,11 +3,10 @@
 module EulerTest.Problems
     ( tests
     , answerTest
+    , answerTestMain
     ) where
 
-import Test.HUnit ((@?=), assertFailure)
-import Test.Framework (testGroup, Test)
-import Test.Framework.Providers.HUnit (testCase)
+import EulerTest.Prelude
 
 import Data.List          ( find )
 import Data.Text          ( Text )
@@ -33,6 +32,10 @@ tests :: [Test]
 -- problem /n/ against the known answers in @answers.txt@ at the root
 -- of the repository.
 answerTest :: Integral a => a -> Test
+
+-- | Used for standalone test suites that check answers for slow problems.
+answerTestMain :: Integer -> IO ()
+answerTestMain i = defaultMain [answerTest i]
 
 -- | @'getCorrectAnswer' n@ reads the known answer for Euler problem /n/
 -- from @answers.txt@ at the root of the repository, or 'Nothing' if the

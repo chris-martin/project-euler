@@ -1,9 +1,6 @@
 module EulerTest.Util.Arithmetic where
 
-import Test.HUnit ((@?=))
-import Test.Framework (testGroup, Test)
-import Test.Framework.Providers.HUnit (testCase)
-
+import EulerTest.Prelude
 import Euler.Util.Arithmetic
 
 tests :: [Test]

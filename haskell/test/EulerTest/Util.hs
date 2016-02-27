@@ -1,6 +1,6 @@
 module EulerTest.Util (tests) where
 
-import Test.Framework (Test)
+import EulerTest.Prelude
 
 import qualified EulerTest.Util.Arithmetic
 import qualified EulerTest.Util.Date

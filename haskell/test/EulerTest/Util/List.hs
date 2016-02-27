@@ -1,12 +1,9 @@
 module EulerTest.Util.List where
 
-import Test.HUnit ((@?=))
-import Test.Framework (testGroup, Test)
-import Test.Framework.Providers.HUnit (testCase)
-
 import qualified Data.List.NonEmpty (NonEmpty(..))
 import qualified Data.List.NonEmpty as NE
 
+import EulerTest.Prelude
 import Euler.Util.List
 
 tests :: [Test]

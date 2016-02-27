@@ -1,9 +1,6 @@
 module EulerTest.Util.Decimal where
 
-import Test.HUnit ((@?=))
-import Test.Framework (testGroup, Test)
-import Test.Framework.Providers.HUnit (testCase)
-
+import EulerTest.Prelude
 import Euler.Util.Decimal
 
 tests :: [Test]
