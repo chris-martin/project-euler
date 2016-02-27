@@ -27,6 +27,7 @@ import qualified Euler.Problems.Problem23 as Problem23
 import qualified Euler.Problems.Problem31 as Problem31
 import qualified Euler.Problems.Problem33 as Problem33
 import qualified Euler.Problems.Problem42 as Problem42
+import qualified Euler.Problems.Problem46 as Problem46
 import qualified Euler.Problems.Problem43 as Problem43
 
 import Prelude ( (==), (/=), (<=), (<), (>=), (>), (++), (!!), (.), ($)
@@ -289,6 +290,8 @@ answer 44 = pure (showInteger a)
 answer 45 = pure (showInteger a)
   where a = head (dropWhile (<= 40755) xs)
         xs = filter (\n -> isPentagonal n && isTriangle n) hexagonals
+
+answer 46 = pure (showInteger Problem46.answer)
 
 answer 67 = do text <- inputText 67
                return (show (f text))

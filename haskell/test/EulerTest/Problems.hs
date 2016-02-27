@@ -20,6 +20,7 @@ import qualified Euler.Problems
 
 import qualified EulerTest.Problems.Problem9
 import qualified EulerTest.Problems.Problem43
+import qualified EulerTest.Problems.Problem46
 
 -----------------------------------------------------------------------
 
@@ -44,6 +45,7 @@ tests = concat
   [ [fastAnswerTests]
   , EulerTest.Problems.Problem9.tests
   , EulerTest.Problems.Problem43.tests
+  , EulerTest.Problems.Problem46.tests
   ]
   where
     fastAnswerTests = testGroup "Problems with fast answers" $ map answerTest

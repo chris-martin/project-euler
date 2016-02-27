@@ -6,10 +6,12 @@ module Euler.Util.List
     , maximumOn
     , countDistinct
     , mode
+    , dedupe
     ) where
 
 import Data.Foldable      ( maximumBy )
 import Data.Function      ( on )
+import Data.List          ( group )
 import Data.List.NonEmpty ( NonEmpty(..) )
 import Data.Maybe         ( catMaybes, isJust )
 import Data.Ord           ( compare )
@@ -53,3 +55,8 @@ countDistinct = length . Set.fromList
 -- has a single most common element.
 mode :: Ord a => [a] -> a
 mode = fst . (maximumOn snd) . MultiSet.toOccurList . MultiSet.fromList
+
+-- | Remove consecutive duplicate elements from a list.
+-- For example @'dedupe' "abbbbcca" = "abca"@
+dedupe :: Eq a => [a] -> [a]
+dedupe = (map head) . group
