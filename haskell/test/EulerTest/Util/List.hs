@@ -25,7 +25,8 @@ neTailsTest = testGroup "neTails"
 
 dedupeTest :: Test
 dedupeTest = testGroup "dedupe"
-  [ testCase "empty list"     (dedupe ""         @?= ""    )
-  , testCase "single element" (dedupe "a"        @?= "a"   )
-  , testCase "remove dupes"   (dedupe "abbbbcca" @?= "abca")
+  [ t "empty list"     ""         ""
+  , t "single element" "a"        "a"
+  , t "remove dupes"   "abbbbcca" "abca"
   ]
+  where t a b c = testCase a (dedupe b @?= (c :: String))
