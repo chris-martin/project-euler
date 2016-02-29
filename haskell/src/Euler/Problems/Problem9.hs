@@ -9,9 +9,12 @@ import Data.List (sort)
 
 answer :: Integer
 
--- | The pythagorean triple the question asks us to find.
--- The tuple /(a, b, c)/ is ordered such that /a < b < c/.
 answerTriple :: Integral a => (a, a, a)
+-- ^ The pythagorean triple the question asks us to find.
+-- The tuple /(a, b, c)/ is ordered such that /a < b < c/.
+--
+-- >>> answerTriple
+-- (200,375,425)
 
 ----------------------------------------------------------------------
 

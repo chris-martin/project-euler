@@ -2,21 +2,9 @@ module EulerTest.Util (tests) where
 
 import EulerTest.Prelude
 
-import qualified EulerTest.Util.Arithmetic
-import qualified EulerTest.Util.Date
-import qualified EulerTest.Util.Decimal
-import qualified EulerTest.Util.FigurateNumbers
 import qualified EulerTest.Util.List
-import qualified EulerTest.Util.Prime
-import qualified EulerTest.Util.TrianglePath
 
 tests :: [Test]
 tests = concat
-    [ EulerTest.Util.Date.tests
-    , EulerTest.Util.Arithmetic.tests
-    , EulerTest.Util.Decimal.tests
-    , EulerTest.Util.FigurateNumbers.tests
-    , EulerTest.Util.List.tests
-    , EulerTest.Util.Prime.tests
-    , EulerTest.Util.TrianglePath.tests
+    [ EulerTest.Util.List.tests
     ]

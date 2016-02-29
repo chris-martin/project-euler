@@ -1,31 +1,20 @@
 module Euler.Problems.Problem42 (answer) where
 
+import Euler.Util.WordScore
 import Data.Text (Text)
-
-import qualified Data.Char as Char
 import qualified Data.Text as Text
 
-import Prelude ( (.), (+), (-), (*), (/=), (<=)
-               , div, elem, filter, length, map, sum, takeWhile
-               , Bool, Char, Int )
+answer :: Text -> Integer
+answer = fromIntegral . length . filter isTriangleWord . parseWords
+  where isTriangleWord = isTriangleNum . wordScore
 
-answer :: Text -> Int
-answer = length . (filter isTriangleWord) . parseWords
-  where isTriangleWord = isTriangleNum . wordValue
-
-triangles :: [Int]
+triangles :: Integral a => [a]
 triangles = map (\n -> (n * (n + 1)) `div` 2) [1..]
 
-isTriangleNum :: Int -> Bool
+isTriangleNum :: Integral a => a -> Bool
 isTriangleNum v = elem v (takeWhile (<= v) triangles)
 
-parseWords :: Text -> [Text]
-parseWords = (Text.splitOn ",") . (Text.filter (/= '"'))
-
--- | wordValue "Sky" = 19 + 11 + 25 = 55
-wordValue :: Text -> Int
-wordValue = sum . (map letterValue) . Text.unpack . Text.toUpper
-
--- | A = 1, B = 2, etc.
-letterValue :: Char -> Int
-letterValue c = (Char.ord c) - (Char.ord 'A') + 1
+parseWords :: Text -> [String]
+parseWords = map Text.unpack
+           . Text.splitOn (Text.pack ",")
+           . Text.filter (/= '"')

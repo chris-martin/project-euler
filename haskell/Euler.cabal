@@ -9,6 +9,7 @@ library
                      , Euler.Problems.Problem9
                      , Euler.Problems.Problem11
                      , Euler.Problems.Problem15
+                     , Euler.Problems.Problem19
                      , Euler.Problems.Problem22
                      , Euler.Problems.Problem23
                      , Euler.Problems.Problem31
@@ -31,6 +32,7 @@ library
                      , Euler.Util.Polynomial
                      , Euler.Util.Prime
                      , Euler.Util.TrianglePath
+                     , Euler.Util.WordScore
   build-depends:       base >= 4.7 && < 5
                      , containers
                      , data-ordlist
@@ -42,7 +44,6 @@ library
                      , semigroups
                      , text
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Fast
   type:                exitcode-stdio-1.0
@@ -58,7 +59,15 @@ test-suite Fast
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
+
+test-suite Doc
+  type:                exitcode-stdio-1.0
+  hs-source-dirs:      test
+  main-is:             Doc.hs
+  build-depends:       base
+                     , doctest
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  default-language:    Haskell2010
 
 test-suite Problem4
   type:                exitcode-stdio-1.0
@@ -72,7 +81,6 @@ test-suite Problem4
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem10
   type:                exitcode-stdio-1.0
@@ -86,7 +94,6 @@ test-suite Problem10
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem12
   type:                exitcode-stdio-1.0
@@ -100,7 +107,6 @@ test-suite Problem12
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem14
   type:                exitcode-stdio-1.0
@@ -114,7 +120,6 @@ test-suite Problem14
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem21
   type:                exitcode-stdio-1.0
@@ -128,7 +133,6 @@ test-suite Problem21
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem23
   type:                exitcode-stdio-1.0
@@ -142,7 +146,6 @@ test-suite Problem23
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem24
   type:                exitcode-stdio-1.0
@@ -156,7 +159,6 @@ test-suite Problem24
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem25
   type:                exitcode-stdio-1.0
@@ -170,7 +172,6 @@ test-suite Problem25
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem26
   type:                exitcode-stdio-1.0
@@ -184,7 +185,6 @@ test-suite Problem26
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem27
   type:                exitcode-stdio-1.0
@@ -198,7 +198,6 @@ test-suite Problem27
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem30
   type:                exitcode-stdio-1.0
@@ -212,7 +211,6 @@ test-suite Problem30
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem31
   type:                exitcode-stdio-1.0
@@ -226,7 +224,6 @@ test-suite Problem31
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem32
   type:                exitcode-stdio-1.0
@@ -240,7 +237,6 @@ test-suite Problem32
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem34
   type:                exitcode-stdio-1.0
@@ -254,7 +250,6 @@ test-suite Problem34
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem35
   type:                exitcode-stdio-1.0
@@ -268,7 +263,6 @@ test-suite Problem35
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem36
   type:                exitcode-stdio-1.0
@@ -282,7 +276,6 @@ test-suite Problem36
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem37
   type:                exitcode-stdio-1.0
@@ -296,7 +289,6 @@ test-suite Problem37
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem38
   type:                exitcode-stdio-1.0
@@ -310,7 +302,6 @@ test-suite Problem38
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem39
   type:                exitcode-stdio-1.0
@@ -324,7 +315,6 @@ test-suite Problem39
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem41
   type:                exitcode-stdio-1.0
@@ -338,7 +328,6 @@ test-suite Problem41
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem43
   type:                exitcode-stdio-1.0
@@ -352,7 +341,6 @@ test-suite Problem43
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem44
   type:                exitcode-stdio-1.0
@@ -366,7 +354,6 @@ test-suite Problem44
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem45
   type:                exitcode-stdio-1.0
@@ -380,7 +367,6 @@ test-suite Problem45
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings
 
 test-suite Problem46
   type:                exitcode-stdio-1.0
@@ -394,4 +380,3 @@ test-suite Problem46
                      , test-framework-hunit
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
-  extensions:          OverloadedStrings

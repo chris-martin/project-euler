@@ -1,46 +1,63 @@
 module Euler.Util.Arithmetic
     (
+    -- $setup
+
     -- * Functions
       divides
-    , factorial, factorials
     , square
     , intSqrt
+
+    -- * Factorial
+    -- ** Functions
+    , factorial, factorials
+    -- ** Properties
+    -- $factorialProperties
 
     -- * Constants
     , million
     ) where
 
+-- $setup
+-- >>> import Test.QuickCheck
+
 ---------------------------------------------------------
 
--- | @a ``divides`` b@ iff /a/ is a divisor of /b/;
--- in other words, /b/ = 0 (mod /a/)
 divides :: (Integral a, Integral b) => a -> b -> Bool
+-- ^ @a ``divides`` b@ iff /a/ is a divisor of /b/;
+-- in other words, /b/ = 0 (mod /a/)
 
--- | @'factorial' n@ (often written as /n!/) is the product
--- of the integers from 1 to /n/, inclusive. Equivalent to
--- @'factorials' '!!' n@.
+square :: Num a => a -> a
+-- ^ @'square' x@ = /x^2/
+
+intSqrt :: Integral a => a -> Maybe a
+-- ^ @'intSqrt' x@ is the integer /r/ such that /r^2 = x/, if
+-- such an integer exists.
+--
+-- prop> \(NonNegative n) -> intSqrt (n^2) == Just n
+--
+-- prop> \(Positive n) -> intSqrt(n^2 + 1) == Nothing
+--
+-- prop> \(Positive n) -> intSqrt((n+1)^2 - 1) == Nothing
+
+million :: Integral a => a
+-- ^ One million = 1,000,000
+
+---------------------------------------------------------
+
 factorial :: Integral a => a -> Integer
+-- ^ @'factorial' n@ (often written as /n!/) is the product
+-- of the integers from 1 to /n/, inclusive.
 
--- | All of the factorials, ascending. Equivalent to
+factorials :: [Integer]
+-- ^ All of the factorials, ascending. Equivalent to
 -- @'map' 'factorial' [0..]@.
 --
--- * /0! = 1/,
--- * /1! = 1/,
--- * /2! = 2/,
--- * /3! = 6/,
--- * /4! = 24/,
--- * ...
-factorials :: [Integer]
+-- >>> take 10 factorials
+-- [1,1,2,6,24,120,720,5040,40320,362880]
 
--- | @'square' x@ = /x^2/
-square :: Num a => a -> a
-
--- | @'intSqrt' x@ is the integer /r/ such that /r^2 = x/, if
--- such an integer exists.
-intSqrt :: Integral a => a -> Maybe a
-
--- | One million = 1,000,000
-million :: Integral a => a
+-- $factorialProperties
+--
+-- prop> \(NonNegative n) -> factorial n == factorials !! n
 
 ---------------------------------------------------------
 

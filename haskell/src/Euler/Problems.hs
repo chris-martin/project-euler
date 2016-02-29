@@ -3,7 +3,6 @@ module Euler.Problems (answer) where
 import Euler.Util.Arithmetic ( divides, factorial, intSqrt, million, square )
 import Euler.Util.Amicable   ( amicableNumbers )
 import Euler.Util.Collatz    ( collatzLengths )
-import Euler.Util.Date       ( monthLength )
 import Euler.Util.Decimal    ( repetendLength )
 import Euler.Util.Digit      ( intPalindrome, textDigits, textIntMaybe )
 import Euler.Util.Fibonacci  ( fibs )
@@ -19,6 +18,7 @@ import qualified Euler.Util.TrianglePath as TrianglePath
 
 import qualified Euler.Problems.Problem9  as Problem9
 import qualified Euler.Problems.Problem11 as Problem11
+import qualified Euler.Problems.Problem19 as Problem19
 import qualified Euler.Problems.Problem15 as Problem15
 import qualified Euler.Problems.Problem22 as Problem22
 import qualified Euler.Problems.Problem23 as Problem23
@@ -51,9 +51,6 @@ inputText i = TextIO.readFile ("../problems/" ++ (show i) ++ "-data.txt")
 showInteger :: Integer -> String
 showInteger = show
 
-showInt :: Int -> String
-showInt = show
-
 -------------------------------------------------------------------------
 
 -- | @'answer' n@ calculates the answer to Euler problem /n/, or
@@ -79,7 +76,7 @@ answer 3 = pure (showInteger ans)
   where ans = largestPrimeFactor (600851475143 :: Integer)
 
 answer 4 = pure (showInteger ans)
-  where ans = (maximum . (filter (intPalindrome 10)) . (map product))
+  where ans = (maximum . filter (intPalindrome 10) . map product)
               (pairsOf [1..999])
         pairsOf xs = map toList (replicateM 2 xs)
 
@@ -113,7 +110,7 @@ answer 11 = do text <- inputText 11
                return (show (Problem11.answer text))
 
 answer 12 = pure (showInteger ans)
-  where ans = (fromJust . (List.find f)) (scanl1 (+) [1..])
+  where ans = (fromJust . List.find f) (scanl1 (+) [1..])
         f n = countDivisors n > (500 :: Integer)
 
 answer 13 = do text <- inputText 13
@@ -130,27 +127,17 @@ answer 15 = pure (showInteger Problem15.answer)
 answer 16 = pure (showInteger ans)
   where ans = sum (digits 10 (2 ^ (1000 :: Integer)))
 
-answer 17 = pure (showInt ans)
-  where ans = sum (map (length . NumberWords.word) [1..1000])
+answer 17 = pure (showInteger ans)
+  where ans = sum (map (fromIntegral . length . NumberWords.word) [1..1000])
 
 answer 18 = do text <- inputText 18
                return (showInteger (f text))
   where f = TrianglePath.reduceTriangle . TrianglePath.parseTriangle
 
-answer 19 = pure (showInt ans)
-  where ans = length (filter isMatchingDate datesWithWeekday)
-        dates = do year  <- [1900 .. 2000] :: [Int]
-                   month <- [1 .. 12]      :: [Int]
-                   day   <- [1 .. monthLength year month]
-                   return (year, month, day)
-
-        datesWithWeekday = zip dates (cycle ([1 .. 7] :: [Int]))
-
-        isMatchingDate ((year, _month, day), weekday) =
-            year /= 1900 && day == 1 && weekday == 7
+answer 19 = pure (showInteger Problem19.answer)
 
 answer 20 = pure (showInteger ans)
-  where ans = (sum . (digits 10) . factorial) (100 :: Integer)
+  where ans = (sum . digits 10 . factorial) (100 :: Integer)
 
 answer 21 = pure (showInteger ans)
   where ans = sum (amicableNumbers 9999)
@@ -163,16 +150,16 @@ answer 23 = pure (showInteger Problem23.answer)
 answer 24 = pure ans
   where ans = (sort (permutations ['0'..'9'])) !! (million - 1)
 
-answer 25 = pure (showInt ans)
-  where ans = (fromJust . (findIndex (>= x))) (fibs :: [Integer])
+answer 25 = pure (showInteger ans)
+  where ans = (fromIntegral . fromJust . findIndex (>= x)) (fibs :: [Integer])
         x = 10 ^ (999 :: Integer)
 
 answer 26 = pure (showInteger ans)
   where ans = maximumOn f [1..999]
         f = repetendLength . (1 /) . fromIntegral
 
-answer 27 = pure (showInt ans)
-  where ans = ((uncurry (*)) . (maximumOn nrOfPrimes)) expressions
+answer 27 = pure (showInteger ans)
+  where ans = (uncurry (*) . (maximumOn nrOfPrimes)) expressions
         expressions = do a <- range; b <- range; return (a, b)
                       where x = 999; range = [-x..x]
         apply (a, b) n = n*n + a*n + b
@@ -185,8 +172,8 @@ answer 28 = pure (showInteger ans)
               x = square (j + 1)
           in  [x, x - j, x - 2*j, x - 3*j]
 
-answer 29 = pure (showInt ans)
-  where ans = countDistinct [a ^ b | a <- r, b <- r]
+answer 29 = pure (showInteger ans)
+  where ans = (fromIntegral . countDistinct) [a ^ b | a <- r, b <- r]
         r = [2..100] :: [Integer]
 
 answer 30 = pure (showInteger ans)
@@ -221,11 +208,11 @@ answer 34 = pure (showInteger ans)
         isCurious :: Integer -> Bool
         isCurious n = ((== n) . sum . (map factorial) . (digits 10)) n
 
-answer 35 = pure (showInt ans)
-  where ans = (length . (filter ((all isPrime) . digitRotations)))
-            ([2 .. million - 1] :: [Integer])
-        digitRotations x = ((map (unDigits 10)) . listRotations . (digits 10)) x
-        listRotations xs = ((map (take l)) . (take l) . List.tails . cycle) xs
+answer 35 = pure (showInteger ans)
+  where ans = (fromIntegral . length . filter ((all isPrime) . digitRotations))
+              ([2 .. million - 1] :: [Integer])
+        digitRotations x = (map (unDigits 10) . listRotations . digits 10) x
+        listRotations xs = (map (take l) . take l . List.tails . cycle) xs
           where l = length xs
 
 answer 36 = pure (showInteger ans)
@@ -233,15 +220,15 @@ answer 36 = pure (showInteger ans)
         f x = intPalindrome 2 x && intPalindrome 10 x
 
 answer 37 = pure (showInteger ans)
-  where ans = (sum . (take 11) . (filter ((all isPrime) . digitTruncations))) [11..]
-        digitTruncations = (map (unDigits 10)) . truncations . (digits 10)
+  where ans = (sum . take 11 . filter ((all isPrime) . digitTruncations)) [11..]
+        digitTruncations = map (unDigits 10) . truncations . digits 10
         truncations xs = filter (not . null) (List.tails xs ++ List.inits xs)
 
 answer 38 = pure (showInteger ans)
   where ans =  maximum (filter pan9 xs)
         xs = concatMap (\k -> takeWhile (< 10^(9 :: Integer))
              (map (catProduct k) [2..])) [1 .. 10^(5 :: Integer) - 1]
-        catProduct k n = unDigits 10 $ concatMap ((digits 10) . (* k)) [1..n]
+        catProduct k n = unDigits 10 $ concatMap (digits 10 . (* k)) [1..n]
         pan9 x = let ds = digits 10 x in length ds == 9 && all (`elem` ds) [1..9]
 
 answer 39 = pure (showInteger ans)
@@ -252,15 +239,15 @@ answer 39 = pure (showInteger ans)
                             return $ do c <- intSqrt (square a + square b)
                                         return (a + b + c)
 
-answer 40 = pure (showInt ans)
-  where ans = product (map (d . (10 ^)) ([0..6] :: [Int]))
+answer 40 = pure (showInteger ans)
+  where ans = product (map (d . (10 ^)) ([0..6] :: [Integer]))
         d i = (concatMap (digits 10) [1..]) !! (i - 1)
 
 answer 41 = pure (showInteger ans)
   where ans = head (filter isPrime pandigitalsRev)
 
 answer 42 = do text <- inputText 42
-               return (showInt (Problem42.answer text))
+               return (showInteger (Problem42.answer text))
 
 answer 43 = pure (showInteger ans)
   where ans = sum (filter predicate pandigitals)

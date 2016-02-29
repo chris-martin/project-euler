@@ -12,6 +12,7 @@ before_install:
 script:
 - .travis/stack.sh setup
 - .travis/stack.sh install hscolour
+- .travis/stack.sh --skip-ghc-check test :Doc
 - .travis/stack.sh --skip-ghc-check test :Fast
 - .travis/stack.sh haddock
 - cp -r haskell/.stack-work/install/x86_64-linux/lts-5.2/7.10.3/doc site/haskell

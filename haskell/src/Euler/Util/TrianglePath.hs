@@ -21,15 +21,29 @@ import qualified Data.Text          as T
 
 import Euler.Util.List (neTails)
 
+---------------------------------------------------------------
+
 type Row      a = NonEmpty a
 type Triangle a = NonEmpty (Row a)
 
 parseTriangle :: Integral a => Text -> Triangle a
-parseTriangle = NE.fromList . reverse . catMaybes . (map parseRow) . T.lines
-    where parseRow = nonEmpty . (map (readI . T.unpack)) . T.words
-          readI t = fromIntegral $ ((read t) :: Int)
+-- ^ >>> parseTriangle (T.pack " 1\n2 3")
+-- (2 :| [3]) :| [1 :| []]
 
 reduceTriangle :: Integral a => Triangle a -> a
+-- ^ >>> reduceTriangle (parseTriangle (T.pack " 1\n2 3"))
+-- 4
+--
+-- >>> reduceTriangle (parseTriangle (T.pack " 1\n2 3\n7 2 4"))
+-- 10
+
+---------------------------------------------------------------
+
+parseTriangle = NE.fromList . reverse . catMaybes . map parseRow . T.lines
+    where parseRow = nonEmpty . map (readI . T.unpack) . T.words
+          readI t = fromIntegral $ ((read t) :: Int)
+
+---------------------------------------------------------------
 
 -- If there's one row, choose its maximum element.
 reduceTriangle (row :| []) = maximum row

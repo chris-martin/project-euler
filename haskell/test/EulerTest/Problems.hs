@@ -15,10 +15,6 @@ import qualified Data.Text.IO as TextIO
 
 import qualified Euler.Problems
 
-import qualified EulerTest.Problems.Problem9
-import qualified EulerTest.Problems.Problem43
-import qualified EulerTest.Problems.Problem46
-
 -----------------------------------------------------------------------
 
 -- | The test suite for Euler problems. It includes checks for answers
@@ -42,16 +38,9 @@ getCorrectAnswer :: Integral a => a -> IO (Maybe String)
 
 -----------------------------------------------------------------------
 
-tests = concat
-  [ [fastAnswerTests]
-  , EulerTest.Problems.Problem9.tests
-  , EulerTest.Problems.Problem43.tests
-  , EulerTest.Problems.Problem46.tests
-  ]
-  where
-    fastAnswerTests = testGroup "Problems with fast answers" $ map answerTest
-      [ 1, 2, 3, 5, 6, 7, 8, 9, 11, 13, 15, 16, 17, 18, 19, 20, 22, 28, 29
-      , 33, 40, 42, 67 ]
+tests = [testGroup "Problems with fast answers" $ map answerTest
+  [ 1, 2, 3, 5, 6, 7, 8, 9, 11, 13, 15, 16, 17, 18, 19, 20, 22, 28, 29
+  , 33, 40, 42, 67 ]]
 
 answerTest i = testCase name assertion
   where

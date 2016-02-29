@@ -4,7 +4,7 @@ module EulerTest.Prelude
       Test, testGroup, testCase, defaultMain
 
     -- * Assertions
-    , (@?), (@?=), (@=?), assertFailure
+    , (@?), (@?=), assertFailure
     ) where
 
 import Test.HUnit hiding (Test)
