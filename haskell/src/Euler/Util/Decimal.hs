@@ -21,6 +21,6 @@ repetendLength :: Rational -> Int
 ------------------------------------------------------
 
 repetendLength r =
-    case Sci.fromRationalRepetend Nothing r of
-      Right (s, Nothing) -> 0
-      Right (s, Just i)  -> -(Sci.base10Exponent s) - i
+  case Sci.fromRationalRepetend Nothing r of
+    Right (s, Nothing) -> 0
+    Right (s, Just i)  -> -(Sci.base10Exponent s) - i

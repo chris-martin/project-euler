@@ -1,6 +1,15 @@
 module Euler.Util.NumberWords (word) where
 
 word :: Int -> String
+-- ^
+-- >>> word 21
+-- "twentyone"
+--
+-- >>> word 300
+-- "threehundred"
+--
+-- >>> word 645
+-- "sixhundredandfortyfive"
 
 word  1 = "one"
 word  2 = "two"

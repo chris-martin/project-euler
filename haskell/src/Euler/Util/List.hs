@@ -20,45 +20,83 @@ import qualified Data.List.NonEmpty as NE
 import qualified Data.MultiSet      as MultiSet
 import qualified Data.Set           as Set
 
--- | Like 'tails', but only the non-empty tails from a non-empty list.
--- The result is non-empty because every non-empty list has at least
--- one non-empy suffix (itself). For example,
---
--- @'neTails' ('NE.fromList' "abc") == 'NE.fromList' [ 'NE.fromList' "abc"
---                                     , 'NE.fromList' "bc"
---                                     , 'NE.fromList' "c"]@
+---------------------------------------------------------------------------
+
 neTails :: NonEmpty a -> NonEmpty (NonEmpty a)
-neTails = NE.fromList . catMaybes . NE.toList . (fmap NE.nonEmpty) . NE.tails
+-- ^ Like 'tails', but only the non-empty tails from a non-empty list.
+-- The result is non-empty because every non-empty list has at least
+-- one non-empy suffix (itself).
+--
+-- >>> neTails (1 :| [])
+-- (1 :| []) :| []
+--
+-- >>> neTails ('a' :| "bc")
+-- ('a' :| "bc") :| ['b' :| "c",'c' :| ""]
 
 sliding :: Int -> [a] -> [[a]]
+-- ^ Sublists of a fixed length.
+--
+-- >>> sliding 2 "abcd"
+-- ["ab","bc","cd"]
+--
+-- >>> sliding 3 "abcde"
+-- ["abc","bcd","cde"]
+
+transpose :: [[a]] -> [[a]]
+-- ^ >>> transpose ["abc","def"]
+-- ["ad","be","cf"]
+
+untilNothing :: [Maybe a] -> [a]
+-- ^ >>> untilNothing [Just 1, Just 2, Nothing, Just 3]
+-- [1,2]
+
+maximumOn :: Ord b => (a -> b) -> [a] -> a
+-- ^ @'maximumOn' f@ is equivalent to @'maximumBy' ('compare' `'on'` f)@,
+-- but is more efficient when @f@ is costly.
+
+countDistinct :: (Ord a, Integral b) => [a] -> b
+-- ^ The number of unique elements in a list.
+--
+-- >>> countDistinct []
+-- 0
+--
+-- >>> countDistinct "aaaaabaa"
+-- 2
+
+mode :: Ord a => [a] -> a
+-- ^ The most common element in the list, assuming the list is nonempty and
+-- has a single most common element.
+--
+-- >>> mode "abbbbcc"
+-- 'b'
+
+dedupe :: Eq a => [a] -> [a]
+-- ^ Remove consecutive duplicate elements from a list.
+--
+-- >>> dedupe []
+-- []
+--
+-- >>> dedupe "abbbbcca"
+-- "abca"
+
+---------------------------------------------------------------------------
+
+neTails = NE.fromList . catMaybes . NE.toList . fmap NE.nonEmpty . NE.tails
+
 sliding n xs
     | length xs >= n = (take n xs) : (sliding n $ tail xs)
     | otherwise      = []
 
-transpose :: [[a]] -> [[a]]
 transpose []     = []
 transpose ([]:_) = []
 transpose xs     = (map head xs) : transpose (map tail xs)
 
-untilNothing :: [Maybe a] -> [a]
-untilNothing = catMaybes . (takeWhile isJust)
+untilNothing = catMaybes . takeWhile isJust
 
--- | @'maximumOn' f@ is equivalent to @'maximumBy' ('compare' `'on'` f)@,
--- but is more efficient when @f@ is costly.
-maximumOn :: Ord b => (a -> b) -> [a] -> a
-maximumOn f = fst . (maximumBy (compare `on` snd)) . (map (\x -> (x, f x)))
+maximumOn f = fst . maximumBy (compare `on` snd) . map (\x -> (x, f x))
 
-countDistinct :: Ord a => [a] -> Int
-countDistinct = length . Set.fromList
+countDistinct = fromIntegral . length . Set.fromList
 
--- | The most common element in the list, assuming the list is nonempty and
--- has a single most common element.
-mode :: Ord a => [a] -> a
-mode = fst . (maximumOn snd) . MultiSet.toOccurList . MultiSet.fromList
+mode = fst . maximumOn snd . MultiSet.toOccurList . MultiSet.fromList
 
--- | Remove consecutive duplicate elements from a list.
---
--- >>> dedupe "abbbbcca"
--- "abca"
-dedupe :: Eq a => [a] -> [a]
-dedupe = (map head) . group
+dedupe = map head . group

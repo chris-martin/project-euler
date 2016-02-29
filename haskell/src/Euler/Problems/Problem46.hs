@@ -14,9 +14,9 @@ module Euler.Problems.Problem46
     ) where
 
 import Euler.Util.List     ( dedupe )
+import Euler.Util.Prime    ( isPrime, primes )
 
 import Data.Function       ( on )
-import Data.Numbers.Primes ( isPrime, primes )
 import Data.Ord            ( comparing )
 import Data.Set            ( Set )
 

@@ -12,9 +12,11 @@ answer = (Maybe.fromJust . (Map.lookup d)) (countPaths Map.empty [d])
 type P = (Integer, Integer)
 type Counts = Map P Integer
 
--- When the stack is empty, we're done.
 countPaths :: Counts -> [P] -> Counts
+
+-- When the stack is empty, we're done.
 countPaths counts [] = counts
+
 countPaths counts stack@((x, y):restOfStack)
 
   -- If the stack head's count is already known, just pop it off.

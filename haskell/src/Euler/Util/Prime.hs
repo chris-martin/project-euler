@@ -3,6 +3,8 @@ module Euler.Util.Prime
       -- $setup
 
       factorizations
+    , primes
+    , isPrime
 
     -- * Finding prime factors
     , primeFactors

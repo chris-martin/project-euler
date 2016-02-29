@@ -4,12 +4,14 @@ import Euler.Util.Arithmetic ( divides, factorial, intSqrt, million, square )
 import Euler.Util.Amicable   ( amicableNumbers )
 import Euler.Util.Collatz    ( collatzLengths )
 import Euler.Util.Decimal    ( repetendLength )
-import Euler.Util.Digit      ( intPalindrome, textDigits, textIntMaybe )
+import Euler.Util.Digit      ( digits, unDigits, intPalindrome, textDigits
+                             , textIntMaybe )
 import Euler.Util.Fibonacci  ( fibs )
 import Euler.Util.List       ( countDistinct, maximumOn, mode, sliding )
 import Euler.Util.Map        ( keyWithMaxValue )
 import Euler.Util.Pandigital ( pandigitals, pandigitalsRev )
-import Euler.Util.Prime      ( countDivisors, largestPrimeFactor )
+import Euler.Util.Prime      ( countDivisors, largestPrimeFactor, isPrime
+                             , primes )
 
 import Euler.Util.FigurateNumbers
 
@@ -29,13 +31,10 @@ import qualified Euler.Problems.Problem46 as Problem46
 import qualified Euler.Problems.Problem43 as Problem43
 
 import Control.Monad         ( guard )
-import Data.Digits           ( digits, unDigits )
 import Data.Foldable         ( toList )
 import Data.List             ( dropWhile, findIndex, permutations, sort
                              , take, takeWhile )
 import Data.Maybe            ( catMaybes, fromJust )
-import Data.Numbers.Primes   ( isPrime, primes )
-import Data.Sequence         ( replicateM )
 import Data.Text             ( Text )
 
 import qualified Data.List       as List
@@ -76,9 +75,10 @@ answer 3 = pure (showInteger ans)
   where ans = largestPrimeFactor (600851475143 :: Integer)
 
 answer 4 = pure (showInteger ans)
-  where ans = (maximum . filter (intPalindrome 10) . map product)
-              (pairsOf [1..999])
-        pairsOf xs = map toList (replicateM 2 xs)
+  where ans = (maximum . filter (intPalindrome 10)) products
+        products = do a <- [1..999]
+                      b <- [1..a]
+                      return (a * b)
 
 answer 5 = pure (showInteger ans)
   where ans = product factors
@@ -173,7 +173,7 @@ answer 28 = pure (showInteger ans)
           in  [x, x - j, x - 2*j, x - 3*j]
 
 answer 29 = pure (showInteger ans)
-  where ans = (fromIntegral . countDistinct) [a ^ b | a <- r, b <- r]
+  where ans = countDistinct [a ^ b | a <- r, b <- r]
         r = [2..100] :: [Integer]
 
 answer 30 = pure (showInteger ans)
@@ -249,11 +249,7 @@ answer 41 = pure (showInteger ans)
 answer 42 = do text <- inputText 42
                return (showInteger (Problem42.answer text))
 
-answer 43 = pure (showInteger ans)
-  where ans = sum (filter predicate pandigitals)
-        predicate i = and (zipWith divides
-                            (primes :: [Integer])
-                            (Problem43.substrings i))
+answer 43 = pure (showInteger Problem43.answer)
 
 answer 44 = pure (showInteger ans)
   where ans = head $ do (n, a) <- zip [0..] pentagonals

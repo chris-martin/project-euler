@@ -13,18 +13,18 @@ import Data.List     ( permutations, sort )
 
 -----------------------------------------------------------------------
 
--- | All pandigitals, in no particular order.
 pandigitals :: Integral a => [a]
+-- ^ All pandigitals, in no particular order.
 
--- | All pandigitals, ordered from greatest to least.
--- The first number in this list is 987,654,321, and the last is 1.
 pandigitalsRev :: Integral a => [a]
+-- ^ All pandigitals, ordered from greatest to least.
+-- The first number in this list is 987,654,321, and the last is 1.
 
--- | The 1-to-/n/ pandigitals, ordered from greatest to least.
+pandigitalsRevOfLength :: (Integral a, Integral b) => a -> [b]
+-- ^ The 1-to-/n/ pandigitals, ordered from greatest to least.
 --
 -- >>> pandigitalsRevOfLength 3
 -- [321,312,231,213,132,123]
-pandigitalsRevOfLength :: (Integral a, Integral b) => a -> [b]
 
 -----------------------------------------------------------------------
 

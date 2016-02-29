@@ -134,10 +134,10 @@ hexagonals = map hexagonalN [1..]
 -- polynomial is integral.
 
 -- 0 = -2x + n + n^2
-isTriangle x = Poly.hasIntRootBetween [-2 * x, 1, 1] 0 x
+isTriangle   x = Poly.hasIntRootBetween [ -2 * x,  1, 1 ] 0 x
 
 -- 0 = 3n^2 - n - 2x
-isPentagonal x = Poly.hasIntRootBetween [-2 * x, -1, 3] 0 x
+isPentagonal x = Poly.hasIntRootBetween [ -2 * x, -1, 3 ] 0 x
 
 -- 0 = -2x -n + 2n^2
-isHexagonal x = Poly.hasIntRootBetween [-x, -1, 2] 0 x
+isHexagonal  x = Poly.hasIntRootBetween [     -x, -1, 2 ] 0 x

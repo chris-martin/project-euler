@@ -1,13 +1,15 @@
 module Euler.Util.Digit
     (
+    -- $setup
+
     -- * Conversions to list of digits
-      textDigits, stringDigits
+      digits, textDigits, stringDigits
 
     -- * Conversions to single digits
     , charIntMaybe
 
     -- * Conversions from digits to integers
-    , textIntMaybe
+    , textIntMaybe, unDigits
 
     -- * Other stuff
     , intPalindrome
@@ -22,22 +24,53 @@ import Data.Text   ( Text, unpack )
 import qualified Data.Char as Char
 import qualified Data.Text.Read  as TextRead
 
+-- $setup
+-- >>> import Test.QuickCheck
+
 -----------------------------------------------------------------
 
-textDigits :: Text -> [Int]
-
 stringDigits :: String -> [Int]
+-- ^ Get the values of numeric characters from a string, ignoring any
+-- non-numeric characters.
+--
+-- >>> stringDigits " 0 x0 42a"
+-- [0,0,4,2]
 
--- | Maps the ten numeric ascii characters to their numeric values
--- (@\'0\'@ to @0@, @\'1\'@ to @1@, ..., @\'9\'@ to @9@), and all
--- other characters to 'Nothing'.
+textDigits :: Text -> [Int]
+-- ^ Same as 'stringDigits', for 'Text' instead of 'String'.
+
 charIntMaybe  :: Char -> Maybe Int
+-- ^ Maps the ten numeric ascii characters to their numeric values,
+-- and all other characters to 'Nothing'.
+--
+-- >>> charIntMaybe '0'
+-- Just 0
+-- >>> charIntMaybe '9'
+-- Just 9
+-- >>> charIntMaybe 'a'
+-- Nothing
 
 textIntMaybe  :: Integral a => Text -> Maybe a
 
--- | Whether an integer's decimal representation is a palindrome.
--- For example, 0, 33, and 13431 are palindromes; 21 and 335 are not.
 intPalindrome :: Integral a => a -> a -> Bool
+-- ^ @'intPalindrome' b n@ indicates whether the base-/b/
+-- representation /n/ is a palindrome.
+--
+-- >>> intPalindrome 10 33
+-- True
+-- >>> intPalindrome 10 13431
+-- True
+-- >>> intPalindrome 10 21
+-- False
+-- >>> intPalindrome 10 335
+-- False
+--
+-- Zero and one are palindromes in any base.
+--
+-- todo - change (n+1) to n - base 1 is broken. https://github.com/chris-martin/project-euler/issues/8
+--
+-- prop> \(Positive n) -> intPalindrome (n+1) 0
+-- prop> \(Positive n) -> intPalindrome (n+1) 1
 
 -----------------------------------------------------------------
 
