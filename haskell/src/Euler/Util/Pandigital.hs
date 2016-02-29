@@ -20,8 +20,10 @@ pandigitals :: Integral a => [a]
 -- The first number in this list is 987,654,321, and the last is 1.
 pandigitalsRev :: Integral a => [a]
 
--- | The 1-to-/n/ pandigitals, ordered from greatest to least. For
--- example, @'pandigitalsRevOfLength' 3 = [321, 312, 231, 213, 132, 123]@
+-- | The 1-to-/n/ pandigitals, ordered from greatest to least.
+--
+-- >>> pandigitalsRevOfLength 3
+-- [321,312,231,213,132,123]
 pandigitalsRevOfLength :: (Integral a, Integral b) => a -> [b]
 
 -----------------------------------------------------------------------

@@ -57,6 +57,8 @@ mode :: Ord a => [a] -> a
 mode = fst . (maximumOn snd) . MultiSet.toOccurList . MultiSet.fromList
 
 -- | Remove consecutive duplicate elements from a list.
--- For example @'dedupe' "abbbbcca" = "abca"@
+--
+-- >>> dedupe "abbbbcca"
+-- "abca"
 dedupe :: Eq a => [a] -> [a]
 dedupe = (map head) . group
