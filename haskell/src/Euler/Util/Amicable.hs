@@ -2,6 +2,8 @@
 --
 -- If /d(a) = b/ and /d(b) = a/, where /a ≠ b/, then /a/ and /b/ are an
 -- amicable pair and each of /a/ and /b/ are called amicable numbers.
+--
+-- Amicable numbers are defined in Euler problem 21.
 
 module Euler.Util.Amicable
     ( amicableNumbers

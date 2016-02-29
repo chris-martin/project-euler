@@ -1,3 +1,5 @@
+-- | Collatz sequences are introduced in Euler problem 14.
+
 module Euler.Util.Collatz
     ( collatz
     , collatzLengths

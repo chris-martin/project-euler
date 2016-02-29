@@ -1,5 +1,7 @@
 -- | Pandigital numbers contain each of the digits [1..n] exactly once. For
 -- example: 21, 213, and 52314 are pandigital; 0, 11, 13, and 23 are not.
+--
+-- Euler problems 41 and 43 deal with pandigital numbers.
 
 module Euler.Util.Pandigital
     ( pandigitals

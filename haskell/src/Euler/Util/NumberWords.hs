@@ -1,3 +1,6 @@
+-- | English-language representations of integers,
+-- used by Euler problem 17.
+
 module Euler.Util.NumberWords (word) where
 
 word :: Int -> String

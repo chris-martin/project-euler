@@ -1,3 +1,5 @@
+-- | Dates are used in Euler problem 19.
+
 module Euler.Util.Date
     (
     -- * Functions
