@@ -17,6 +17,7 @@ library
                      , Euler.Problems.Problem42
                      , Euler.Problems.Problem43
                      , Euler.Problems.Problem46
+                     , Euler.Problems.Problem47
                      , Euler.Util.Amicable
                      , Euler.Util.Arithmetic
                      , Euler.Util.Collatz
