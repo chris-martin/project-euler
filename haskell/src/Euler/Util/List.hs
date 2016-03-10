@@ -7,6 +7,8 @@ module Euler.Util.List
     , countDistinct
     , mode
     , dedupe
+    , adjustEach
+    , adjustIndex
     ) where
 
 import Data.Foldable      ( maximumBy )
@@ -19,6 +21,9 @@ import Data.Ord           ( compare )
 import qualified Data.List.NonEmpty as NE
 import qualified Data.MultiSet      as MultiSet
 import qualified Data.Set           as Set
+
+-- $setup
+-- >>> import Data.Char (toUpper)
 
 ---------------------------------------------------------------------------
 
@@ -79,6 +84,17 @@ dedupe :: Eq a => [a] -> [a]
 -- >>> dedupe "abbbbcca"
 -- "abca"
 
+adjustIndex :: Int -> (a -> a) -> [a] -> [a]
+-- ^ >>> adjustIndex 2 toUpper "abcd"
+-- "abCd"
+
+adjustEach :: (a -> a) -> [a] -> [[a]]
+-- ^ >>> adjustEach toUpper "abc"
+-- ["Abc","aBc","abC"]
+--
+-- >>> adjustEach id []
+-- []
+
 ---------------------------------------------------------------------------
 
 neTails = NE.fromList . catMaybes . NE.toList . fmap NE.nonEmpty . NE.tails
@@ -100,3 +116,7 @@ countDistinct = fromIntegral . length . Set.fromList
 mode = fst . maximumOn snd . MultiSet.toOccurList . MultiSet.fromList
 
 dedupe = map head . group
+
+adjustEach f xs = [adjustIndex i f xs | i <- [0..length xs - 1]]
+
+adjustIndex i f xs = (take i xs) ++ [f $ xs !! i] ++ (drop (i+1) xs)
