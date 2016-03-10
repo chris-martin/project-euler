@@ -58,7 +58,7 @@ test-suite Fast
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Doc
@@ -67,7 +67,7 @@ test-suite Doc
   main-is:             Doc.hs
   build-depends:       base
                      , doctest
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem4
@@ -80,7 +80,7 @@ test-suite Problem4
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem10
@@ -93,7 +93,7 @@ test-suite Problem10
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem12
@@ -106,7 +106,7 @@ test-suite Problem12
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem14
@@ -119,7 +119,7 @@ test-suite Problem14
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem21
@@ -132,7 +132,7 @@ test-suite Problem21
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem23
@@ -145,7 +145,7 @@ test-suite Problem23
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem24
@@ -158,7 +158,7 @@ test-suite Problem24
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem25
@@ -171,7 +171,7 @@ test-suite Problem25
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem26
@@ -184,7 +184,7 @@ test-suite Problem26
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem27
@@ -197,7 +197,7 @@ test-suite Problem27
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem30
@@ -210,7 +210,7 @@ test-suite Problem30
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem31
@@ -223,7 +223,7 @@ test-suite Problem31
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem32
@@ -236,7 +236,7 @@ test-suite Problem32
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem34
@@ -249,7 +249,7 @@ test-suite Problem34
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem35
@@ -262,7 +262,7 @@ test-suite Problem35
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem36
@@ -275,7 +275,7 @@ test-suite Problem36
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem37
@@ -288,7 +288,7 @@ test-suite Problem37
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem38
@@ -301,7 +301,7 @@ test-suite Problem38
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem39
@@ -314,7 +314,7 @@ test-suite Problem39
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem41
@@ -327,7 +327,7 @@ test-suite Problem41
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem43
@@ -340,7 +340,7 @@ test-suite Problem43
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem44
@@ -353,7 +353,7 @@ test-suite Problem44
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem45
@@ -366,7 +366,7 @@ test-suite Problem45
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
 
 test-suite Problem46
@@ -379,5 +379,5 @@ test-suite Problem46
                      , HUnit
                      , test-framework
                      , test-framework-hunit
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N
+  ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
   default-language:    Haskell2010
