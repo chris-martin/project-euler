@@ -3,6 +3,7 @@ module Euler.Util.Prime
       -- $setup
 
       factorizations
+    , factorizationsAsc
     , primes
     , isPrime
 
@@ -22,7 +23,11 @@ module Euler.Util.Prime
     ) where
 
 import qualified Data.Map.Strict             as Map'
+import qualified Data.MultiSet               as MultiSet
 import qualified Math.Combinatorics.Multiset as MS
+
+import qualified Euler.Util.FrontierSearch   as FS
+import qualified Euler.Util.Inf              as Inf
 
 import Data.List           ( group, sort )
 import Data.Map            ( Map )
@@ -42,6 +47,12 @@ factorizations :: Integral a => a -> Map a [a]
 -- in @[1..n]@. Each factorization is sorted.
 --
 -- prop> factorizations 50 == Map'.fromList [(n, primeFactors n) | n <- [1..50]]
+
+factorizationsAsc :: Integral a => [[a]]
+-- ^ >>> take 9 factorizationsAsc
+-- [[],[2],[3],[2,2],[5],[2,3],[7],[2,2,2],[3,3]]
+--
+-- prop> take 50 factorizationsAsc == primeFactors <$> [1..50]
 
 
 ----------------------------------------------------------------
@@ -143,6 +154,15 @@ factorizations n = toMap $ [] : (f [])
               in  if product fs > n then Nothing else Just $ fs : (f fs)
 
     toMap = Map'.fromList . (map (\fs -> (product fs, sort fs)))
+
+factorizationsAsc = (\(_, fs, _) -> MultiSet.toAscList fs) <$> FS.searchNodes FS.Conf
+    { FS.start = [(1, MultiSet.empty, Inf.fromList primes)]
+    , FS.next = \(n, factors, higherPrimes) ->
+       let h:hs = Inf.toList higherPrimes in
+           (if MultiSet.size factors <= 1 then [(h, MultiSet.singleton h, Inf.fromList hs)] else []) ++
+           ((\f -> (n*f, MultiSet.insert f factors, higherPrimes)) <$> takeWhile (<h) primes)
+    , FS.nodeValue = \(n, _, _) -> n
+    }
 
 divisorsOfPrimeProduct       xs = map product $ maxKSubMultisets (length xs)     xs
 properDivisorsOfPrimeProduct xs = map product $ maxKSubMultisets (length xs - 1) xs
