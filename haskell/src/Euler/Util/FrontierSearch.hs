@@ -1,6 +1,7 @@
 module Euler.Util.FrontierSearch
     ( Conf(..)
     , searchValues
+    , searchNodes
     ) where
 
 import Euler.Util.List (dedupe)
@@ -19,10 +20,15 @@ data Conf node value = Conf
     }
 
 searchValues :: (Ord node, Ord value) => Conf node value -> [value]
-searchValues conf = dedupe $ nodeWrapperValue <$> nodes
-  where
-    nodes = nodesFromFrontier conf initialFrontier
-    initialFrontier = Set.fromList $ nodeWrapper conf <$> start conf
+searchValues = dedupe . map nodeWrapperValue . search
+
+searchNodes :: (Ord node, Ord value) => Conf node value -> [node]
+searchNodes = dedupe . map unwrap . search
+
+search :: (Ord node, Ord value) =>
+  Conf node value -> [NodeWrapper node value]
+search conf = nodesFromFrontier conf initialFrontier
+  where initialFrontier = Set.fromList $ nodeWrapper conf <$> start conf
 
 data NodeWrapper node value =
   NodeWrapper node value deriving (Eq, Show)
