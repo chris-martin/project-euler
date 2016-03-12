@@ -52,7 +52,7 @@ factorizationsAsc :: Integral a => [[a]]
 -- ^ >>> take 9 factorizationsAsc
 -- [[],[2],[3],[2,2],[5],[2,3],[7],[2,2,2],[3,3]]
 --
--- prop> take 50 factorizationsAsc == primeFactors <$> [1..50]
+-- prop> take 50 factorizationsAsc == (primeFactors <$> [1..50])
 
 
 ----------------------------------------------------------------
