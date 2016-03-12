@@ -4,8 +4,8 @@ module Euler.Util.Inf
     , toList
     ) where
 
-import Data.Function ( on )
-import Data.List.NonEmpty ( NonEmpty(..) )
+import           Data.Function      (on)
+import           Data.List.NonEmpty (NonEmpty (..))
 import qualified Data.List.NonEmpty as NE
 
 newtype Inf a = Inf (NonEmpty a)

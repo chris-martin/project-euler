@@ -1,46 +1,44 @@
 module Euler.Problems (answer) where
 
-import Euler.Util.Arithmetic ( divides, factorial, intSqrt, million, square )
-import Euler.Util.Amicable   ( amicableNumbers )
-import Euler.Util.Collatz    ( collatzLengths )
-import Euler.Util.Decimal    ( repetendLength )
-import Euler.Util.Digit      ( digits, unDigits, intPalindrome, textDigits
-                             , textIntMaybe )
-import Euler.Util.Fibonacci  ( fibs )
-import Euler.Util.List       ( countDistinct, maximumOn, mode, sliding )
-import Euler.Util.Map        ( keyWithMaxValue )
-import Euler.Util.Pandigital ( pandigitals, pandigitalsRev )
-import Euler.Util.Prime      ( countDivisors, largestPrimeFactor, isPrime
-                             , primes )
+import Euler.Util.Amicable   (amicableNumbers)
+import Euler.Util.Arithmetic (divides, factorial, intSqrt, million, square)
+import Euler.Util.Collatz    (collatzLengths)
+import Euler.Util.Decimal    (repetendLength)
+import Euler.Util.Digit      (digits, intPalindrome, textDigits, textIntMaybe,
+                              unDigits)
+import Euler.Util.Fibonacci  (fibs)
+import Euler.Util.List       (countDistinct, maximumOn, mode, sliding)
+import Euler.Util.Map        (keyWithMaxValue)
+import Euler.Util.Pandigital (pandigitalsRev)
+import Euler.Util.Prime      (countDivisors, isPrime, largestPrimeFactor,
+                              primes)
 
 import Euler.Util.FigurateNumbers
 
 import qualified Euler.Util.NumberWords  as NumberWords
 import qualified Euler.Util.TrianglePath as TrianglePath
 
-import qualified Euler.Problems.Problem9  as Problem9
 import qualified Euler.Problems.Problem11 as Problem11
-import qualified Euler.Problems.Problem19 as Problem19
 import qualified Euler.Problems.Problem15 as Problem15
+import qualified Euler.Problems.Problem19 as Problem19
 import qualified Euler.Problems.Problem22 as Problem22
 import qualified Euler.Problems.Problem23 as Problem23
 import qualified Euler.Problems.Problem31 as Problem31
 import qualified Euler.Problems.Problem33 as Problem33
 import qualified Euler.Problems.Problem42 as Problem42
-import qualified Euler.Problems.Problem46 as Problem46
 import qualified Euler.Problems.Problem43 as Problem43
+import qualified Euler.Problems.Problem46 as Problem46
+import qualified Euler.Problems.Problem9  as Problem9
 
-import Control.Monad         ( guard )
-import Data.Foldable         ( toList )
-import Data.List             ( dropWhile, findIndex, permutations, sort
-                             , take, takeWhile )
-import Data.Maybe            ( catMaybes, fromJust )
-import Data.Text             ( Text )
+import Control.Monad (guard)
+import Data.List     (findIndex, permutations, sort, take)
+import Data.Maybe    (catMaybes, fromJust)
+import Data.Text     (Text)
 
-import qualified Data.List       as List
-import qualified Data.Set        as Set
-import qualified Data.Text       as Text
-import qualified Data.Text.IO    as TextIO
+import qualified Data.List    as List
+import qualified Data.Set     as Set
+import qualified Data.Text    as Text
+import qualified Data.Text.IO as TextIO
 
 -------------------------------------------------------------------------
 

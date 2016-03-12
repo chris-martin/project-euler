@@ -1,8 +1,8 @@
 module Euler.Problems.Problem33 (answer) where
 
-import Data.Digits ( digits )
-import Data.List   ( permutations )
-import Data.Ratio  ( (%), denominator )
+import Data.Digits (digits)
+import Data.List   (permutations)
+import Data.Ratio  (denominator, (%))
 
 answer :: Integer
 answer = (denominator . product) (map (uncurry (%)) specialFractions)

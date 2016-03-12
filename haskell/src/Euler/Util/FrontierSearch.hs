@@ -4,11 +4,11 @@ module Euler.Util.FrontierSearch
     , searchNodes
     ) where
 
-import Euler.Util.List (dedupe)
-import Data.Function (on)
-import Data.Maybe (fromJust)
-import Data.Set (Set)
-import qualified Data.Set as Set
+import           Data.Function   (on)
+import           Data.Maybe      (fromJust)
+import           Data.Set        (Set)
+import qualified Data.Set        as Set
+import           Euler.Util.List (dedupe)
 
 data Conf node value = Conf
     { next      :: node -> [node]

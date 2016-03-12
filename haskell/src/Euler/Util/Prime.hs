@@ -26,15 +26,15 @@ import qualified Data.Map.Strict             as Map'
 import qualified Data.MultiSet               as MultiSet
 import qualified Math.Combinatorics.Multiset as MS
 
-import qualified Euler.Util.FrontierSearch   as FS
-import qualified Euler.Util.Inf              as Inf
+import qualified Euler.Util.FrontierSearch as FS
+import qualified Euler.Util.Inf            as Inf
 
-import Data.List           ( group, sort )
-import Data.Map            ( Map )
-import Data.Numbers.Primes ( isPrime, primes )
+import Data.List           (group, sort)
+import Data.Map            (Map)
+import Data.Numbers.Primes (isPrime, primes)
 
-import Euler.Util.Arithmetic ( divides )
-import Euler.Util.List       ( untilNothing )
+import Euler.Util.Arithmetic (divides)
+import Euler.Util.List       (untilNothing)
 
 -- $setup
 -- >>> import Test.QuickCheck

@@ -1,12 +1,12 @@
 module Euler.Problems.Problem11 (answer) where
 
-import Euler.Util.List ( sliding, transpose )
+import Euler.Util.List (sliding, transpose)
 
-import Data.Text       ( Text )
+import Data.Text (Text)
 
-import qualified Data.Either     as Either
-import qualified Data.Text       as Text
-import qualified Data.Text.Read  as TextRead
+import qualified Data.Either    as Either
+import qualified Data.Text      as Text
+import qualified Data.Text.Read as TextRead
 
 answer :: Text -> Integer
 answer = maximum . (map product) . groups . parseGrid

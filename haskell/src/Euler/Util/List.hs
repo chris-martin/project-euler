@@ -11,12 +11,12 @@ module Euler.Util.List
     , adjustIndex
     ) where
 
-import Data.Foldable      ( maximumBy )
-import Data.Function      ( on )
-import Data.List          ( group )
-import Data.List.NonEmpty ( NonEmpty(..) )
-import Data.Maybe         ( catMaybes, isJust )
-import Data.Ord           ( compare )
+import Data.Foldable      (maximumBy)
+import Data.Function      (on)
+import Data.List          (group)
+import Data.List.NonEmpty (NonEmpty (..))
+import Data.Maybe         (catMaybes, isJust)
+import Data.Ord           (compare)
 
 import qualified Data.List.NonEmpty as NE
 import qualified Data.MultiSet      as MultiSet

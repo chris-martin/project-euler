@@ -4,7 +4,7 @@ module Euler.Problems.Problem47
     ) where
 
 answer :: Integer
-answer = answerN 4
+answer = answerN (4 :: Int)
 
 answerN :: (Integral a, Integral b) => a -> b
 -- ^ The least /n/ consecutive numbers to have /n/ distinct prime factors.
@@ -22,4 +22,4 @@ answerN :: (Integral a, Integral b) => a -> b
 -- todo >>> answerN 3
 -- 644
 
-answerN n = undefined -- todo
+answerN _ = undefined -- todo

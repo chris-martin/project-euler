@@ -9,8 +9,8 @@ module Euler.Util.Amicable
     ( amicableNumbers
     ) where
 
-import qualified Data.Map as Map
-import Euler.Util.Prime (properDivisorsOfPrimeProduct, factorizations)
+import qualified Data.Map         as Map
+import           Euler.Util.Prime (factorizations, properDivisorsOfPrimeProduct)
 
 -----------------------------------------------------------------------
 

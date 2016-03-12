@@ -1,7 +1,7 @@
 module Euler.Problems.Problem23 (answer) where
 
-import Data.Set         ( (\\) )
-import Euler.Util.Prime ( factorizations, properDivisorsOfPrimeProduct )
+import Data.Set         ((\\))
+import Euler.Util.Prime (factorizations, properDivisorsOfPrimeProduct)
 
 import qualified Data.Map      as Map
 import qualified Data.Sequence as Seq

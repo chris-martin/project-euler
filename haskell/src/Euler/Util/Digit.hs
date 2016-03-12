@@ -15,14 +15,12 @@ module Euler.Util.Digit
     , intPalindrome
     ) where
 
-import Data.Char   ( digitToInt )
-import Data.Digits ( digits, digitsRev, unDigits )
-import Data.List   ( reverse )
-import Data.Maybe  ( catMaybes )
-import Data.Text   ( Text, unpack )
+import Data.Char   (digitToInt)
+import Data.Digits (digits, digitsRev, unDigits)
+import Data.Maybe  (catMaybes)
+import Data.Text   (Text, unpack)
 
-import qualified Data.Char as Char
-import qualified Data.Text.Read  as TextRead
+import qualified Data.Text.Read as TextRead
 
 -- $setup
 -- >>> import Test.QuickCheck

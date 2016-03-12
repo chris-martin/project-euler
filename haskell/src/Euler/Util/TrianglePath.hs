@@ -12,9 +12,9 @@ module Euler.Util.TrianglePath
     , reduceTriangle
     ) where
 
-import Data.Maybe         ( catMaybes )
-import Data.List.NonEmpty ( NonEmpty(..), nonEmpty )
-import Data.Text          ( Text )
+import Data.List.NonEmpty (NonEmpty (..), nonEmpty)
+import Data.Maybe         (catMaybes)
+import Data.Text          (Text)
 
 import qualified Data.List.NonEmpty as NE
 import qualified Data.Text          as T
