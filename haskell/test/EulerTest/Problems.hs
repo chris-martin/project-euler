@@ -4,7 +4,9 @@ module EulerTest.Problems
     , answerTestMain
     ) where
 
-import EulerTest.Prelude
+import Test.HUnit hiding (Test)
+import Test.Framework
+import Test.Framework.Providers.HUnit
 
 import Data.List          ( find )
 import Data.Text          ( Text )
@@ -29,7 +31,7 @@ answerTest :: Integral a => a -> Test
 
 -- | Used for standalone test suites that check answers for slow problems.
 answerTestMain :: Integer -> IO ()
-answerTestMain i = defaultMain [answerTest i]
+answerTestMain i = defaultMainWithArgs [answerTest i] []
 
 -- | @'getCorrectAnswer' n@ reads the known answer for Euler problem /n/
 -- from @answers.txt@ at the root of the repository, or 'Nothing' if the

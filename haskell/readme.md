@@ -8,7 +8,7 @@ problems with fast answers.
 
 To run all of the fast tests:
 
-    stack test :Fast
+    stack test
 
 Slow tests
 ----------
@@ -16,6 +16,6 @@ Slow tests
 Answer checks for problems with slower answers are separated into
 their own test suites to be run individually.
 
-To run a particular slow problem's test:
+To run the test for problem *n*:
 
-    stack test :Problem[number]
+    stack test --test-arguments=n
