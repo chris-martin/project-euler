@@ -2,6 +2,8 @@
 
 These are all of my solutions for Project Euler.
 
+![](https://travis-ci.org/chris-martin/project-euler.svg)
+
 ## License
 
 All of the questions are © Project Euler and distributed under the
