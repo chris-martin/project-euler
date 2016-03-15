@@ -17,14 +17,10 @@ main = do
     args <- System.Environment.getArgs
     case args of
         []  -> exitMax [ defaultMainWithArgs EulerTest.Problems.tests []
-                       , Test.DocTest.doctest ["src"]
-                       ]
+                       , Test.DocTest.doctest ["src"] ]
         [n] -> EulerTest.Problems.answerTestMain ((read n) :: Integer)
 
-reifyExitCode :: IO () -> IO ExitCode
-reifyExitCode io = (\x -> case x of
-    Left code -> code
-    _ -> ExitSuccess) <$> try io
-
 exitMax :: [IO ()] -> IO ()
-exitMax = (>>= (exitWith . foldr' max ExitSuccess)) . sequence . (map reifyExitCode)
+exitMax = (>>= (exitWith . maxExitCode)) . sequence . (map reifyExitCode)
+  where reifyExitCode = (fmap $ either id $ const ExitSuccess) . try
+        maxExitCode = foldr' max ExitSuccess
