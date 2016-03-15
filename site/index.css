@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 80px 40px;
-    border: 0 solid #003b3b;
+    border: 0 solid rgb(0, 59, 59);
     border-top-width: 100px;
     font-family: sans-serif;
     color: #333;
@@ -10,6 +10,16 @@ body {
 .container {
     max-width: 600px;
     margin: 0 auto;
+}
+
+h1 {
+    margin-bottom: 8px;
+    border-bottom: 2px solid rgba(0, 59, 59, 0.1);
+}
+
+.subtitle {
+    font-style: italic;
+    margin-bottom: 30px;
 }
 
 h2 {
