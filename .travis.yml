@@ -21,3 +21,6 @@ addons:
   apt:
     packages:
     - libgmp-dev
+
+notifications:
+  email: false
