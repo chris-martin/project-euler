@@ -2,6 +2,8 @@ name := "euler"
 
 scalaVersion := "2.11.7"
 
+scalacOptions += "-target:jvm-1.8"
+
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.6" % "test"
 
 libraryDependencies += "org.scalaz" %% "scalaz-core" % "7.2.1"
