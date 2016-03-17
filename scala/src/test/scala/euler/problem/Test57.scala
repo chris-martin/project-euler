@@ -1,13 +1,16 @@
 package euler.problem
 
-import Problem57._
+import org.scalatest.concurrent.TimeLimitedTests
+import org.scalatest.time.{Millis, Span}
+import problem57._
 
-class Test57 extends org.scalatest.FreeSpec {
+class Test57 extends org.scalatest.FreeSpec
+with TimeLimitedTests {
+
+  val timeLimit = Span(200, Millis)
 
   "fraction addition" in assert(
     Fraction(1, 2) + Fraction(2, 3) === Fraction(7, 6)
   )
-
-  "Answer is correct" in assertResult(153)(answer)
 
 }

@@ -1,5 +1,13 @@
 Build with Java 8 and [SBT](http://www.scala-sbt.org/).
 
-To run a particular problem's tests:
+Fast answer tests:
 
-    sbt 'testOnly euler.problem.Test[number]'
+    sbt test:run
+
+A particular problem's tests:
+
+    sbt 'test:run [number]'
+
+All other tests:
+
+    sbt test

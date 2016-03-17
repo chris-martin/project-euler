@@ -1,8 +1,13 @@
 package euler.problem
 
-import Problem44._
+import org.scalatest.concurrent.TimeLimitedTests
+import org.scalatest.time.{Millis, Span}
+import problem44._
 
-class Test44 extends org.scalatest.FreeSpec {
+class Test44 extends org.scalatest.FreeSpec
+with TimeLimitedTests {
+
+  val timeLimit = Span(200, Millis)
 
   val examplePentagonals = Seq(1, 5, 12, 22, 35, 51, 70, 92, 117, 145)
 
@@ -16,9 +21,7 @@ class Test44 extends org.scalatest.FreeSpec {
   }
 
   "pentagonals" in assertResult(examplePentagonals) {
-      Problem44.pentagonals.take(examplePentagonals.size).map(_.p).toSeq
-    }
-
-  "Answer is correct" in assertResult(5482660)(answer)
+    pentagonals.take(examplePentagonals.size).map(_.p).toSeq
+  }
 
 }

@@ -1,8 +1,13 @@
 package euler.problem
 
-import Problem51._
+import org.scalatest.concurrent.TimeLimitedTests
+import org.scalatest.time.{Millis, Span}
+import problem51._
 
-class Test51 extends org.scalatest.FreeSpec {
+class Test51 extends org.scalatest.FreeSpec
+with TimeLimitedTests {
+
+  val timeLimit = Span(6000, Millis)
 
   "RichIterable.groupByMultiple" in assert(
     (18 to 22).toSet.groupByMultiple(_.toString.toSeq)
@@ -29,11 +34,9 @@ class Test51 extends org.scalatest.FreeSpec {
   )
 
   "smallestPrimeValueFamily(7)" in assert(
-    Problem51.smallestPrimeValueFamily(7).members.toSeq
+    problem51.smallestPrimeValueFamily(7).members.toSeq
     ===
     Seq(56003, 56113, 56333, 56443, 56663, 56773, 56993)
   )
-
-  "Answer is correct" in assertResult(121313)(answer)
 
 }

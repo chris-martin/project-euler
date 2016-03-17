@@ -1,11 +1,14 @@
 package euler.problem
 
-import Problem30._
+import org.scalatest.concurrent.TimeLimitedTests
+import org.scalatest.time.{Span, Millis}
+import problem30._
 
-class Test30 extends org.scalatest.FreeSpec {
+class Test30 extends org.scalatest.FreeSpec
+with TimeLimitedTests {
+
+  val timeLimit = Span(6000, Millis)
 
   "Numbers" in info(magicNrs.mkString(", "))
-
-  "Answer is correct" in assertResult(443839)(answer)
 
 }

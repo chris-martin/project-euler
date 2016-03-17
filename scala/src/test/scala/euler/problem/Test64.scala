@@ -1,10 +1,13 @@
 package euler.problem
 
-import Problem64._
+import org.scalatest.concurrent.TimeLimitedTests
+import org.scalatest.time.{Millis, Span}
+import problem64._
 
-class Test64 extends org.scalatest.FreeSpec {
+class Test64 extends org.scalatest.FreeSpec
+with TimeLimitedTests {
 
-  "Answer is correct" in assertResult(1322)(answer)
+  val timeLimit = Span(200, Millis)
 
   "N ≤ 13" in assert(countOddPeriods(13) === 4)
 

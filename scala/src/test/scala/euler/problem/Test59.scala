@@ -1,10 +1,13 @@
 package euler.problem
 
-import Problem59._
+import org.scalatest.concurrent.TimeLimitedTests
+import org.scalatest.time.{Millis, Span}
+import problem59._
 
-class Test59 extends org.scalatest.FreeSpec {
+class Test59 extends org.scalatest.FreeSpec
+with TimeLimitedTests {
 
-  "Answer is correct" in assertResult(107359)(answer)
+  val timeLimit = Span(200, Millis)
 
   "Decrypt with zeros" in assert("abc".decrypt("\0\0") === "abc")
 

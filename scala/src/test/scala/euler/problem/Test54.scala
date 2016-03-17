@@ -1,10 +1,13 @@
 package euler.problem
 
-import Problem54._
+import org.scalatest.concurrent.TimeLimitedTests
+import org.scalatest.time.{Millis, Span}
+import problem54._
 
-class Test54 extends org.scalatest.FreeSpec {
+class Test54 extends org.scalatest.FreeSpec
+with TimeLimitedTests {
 
-  "Answer is correct" in assertResult(376)(answer)
+  val timeLimit = Span(500, Millis)
 
   "example 1" in assertResult(1) {
     Game.parse("5H 5C 6S 7S KD", "2C 3S 8S 8D TD").winner

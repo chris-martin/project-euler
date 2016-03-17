@@ -1,10 +1,13 @@
 package euler.problem
 
-import Problem65._
+import org.scalatest.concurrent.TimeLimitedTests
+import org.scalatest.time.{Millis, Span}
+import problem65._
 
-class Test65 extends org.scalatest.FreeSpec {
+class Test65 extends org.scalatest.FreeSpec
+with TimeLimitedTests {
 
-  "Answer is correct" in assertResult(272)(answer)
+  val timeLimit = Span(200, Millis)
 
   "First ten convergents of sqrt(2)" in assert(
     (1 to 10).map(twoContinuedFraction.convergent)
