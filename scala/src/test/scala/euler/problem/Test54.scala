@@ -7,7 +7,7 @@ import problem54._
 class Test54 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(500, Millis)
+  val timeLimit = Span(5000, Millis)
 
   "example 1" in assertResult(1) {
     Game.parse("5H 5C 6S 7S KD", "2C 3S 8S 8D TD").winner
