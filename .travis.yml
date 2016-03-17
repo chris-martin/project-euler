@@ -24,7 +24,7 @@ addons:
   apt:
     packages:
     - libgmp-dev
-    - openjdk8
+    - oracle-java8-installer
 
 notifications:
   email: false
