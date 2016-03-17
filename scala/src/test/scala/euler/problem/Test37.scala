@@ -7,7 +7,7 @@ import problem37._
 class Test37 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(10000, Millis)
+  val timeLimit = Span(20000, Millis)
 
   "Primes" in info(interestingPrimes.mkString(", "))
 

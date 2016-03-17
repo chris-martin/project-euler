@@ -7,7 +7,7 @@ import problem33._
 class Test33 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(3000, Millis)
+  val timeLimit = Span(10000, Millis)
 
   "Fractions" in {
     info(specialFractions.mkString(", "))

@@ -7,7 +7,7 @@ import problem51._
 class Test51 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(6000, Millis)
+  val timeLimit = Span(12000, Millis)
 
   "RichIterable.groupByMultiple" in assert(
     (18 to 22).toSet.groupByMultiple(_.toString.toSeq)

@@ -7,7 +7,7 @@ import problem57._
 class Test57 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(200, Millis)
+  val timeLimit = Span(2000, Millis)
 
   "fraction addition" in assert(
     Fraction(1, 2) + Fraction(2, 3) === Fraction(7, 6)

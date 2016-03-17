@@ -7,7 +7,7 @@ import problem39._
 class Test39 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(200, Millis)
+  val timeLimit = Span(2000, Millis)
 
   val q = 61274L
 

@@ -7,7 +7,7 @@ import problem38._
 class Test38 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(200, Millis)
+  val timeLimit = Span(2000, Millis)
 
   "Example catProduct" in assertResult(192384576)(catProduct(192, 3))
 

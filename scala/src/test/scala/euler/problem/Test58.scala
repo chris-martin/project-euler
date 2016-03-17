@@ -7,7 +7,7 @@ import problem58._
 class Test58 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(200, Millis)
+  val timeLimit = Span(2000, Millis)
 
   "Rings" in assert(
     rings.take(4).toList

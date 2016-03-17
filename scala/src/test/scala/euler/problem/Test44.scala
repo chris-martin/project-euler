@@ -7,7 +7,7 @@ import problem44._
 class Test44 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(200, Millis)
+  val timeLimit = Span(2000, Millis)
 
   val examplePentagonals = Seq(1, 5, 12, 22, 35, 51, 70, 92, 117, 145)
 

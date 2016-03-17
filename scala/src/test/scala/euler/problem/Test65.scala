@@ -7,7 +7,7 @@ import problem65._
 class Test65 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(200, Millis)
+  val timeLimit = Span(2000, Millis)
 
   "First ten convergents of sqrt(2)" in assert(
     (1 to 10).map(twoContinuedFraction.convergent)

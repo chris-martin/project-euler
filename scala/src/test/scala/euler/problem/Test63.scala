@@ -7,7 +7,7 @@ import problem63._
 class Test63 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(200, Millis)
+  val timeLimit = Span(2000, Millis)
 
   "7^5" in assert(powerfulNumbers contains (BigInt(7) pow 5))
 

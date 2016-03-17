@@ -7,7 +7,7 @@ import problem45._
 class Test45 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(200, Millis)
+  val timeLimit = Span(2000, Millis)
 
   "isTriangle" in {
     for (z <- Seq(1, 3, 6, 10, 40755)) assert(isTriangle(z))

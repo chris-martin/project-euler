@@ -7,7 +7,7 @@ import problem59._
 class Test59 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(200, Millis)
+  val timeLimit = Span(2000, Millis)
 
   "Decrypt with zeros" in assert("abc".decrypt("\0\0") === "abc")
 
