@@ -24,6 +24,7 @@ addons:
   apt:
     packages:
     - libgmp-dev
+    - openjdk8
 
 notifications:
   email: false
