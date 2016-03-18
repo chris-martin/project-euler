@@ -7,7 +7,7 @@ import problem60._
 class Test60 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(5000, Millis)
+  val timeLimit = Span(10000, Millis)
 
   "Size 4" in assert(
     smallestCliqueOfSize4 === Some(Set(3, 7, 109, 673))
