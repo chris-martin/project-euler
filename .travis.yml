@@ -17,7 +17,9 @@ script:
 - .travis/sbt.sh test:run
 - .travis/sbt.sh test
 - .travis/stack.sh haddock
+- .travis/sbt.sh doc
 - cp -r haskell/.stack-work/install/x86_64-linux/lts-5.2/7.10.3/doc site/haskell
+- cp -r scala/target/scala-2.11/api site/scala
 - ./site-deploy.sh
 
 addons:
