@@ -30,10 +30,12 @@ import qualified Euler.Problems.Problem43 as Problem43
 import qualified Euler.Problems.Problem46 as Problem46
 import qualified Euler.Problems.Problem9  as Problem9
 
-import Control.Monad (guard)
-import Data.List     (findIndex, permutations, sort, take)
-import Data.Maybe    (catMaybes, fromJust)
-import Data.Text     (Text)
+import Control.Applicative (liftA2)
+import Control.Monad       (guard)
+
+import Data.List  (findIndex, permutations, sort, take)
+import Data.Maybe (catMaybes, fromJust)
+import Data.Text  (Text)
 
 import qualified Data.List    as List
 import qualified Data.Set     as Set
@@ -158,8 +160,7 @@ answer 26 = pure (showInteger ans)
 
 answer 27 = pure (showInteger ans)
   where ans = (uncurry (*) . (maximumOn nrOfPrimes)) expressions
-        expressions = do a <- range; b <- range; return (a, b)
-                      where x = 999; range = [-x..x]
+        expressions = let x = 999; range = [-x..x] in liftA2 (,) range range
         apply (a, b) n = n*n + a*n + b
         nrOfPrimes e = (length . (takeWhile (isPrime . (apply e)))) [0..]
 
