@@ -7,7 +7,7 @@ import problem30._
 class Test30 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(6000, Millis)
+  val timeLimit = Span(15000, Millis)
 
   "Numbers" in info(magicNrs.mkString(", "))
 
