@@ -1,6 +1,6 @@
 package euler
 
-import euler.util.Bag
+import euler.util.{number_words, Bag}
 
 import scala.collection.mutable
 
@@ -110,7 +110,8 @@ package object problem {
         .map(_.toString.toInt).sum.toString.pure[IO]
 
     case 17 =>
-      problem17.answer.toString.pure[IO]
+      (1 to 1000).map(number_words.word(_).length)
+        .sum.toString.pure[IO]
 
     case 18 =>
       problem18.answer.toString.pure[IO]
