@@ -1,5 +1,7 @@
 package euler
 
+import euler.util.Bag
+
 import scala.collection.mutable
 
 import scalaz._, Scalaz._, effect._, Maybe._
@@ -7,7 +9,6 @@ import scalaz._, Scalaz._, effect._, Maybe._
 import euler.util.fibonacci.fibs
 import euler.util.palindrome.palindromeInt
 import euler.util.prime.{primes, factorize}
-import euler.util.bag.Bag
 
 package object problem {
 

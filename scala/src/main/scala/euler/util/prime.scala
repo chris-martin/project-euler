@@ -2,8 +2,6 @@ package euler.util
 
 import java.math.BigInteger
 
-import euler.util.bag._
-
 import scala.annotation.tailrec
 
 package object prime {

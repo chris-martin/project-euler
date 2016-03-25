@@ -1,4 +1,4 @@
-package euler.util.bag
+package euler.util
 
 trait Bag[A] {
 
