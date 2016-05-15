@@ -33,7 +33,7 @@ import qualified Euler.Problems.Problem9  as Problem9
 import Control.Applicative (liftA2)
 import Control.Monad       (guard)
 
-import Data.List  (findIndex, permutations, sort, take)
+import Data.List  (findIndex, permutations, sort)
 import Data.Maybe (catMaybes, fromJust)
 import Data.Text  (Text)
 
