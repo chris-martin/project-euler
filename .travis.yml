@@ -20,7 +20,7 @@ script:
 - .travis/sbt.sh doc
 - cp -r haskell/.stack-work/install/x86_64-linux/lts-5.2/7.10.3/doc site/haskell
 - cp -r scala/target/scala-2.11/api site/scala
-- ./site-deploy.sh
+- if [ $TRAVIS_BRANCH = "master" ]; then ./site-deploy.sh; fi
 
 addons:
   apt:
