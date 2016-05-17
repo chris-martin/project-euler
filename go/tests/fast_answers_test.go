@@ -5,7 +5,7 @@ import (
 )
 
 func TestFastAnswers(t *testing.T) {
-    for _, i := range []int{1} {
+    for _, i := range []int{1, 2} {
         TestAnswer(t, i)
     }
 }

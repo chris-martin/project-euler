@@ -4,6 +4,9 @@ import (
     "strconv"
 )
 
+const thousand = 1000
+const million = thousand * thousand
+
 func Answer(problemNumber int) string {
     switch problemNumber {
 
@@ -15,6 +18,22 @@ func Answer(problemNumber int) string {
                 }
             }
             return strconv.Itoa(a)
+
+        case 2:
+            a := 0
+            i := 1
+            j := 1
+            for {
+                f := i + j
+                i = j
+                j = f
+                if f % 2 == 0 {
+                    a += f
+                }
+                if f >= 4 * million {
+                    return strconv.Itoa(a)
+                }
+            }
 
     }
     return ""
