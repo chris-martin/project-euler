@@ -17,16 +17,16 @@ func TestAnswer(t *testing.T, i int) {
     expected := correctAnswers[strconv.Itoa(i)]
     switch {
 
-        case expected == "":
-            t.Logf("Problem %d: Don't know the correct answer. Got \"%s\"", i, got)
-            t.Fail()
+    case expected == "":
+        t.Logf("Problem %d: Don't know the correct answer. Got \"%s\"", i, got)
+        t.Fail()
 
-        case got != expected:
-            t.Logf("Problem %d: Expected \"%s\", got \"%s\"", i, expected, got)
-            t.Fail()
+    case got != expected:
+        t.Logf("Problem %d: Expected \"%s\", got \"%s\"", i, expected, got)
+        t.Fail()
 
-        default:
-            t.Logf("Problem %d: %s", i, got)
+    default:
+        t.Logf("Problem %d: %s", i, got)
 
     }
 }
