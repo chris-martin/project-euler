@@ -25,8 +25,7 @@ func Answer(problemNumber int) string {
         c := make(chan int, 100)
         go fibonacci.Fibs(c)
         a := 0
-        for {
-            f := <-c
+        for f := range c {
             if f % 2 == 0 {
                 a += f
             }
