@@ -3,6 +3,7 @@ package problems
 import (
     "strconv"
     "github.com/chris-martin/project-euler/util/prime"
+    "github.com/chris-martin/project-euler/project-euler/util/fibonacci"
 )
 
 const thousand = 1000
@@ -21,13 +22,11 @@ func Answer(problemNumber int) string {
         return strconv.Itoa(a)
 
     case 2:
+        c := make(chan int, 100)
+        go fibonacci.Fibs(c)
         a := 0
-        i := 1
-        j := 1
         for {
-            f := i + j
-            i = j
-            j = f
+            f := <-c
             if f % 2 == 0 {
                 a += f
             }
