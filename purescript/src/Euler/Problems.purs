@@ -1,6 +1,8 @@
 module Euler.Problems (answer) where
 
-import Prelude (($), (==), pure, show, mod)
+import Euler.Util.Fibonacci (fibs)
+
+import Prelude (($), (==), (<), (<<<), (*), pure, show, mod)
 
 import Prim (Array, String)
 
@@ -9,8 +11,20 @@ import Control.Monad.Eff.Exception (EXCEPTION)
 import Node.FS (FS)
 
 import Data.Array as Array
+import Data.BigInt (BigInt)
+import Data.BigInt as BigInt
 import Data.Foldable (any, sum)
+import Data.Int (even)
+import Data.Int as Int
+import Data.List (takeWhile)
+import Data.List as List
+import Data.List.Lazy as ZList
 import Data.Maybe (Maybe(..))
+
+import Math (pow)
+
+millionBigInt :: BigInt
+millionBigInt = (BigInt.fromInt 4) * ((BigInt.fromInt 10) `BigInt.pow` (BigInt.fromInt 6))
 
 -- | @'answer' n@ calculates the answer to Euler problem /n/, or
 -- evaluates to @Nothing@ if there is no solution known for problem /n/.
@@ -28,5 +42,8 @@ answer 1 = Just $ pure $ show ans
   where ans = sum $ Array.filter f $ Array.range 1 999
         f n = any (\x -> x `divides` n) ([3, 5] :: Array Prim.Int)
         divides a b = b `mod` a == 0
+
+answer 2 = Just $ pure $ BigInt.toString ans
+  where ans = (sum <<< (ZList.filter BigInt.even) <<< (ZList.takeWhile (\x -> x < millionBigInt))) fibs
 
 answer _ = Nothing

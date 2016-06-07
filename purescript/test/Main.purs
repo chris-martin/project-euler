@@ -31,7 +31,7 @@ import Test.Unit.Main (runTest)
 import Test.Unit.Assert as Assert
 import Test.Unit.Console (TESTOUTPUT)
 
-main = runTest $ suite "Problems with fast answers" $ sequence_ $ answerTest <$> [1]
+main = runTest $ suite "Problems with fast answers" $ sequence_ $ answerTest <$> [1, 2]
 
 -- | @'answerTest' n@ is a test case that checks the answer for Euler
 -- problem /n/ against the known answers in @answers.txt@ at the root
