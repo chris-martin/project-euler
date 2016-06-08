@@ -9,5 +9,8 @@ import Data.Tuple (Tuple(..), fst, snd)
 
 -- | >>> take 13 fibs
 -- | [0,1,1,2,3,5,8,13,21,34,55,89,144]
-fibs :: List BigInt
-fibs = fst <$> iterate (\(Tuple a b) -> Tuple b (a + b)) (Tuple (BigInt.fromInt 0) (BigInt.fromInt 1))
+fibs :: List Int
+fibs = fst <$> iterate (\(Tuple a b) -> Tuple b (a + b)) (Tuple 0 1)
+
+bigFibs :: List BigInt
+bigFibs = fst <$> iterate (\(Tuple a b) -> Tuple b (a + b)) (Tuple (BigInt.fromInt 0) (BigInt.fromInt 1))

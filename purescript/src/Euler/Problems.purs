@@ -14,15 +14,20 @@ import Data.BigInt as BigInt
 import Data.Foldable (any, sum)
 import Data.Int (even)
 import Data.Int as Int
-import Data.List (takeWhile)
-import Data.List as List
 import Data.List.Lazy as ZList
 import Data.Maybe (Maybe(..))
+import Data.Maybe.Unsafe (fromJust)
 
 import Math (pow)
 
-millionBigInt :: BigInt
-millionBigInt = (BigInt.fromInt 4) * ((BigInt.fromInt 10) `BigInt.pow` (BigInt.fromInt 6))
+intPow :: Int -> Int -> Int
+intPow a b = fromJust $ Int.fromNumber $ Int.toNumber a `pow` Int.toNumber b
+
+million :: Int
+million = 10 `intPow` 6
+
+bigMillion :: BigInt
+bigMillion = ((BigInt.fromInt 10) `BigInt.pow` (BigInt.fromInt 6))
 
 -- | @'answer' n@ calculates the answer to Euler problem /n/, or
 -- evaluates to @Nothing@ if there is no solution known for problem /n/.
@@ -41,7 +46,7 @@ answer 1 = Just $ pure $ show ans
         f n = any (\x -> x `divides` n) ([3, 5] :: Array Int)
         divides a b = b `mod` a == 0
 
-answer 2 = Just $ pure $ BigInt.toString ans
-  where ans = (sum <<< (ZList.filter BigInt.even) <<< (ZList.takeWhile (\x -> x < millionBigInt))) fibs
+answer 2 = Just $ pure $ show ans
+  where ans = (sum <<< (ZList.filter even) <<< (ZList.takeWhile (\x -> x < 4 * million))) fibs
 
 answer _ = Nothing
