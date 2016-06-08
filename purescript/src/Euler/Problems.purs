@@ -4,8 +4,6 @@ import Euler.Util.Fibonacci (fibs)
 
 import Prelude (($), (==), (<), (<<<), (*), pure, show, mod)
 
-import Prim (Array, String)
-
 import Control.Monad.Aff (Aff)
 import Control.Monad.Eff.Exception (EXCEPTION)
 import Node.FS (FS)
@@ -36,11 +34,11 @@ millionBigInt = (BigInt.fromInt 4) * ((BigInt.fromInt 10) `BigInt.pow` (BigInt.f
 --
 -- Most of the answers are pure, but some problems involve reading input
 -- data from files.
-answer :: forall e. Prim.Int -> Maybe (Aff (err :: EXCEPTION, fs :: FS | e) String)
+answer :: forall e. Int -> Maybe (Aff (err :: EXCEPTION, fs :: FS | e) String)
 
 answer 1 = Just $ pure $ show ans
   where ans = sum $ Array.filter f $ Array.range 1 999
-        f n = any (\x -> x `divides` n) ([3, 5] :: Array Prim.Int)
+        f n = any (\x -> x `divides` n) ([3, 5] :: Array Int)
         divides a b = b `mod` a == 0
 
 answer 2 = Just $ pure $ BigInt.toString ans
