@@ -1,16 +1,11 @@
 module Euler.Util.Fibonacci (fibs) where
 
-import Prelude ((+), (<$>), Unit, unit)
-
-import Data.BigInt (BigInt)
-import Data.BigInt as BigInt
-import Data.List.Lazy (List, iterate)
-import Data.Tuple (Tuple(..), fst, snd)
+import Euler.Prelude
 
 -- | >>> take 13 fibs
 -- | [0,1,1,2,3,5,8,13,21,34,55,89,144]
-fibs :: List Int
-fibs = fst <$> iterate (\(Tuple a b) -> Tuple b (a + b)) (Tuple 0 1)
+fibs :: ZList.List Int
+fibs = fst <$> ZList.iterate (\(Tuple a b) -> Tuple b (a + b)) (Tuple 0 1)
 
-bigFibs :: List BigInt
-bigFibs = fst <$> iterate (\(Tuple a b) -> Tuple b (a + b)) (Tuple (BigInt.fromInt 0) (BigInt.fromInt 1))
+bigFibs :: ZList.List BigInt
+bigFibs = fst <$> ZList.iterate (\(Tuple a b) -> Tuple b (a + b)) (Tuple (BigInt.fromInt 0) (BigInt.fromInt 1))

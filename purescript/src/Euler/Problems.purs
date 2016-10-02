@@ -1,24 +1,9 @@
 module Euler.Problems (answer) where
 
+import Euler.Prelude
+
 import Euler.Util.Fibonacci (fibs)
-
-import Prelude (($), (==), (<), (<<<), (*), pure, show, mod)
-
-import Control.Monad.Aff (Aff)
-import Control.Monad.Eff.Exception (EXCEPTION)
-import Node.FS (FS)
-
-import Data.Array as Array
-import Data.BigInt (BigInt)
-import Data.BigInt as BigInt
-import Data.Foldable (any, sum)
-import Data.Int (even)
-import Data.Int as Int
-import Data.List.Lazy as ZList
-import Data.Maybe (Maybe(..))
-import Data.Maybe.Unsafe (fromJust)
-
-import Math (pow)
+import Euler.Util.Prime     (largestPrimeFactor)
 
 intPow :: Int -> Int -> Int
 intPow a b = fromJust $ Int.fromNumber $ Int.toNumber a `pow` Int.toNumber b
@@ -48,5 +33,8 @@ answer 1 = Just $ pure $ show ans
 
 answer 2 = Just $ pure $ show ans
   where ans = (sum <<< (ZList.filter even) <<< (ZList.takeWhile (\x -> x < 4 * million))) fibs
+
+answer 3 = Just $ pure $ BigInt.toString ans
+   where ans = largestPrimeFactor $ BigInt.fromString "600851475143"
 
 answer _ = Nothing
