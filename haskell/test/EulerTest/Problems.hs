@@ -42,7 +42,7 @@ getCorrectAnswer :: Integral a => a -> IO (Maybe String)
 
 tests = [testGroup "Problems with fast answers" $ map answerTest
   [ 1, 2, 3, 5, 6, 7, 8, 9, 11, 13, 15, 16, 17, 18, 19, 20, 22, 28, 29
-  , 33, 40, 42, 67 ]]
+  , 33, 40, 42, 66, 67 ]]
 
 answerTest i = testCase name assertion
   where

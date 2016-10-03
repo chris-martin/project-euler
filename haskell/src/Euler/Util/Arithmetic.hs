@@ -6,6 +6,8 @@ module Euler.Util.Arithmetic
       divides
     , square
     , intSqrt
+    , floorSqrt
+    , isSquare
 
     -- * Factorial
     -- ** Functions
@@ -16,6 +18,8 @@ module Euler.Util.Arithmetic
     -- * Constants
     , million
     ) where
+
+import Data.Maybe (isJust)
 
 -- $setup
 -- >>> import Test.QuickCheck
@@ -33,11 +37,28 @@ intSqrt :: Integral a => a -> Maybe a
 -- ^ @'intSqrt' x@ is the integer /r/ such that /r^2 = x/, if
 -- such an integer exists.
 --
--- prop> \(NonNegative n) -> intSqrt (n^2) == Just n
+-- prop> \(NonNegative n) -> intSqrt (n^2) === Just n
 --
--- prop> \(Positive n) -> intSqrt(n^2 + 1) == Nothing
+-- prop> \(Positive n) -> intSqrt(n^2 + 1) === Nothing
 --
--- prop> \(Positive n) -> intSqrt((n+1)^2 - 1) == Nothing
+-- prop> \(Positive n) -> intSqrt((n+1)^2 - 1) === Nothing
+
+floorSqrt :: Integral a => a -> a
+-- ^ @'floorSqrt' x@ is the largest integer /r/ such that
+-- /r^2 <= x/.
+--
+-- prop> \(NonNegative n) -> floorSqrt (n^2) === n
+--
+-- prop> \(Positive n) -> floorSqrt(n^2 + 1) === n
+--
+-- prop> \(Positive n) -> floorSqrt((n+1)^2 - 1) === n
+
+isSquare :: Integral a => a -> Bool
+-- ^ @'isSquare' x@ iff @x@ is a square.
+--
+-- prop> \(NonNegative n) -> isSquare (square n)
+--
+-- prop> \(Positive n) -> not (isSquare $ (square n) + 1)
 
 million :: Integral a => a
 -- ^ One million = 1,000,000
@@ -57,7 +78,7 @@ factorials :: [Integer]
 
 -- $factorialProperties
 --
--- prop> \(NonNegative n) -> factorial n == factorials !! n
+-- prop> \(NonNegative n) -> factorial n === factorials !! n
 
 ---------------------------------------------------------
 
@@ -78,10 +99,34 @@ intSqrt n = searchWithGuess 0 n initialGuess where
     -- A rather naive binary search, between the inclusive bounds a and b.
     search a b
         | a > b     = Nothing
-        | otherwise = searchWithGuess a b $ a + ((b - a) `div` 2)
+        | otherwise = let guess = a + ((b - a) `div` 2)
+                      in  searchWithGuess a b guess
 
     searchWithGuess a b guess
         | sq == n = Just guess
         | sq >  n = search a (guess - 1)
         | sq <  n = search (guess + 1) b
         where sq = square guess
+
+floorSqrt n = searchWithGuess 0 n initialGuess where
+
+    initialGuess = floor $ sqrt $ fromIntegral n
+
+    -- A rather naive binary search, between the inclusive bounds a and b.
+    search a b
+        | a > b      = undefined
+        | a == b     = a
+        | otherwise  = let guess = a + ((b - a) `div` 2)
+                       in  searchWithGuess a b guess
+
+    searchWithGuess a b guess
+        | a == b                = a
+        | sq1 == n              = guess
+        | sq2 == n              = guess + 1
+        | sq1 < n && sq2 > n    = guess
+        | sq1 > n               = search a (guess - 1)
+        | sq2 < n               = search (guess + 1) b
+        where sq1 = square $ guess
+              sq2 = square $ guess + 1
+
+isSquare = isJust . intSqrt

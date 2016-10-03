@@ -21,6 +21,7 @@ library
                      , Euler.Util.Amicable
                      , Euler.Util.Arithmetic
                      , Euler.Util.Collatz
+                     , Euler.Util.ContinuedFractions
                      , Euler.Util.Date
                      , Euler.Util.Decimal
                      , Euler.Util.Digit
@@ -32,6 +33,7 @@ library
                      , Euler.Util.Map
                      , Euler.Util.NumberWords
                      , Euler.Util.Pandigital
+                     , Euler.Util.PellEquation
                      , Euler.Util.Polynomial
                      , Euler.Util.Prime
                      , Euler.Util.TrianglePath

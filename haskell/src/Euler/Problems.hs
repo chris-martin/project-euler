@@ -17,6 +17,7 @@ import Euler.Util.FigurateNumbers
 
 import qualified Euler.Util.NumberWords  as NumberWords
 import qualified Euler.Util.TrianglePath as TrianglePath
+import qualified Euler.Util.PellEquation as PellEquation
 
 import qualified Euler.Problems.Problem11 as Problem11
 import qualified Euler.Problems.Problem15 as Problem15
@@ -263,6 +264,9 @@ answer 45 = pure (showInteger ans)
         xs = filter (\n -> isPentagonal n && isTriangle n) hexagonals
 
 answer 46 = pure (showInteger Problem46.answer)
+
+answer 66 = pure (showInteger ans)
+  where ans = maximumOn PellEquation.fundamentalSolution [2..1000]
 
 answer 67 = do text <- inputText 67
                return (showInteger (f text))
