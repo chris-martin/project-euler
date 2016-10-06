@@ -16,10 +16,10 @@ import Euler.Util.Arithmetic (isSquare, floorSqrt)
 type ContinuedFraction a = (a, [a])
 
 sqrtContinuedFraction :: (Integral a)
-    => a  -- ^ @n@
-    -> Maybe (ContinuedFraction a)
--- ^ Continued fraction expansion of /sqrt(n)/ in canonical form.
---
+    => a                           -- ^ /n/
+    -> Maybe (ContinuedFraction a) -- ^ Continued fraction expansion of
+                                   -- /sqrt(n)/ in canonical form.
+-- ^
 -- >>> fmap (take 6) <$> sqrtContinuedFraction 2
 -- Just (1,[2,2,2,2,2,2])
 --
@@ -31,14 +31,14 @@ sqrtContinuedFraction :: (Integral a)
 
 continuedFractionConvergent :: (Integral a)
     => ContinuedFraction a -- ^ Must be finite
-    -> Ratio a
+    -> Ratio a             -- ^ The approximation represented by the
+                           -- continued fraction
 
 sqrtConvergents :: (Integral a)
-    => a
-    -> Maybe [Ratio a]
--- ^ The convergents of the continued fractions representation
--- of /sqrt(n)/.
---
+    => a               -- ^ /n/
+    -> Maybe [Ratio a] -- ^ The convergents of the continued fractions
+                       -- representation of /sqrt(n)/.
+-- ^
 -- >>> (intercalate ", ") . (fmap showRatio) . (take 5) <$> sqrtConvergents 2
 -- Just "1/1, 3/2, 7/5, 17/12, 41/29"
 --
