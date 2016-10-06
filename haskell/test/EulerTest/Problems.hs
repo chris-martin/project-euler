@@ -8,9 +8,12 @@ import Test.HUnit hiding (Test)
 import Test.Framework
 import Test.Framework.Providers.HUnit
 
+import Control.Monad      ( join )
+
+import Data.Bifunctor     ( bimap )
 import Data.List          ( find )
+import Data.Maybe         ( mapMaybe )
 import Data.Text          ( Text )
-import Data.Text.Encoding ( decodeUtf8 )
 
 import qualified Data.Text    as Text
 import qualified Data.Text.IO as TextIO
@@ -40,13 +43,15 @@ getCorrectAnswer :: Integral a => a -> IO (Maybe String)
 
 -----------------------------------------------------------------------
 
-tests = [testGroup "Problems with fast answers" $ map answerTest
-  [ 1, 2, 3, 5, 6, 7, 8, 9, 11, 13, 15, 16, 17, 18, 19, 20, 22, 28, 29
-  , 33, 40, 42, 66, 67 ]]
+tests = [ testGroup "Problems with fast answers" $ map answerTest xs ]
+  where
+    xs :: [Int]
+    xs = [ 1, 2, 3, 5, 6, 7, 8, 9, 11, 13, 15, 16, 17, 18, 19, 20, 22
+         , 28, 29, 33, 40, 42, 66, 67 ]
 
 answerTest i = testCase name assertion
   where
-    name = "Problem " ++ (show (fromIntegral i)) ++ " answer is correct"
+    name = "Problem " ++ showIntegral i ++ " answer is correct"
     assertion = do
       correctAnswerMaybe <- getCorrectAnswer i
       case correctAnswerMaybe of
@@ -63,11 +68,12 @@ parseCorrectAnswer :: Integral a => a -> Text -> Maybe String
 parseCorrectAnswer i text = fmap snd (find ((== showIntegral i) . fst) answers)
   where
     answers :: [(String, String)]
-    answers = map parseLine $ Text.lines text
+    answers = mapMaybe parseLine $ Text.lines text
       where
-        parseLine :: Text -> (String, String)
+        parseLine :: Text -> Maybe (String, String)
         parseLine line = case Text.words line of
-                           [x, y] -> (Text.unpack x, Text.unpack y)
+                           [x, y] -> Just $ join bimap Text.unpack (x, y)
+                           _      -> Nothing
 
 showIntegral :: Integral a => a -> String
 showIntegral i = show ((fromIntegral i) :: Integer)
