@@ -1,6 +1,7 @@
 module Euler.Problems.Problem33 (answer) where
 
-import Data.Digits (digits)
+import Euler.Util.Digit (digits)
+
 import Data.List   (permutations)
 import Data.Ratio  (denominator, (%))
 

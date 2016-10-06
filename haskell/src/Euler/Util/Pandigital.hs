@@ -9,8 +9,9 @@ module Euler.Util.Pandigital
     , pandigitalsRevOfLength
     ) where
 
+import Euler.Util.Digit (unDigits)
+
 import Control.Monad (guard)
-import Data.Digits   (unDigits)
 import Data.List     (permutations, sort)
 
 -----------------------------------------------------------------------

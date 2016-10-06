@@ -15,10 +15,9 @@ module Euler.Util.Digit
     , intPalindrome
     ) where
 
-import Data.Char   (digitToInt)
-import Data.Digits (digits, digitsRev, unDigits)
-import Data.Maybe  (catMaybes)
-import Data.Text   (Text, unpack)
+import Data.Char  (digitToInt)
+import Data.Maybe (catMaybes)
+import Data.Text  (Text, unpack)
 
 import qualified Data.Text.Read as TextRead
 
@@ -26,6 +25,25 @@ import qualified Data.Text.Read as TextRead
 -- >>> import Test.QuickCheck
 
 -----------------------------------------------------------------
+
+-- | Digits of a positive integer.
+digits :: (Integral a, Integral b)
+    => b   -- ^ Base
+    -> a   -- ^ Number to convert
+    -> [b]
+
+-- | Digits of a positive integer as a list, in reverse order.
+-- This is slightly more efficient than in forward order.
+digitsRev :: (Integral a, Integral b)
+    => b   -- ^ Base
+    -> a   -- ^ Number to convert
+    -> [b]
+
+-- | The positive integer represented by a list of digits,
+unDigits :: (Integral a, Integral b)
+    => b   -- ^ Base
+    -> [b] -- ^ Digits
+    -> a
 
 stringDigits :: String -> [Int]
 -- ^ Get the values of numeric characters from a string, ignoring any
@@ -50,27 +68,31 @@ charIntMaybe  :: Char -> Maybe Int
 
 textIntMaybe  :: Integral a => Text -> Maybe a
 
-intPalindrome :: Integral a => a -> a -> Bool
+intPalindrome :: (Integral a, Integral b)
+    => b    -- ^ Base
+    -> a    -- ^ Number to test
+    -> Bool
 -- ^ @'intPalindrome' b n@ indicates whether the base-/b/
 -- representation /n/ is a palindrome.
 --
--- >>> intPalindrome 10 33
--- True
--- >>> intPalindrome 10 13431
--- True
--- >>> intPalindrome 10 21
--- False
--- >>> intPalindrome 10 335
--- False
+-- >>> intPalindrome 10 <$> [33, 13431, 21, 335]
+-- [True,True,False,False]
 --
 -- Zero and one are palindromes in any base.
---
--- todo - change (n+1) to n - base 1 is broken. https://github.com/chris-martin/project-euler/issues/8
 --
 -- prop> \(Positive n) -> intPalindrome (n+1) 0
 -- prop> \(Positive n) -> intPalindrome (n+1) 1
 
 -----------------------------------------------------------------
+
+digitsRev _ 0 = []
+digitsRev base i = let (rest, lastDigit) = quotRem i (fromIntegral base)
+                   in  (fromIntegral lastDigit) : digitsRev base rest
+
+digits base = reverse . digitsRev base
+
+unDigits base = foldl f 0
+  where f a b = a * (fromIntegral base) + (fromIntegral b)
 
 textDigits = stringDigits . unpack
 
