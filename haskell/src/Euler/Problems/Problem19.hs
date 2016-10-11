@@ -1,12 +1,15 @@
 module Euler.Problems.Problem19
-    ( answer
-    ) where
+    ( Date(..), datesFrom1900, answer ) where
 
 import Euler.Util.Date (monthLength)
+
+import Data.Function ((&))
 
 ------------------------------------------------------
 
 answer :: Integer
+-- ^ The number of Sundays that fell on the first of the month
+--   during the twentieth century (1 Jan 1901 to 31 Dec 2000).
 
 data Date = Date
     { dateYear    :: Int -- ^ Anno Domini
@@ -16,12 +19,13 @@ data Date = Date
     }
 
 datesFrom1900 :: [Date]
+-- ^ All dates starting from Jan 1, 1900.
 
 isMatchingDate :: Date -> Bool
 
 ------------------------------------------------------
 
-answer = (fromIntegral . length . filter isMatchingDate) datesFrom1900
+answer = datesFrom1900 & (filter isMatchingDate) & length & fromIntegral
 
 datesFrom1900 = zipWith f dates weekdays
   where
