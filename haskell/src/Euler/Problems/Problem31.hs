@@ -1,23 +1,27 @@
-module Euler.Problems.Problem31 (answer) where
+-- |
+-- In England the currency is made up of pound, £, and pence, p.
+-- There are eight coins in general circulation:
+-- 1p, 2p, 5p, 10p, 20p, 50p, £1 (100p) and £2 (200p).
 
-answer :: Integer
-answer = count []
+module Euler.Problems.Problem31 (answer, ways) where
 
-count :: Integral a => [a] -> a
-count base | p == target                         = 1
-           | p >  target                         = 0
-           | length base == length denominations = 0
-           | otherwise                           = recurse
-  where
-    p = pence base
-    recurse = (sum . (map (\n -> count (base ++ [n]))))
-              [0 .. (target - p) `div` (denominations !! (length base))]
+answer :: (Integral a) => a
+-- ^ The number of ways to make £2 using any number of coins.
 
-target :: Integral a => a
-target = 200
+answer = ways 200 [200, 100, 50, 20, 10, 5, 2, 1]
 
-pence :: Integral a => [a] -> a
-pence = sum . (zipWith (*) denominations)
+ways :: (Integral a)
+     => a   -- ^ Target amount
+     -> [a] -- ^ Denominations (in descending order for
+            --   best performance)
+     -> a   -- ^ Number of ways to make the target amount
+            --   using the denominations
 
-denominations :: Integral a => [a]
-denominations = [1, 2, 5, 10, 20, 50, 100, 200]
+ways 0 _  = 1  -- There's exactly one way to make no money
+ways _ [] = 0  -- You can't anything with no denominations
+
+ways target (x:xs) = sum $ do
+    -- r: How much to make with the first denomination
+    r <- takeWhile (<= target) $ iterate (+ x) 0
+    -- How many ways to make the rest without that denomination
+    return $ ways (target - r) xs
