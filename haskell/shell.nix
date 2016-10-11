@@ -7,4 +7,6 @@ haskell.lib.buildStackProject {
   inherit ghc;
 
   buildInputs = [ ];
+
+  LANG = "en_US.UTF-8";
 }
