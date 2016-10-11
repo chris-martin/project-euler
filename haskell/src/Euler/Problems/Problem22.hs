@@ -1,6 +1,11 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Euler.Problems.Problem22
-    ( answer
+    ( -- $setup
+      InputText
     , parseNames
+    , unquote
+    , answer
     ) where
 
 import Euler.Util.WordScore
@@ -11,33 +16,46 @@ import Data.Text (Text)
 import qualified Data.Char as Char
 import qualified Data.Text as Text
 
+-- $setup
+-- >>> :set -XOverloadedStrings
+
 -------------------------------------------------------
 
-answer :: Text -> Integer
+type InputText = Text
+-- ^ The contents of the input file: a comma-delimited
+--   list of quoted strings.
+
+type Name = Text
+
+answer :: InputText -> Integer
 -- ^ The answer to the problem, given the input text.
 --
--- >>> answer (Text.pack "\"Bob\",\"Alice\"")
+-- >>> answer "\"Bob\",\"Alice\""
 -- 68
 --
 -- >       A   l    i   c   e           B   o    b
 -- > (1 * (1 + 12 + 9 + 3 + 5)) + (2 * (2 + 15 + 2))
 
-parseNames :: Text -> [String]
+parseNames :: InputText -> [Name]
 -- ^ Parse the input text for this problem.
 --
--- >>> parseNames (Text.pack "\"Alice\",\"Bob\"")
+-- >>> parseNames "\"Alice\",\"Bob\""
 -- ["Alice","Bob"]
+
+unquote :: Text -> Text
+-- ^
+-- >>> unquote "\"Alice\""
+-- "Alice"
 
 -------------------------------------------------------
 
 answer text = sum scores
   where
     names = sort (parseNames text)
-    scores = zipWith (*) [1..] (map wordScore names)
+    scores = zipWith (*) [1..] (map (wordScore . Text.unpack) names)
 
-parseNames = map parseName . splitOnComma
+parseNames = map (unquote . Text.strip) . Text.splitOn ","
+
+unquote = Text.dropWhile isQ . Text.dropWhileEnd isQ
   where
-    splitOnComma = Text.splitOn (Text.pack ",")
-    parseName = Text.unpack . unquote . Text.strip
-    unquote = Text.dropWhile isQ . Text.dropWhileEnd isQ
     isQ = (== '"')
