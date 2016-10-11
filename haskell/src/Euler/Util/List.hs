@@ -1,5 +1,7 @@
 module Euler.Util.List
-    ( neTails
+    (
+    -- $setup
+      neTails
     , sliding
     , transpose
     , untilNothing
