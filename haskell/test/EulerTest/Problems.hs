@@ -47,7 +47,7 @@ tests = [ testGroup "Problems with fast answers" $ map answerTest xs ]
   where
     xs :: [Int]
     xs = [ 1, 2, 3, 5, 6, 7, 8, 9, 11, 13, 15, 16, 17, 18, 19, 20, 22
-         , 28, 29, 33, 40, 42, 66, 67 ]
+         , 28, 29, 33, 40, 42, 66, 67, 68 ]
 
 answerTest i = testCase name assertion
   where

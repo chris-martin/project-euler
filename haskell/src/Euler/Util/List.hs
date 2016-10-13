@@ -101,13 +101,13 @@ adjustEach :: (a -> a) -> [a] -> [[a]]
 
 neTails = NE.fromList . catMaybes . NE.toList . fmap NE.nonEmpty . NE.tails
 
-sliding n xs
-    | length xs >= n = (take n xs) : (sliding n $ tail xs)
+sliding n xs@(_:ys)
+    | length xs >= n = take n xs : sliding n ys
     | otherwise      = []
 
 transpose []     = []
 transpose ([]:_) = []
-transpose xs     = (map head xs) : transpose (map tail xs)
+transpose xs     = map head xs : transpose (map tail xs)
 
 untilNothing = catMaybes . takeWhile isJust
 
@@ -119,6 +119,6 @@ mode = fst . maximumOn snd . MultiSet.toOccurList . MultiSet.fromList
 
 dedupe = map head . group
 
-adjustEach f xs = [adjustIndex i f xs | i <- [0..length xs - 1]]
+adjustEach f xs = [ adjustIndex i f xs | i <- [0 .. length xs - 1] ]
 
-adjustIndex i f xs = (take i xs) ++ [f $ xs !! i] ++ (drop (i+1) xs)
+adjustIndex i f xs = take i xs ++ [f $ xs !! i] ++ drop (i+1) xs

@@ -34,9 +34,10 @@ import qualified Euler.Problems.Problem9  as Problem9
 import Control.Applicative (liftA2)
 import Control.Monad       (guard)
 
-import Data.List  (findIndex, permutations, sort)
-import Data.Maybe (catMaybes, fromJust)
-import Data.Text  (Text)
+import Data.Function ((&))
+import Data.List     (findIndex, permutations, sort)
+import Data.Maybe    (catMaybes, fromJust)
+import Data.Text     (Text)
 
 import qualified Data.List    as List
 import qualified Data.Set     as Set
@@ -271,5 +272,60 @@ answer 66 = pure (showInteger ans)
 answer 67 = do text <- inputText 67
                return (showInteger (f text))
   where f = TrianglePath.reduceTriangle . TrianglePath.parseTriangle
+
+-- The string is 16 digits iff the 10 is on an external node.
+
+{-
+
+       8
+        \
+         2     7
+        /  \  /
+       3    1
+      /\   /
+     9  4-0--6
+         \
+          5
+
+-}
+answer 68 = pure ans
+  where
+    ans = maximum magicStrings
+
+    magicStrings :: [String]
+    magicStrings = concat . (fmap $ concat . fmap show) <$> magicGroups
+
+    magicGroups :: [[[Int]]]
+    magicGroups = filter isMagic groups
+
+    isMagic :: (Eq a, Num a) => [[a]] -> Bool
+    isMagic = allSame . fmap sum
+
+    allSame :: Eq a => [a] -> Bool
+    allSame []  = True
+    allSame [x] = True
+    allSame (x : zs@(y : _)) = x == y && allSame zs
+
+    indices = [ [ 6, 0, 4 ]
+              , [ 5, 4, 3 ]
+              , [ 9, 3, 2 ]
+              , [ 8, 2, 1 ]
+              , [ 7, 1, 0 ]
+              ]
+
+    groups :: [[[Int]]]
+    groups = do p <- permutations [1..9]
+                return $ indices & fmap (fmap (f p)) & cycleToMin
+
+    f _ 9 = 10
+    f p i = p !! i
+
+    -- Rotate the circle around such that the minimum element is first
+    cycleToMin :: Ord a => [a] -> [a]
+    cycleToMin xs = drop i xs ++ take i xs where i = indexOfMin xs
+
+    -- The index of the minimum element in the list
+    indexOfMin :: Ord a => [a] -> Int
+    indexOfMin xs = zip xs [0..] & minimum & snd
 
 answer _ = pure "?"
