@@ -12,7 +12,7 @@ answer = maximum $ concat . (fmap $ concat . fmap show) <$> magicRings
 magicRings :: [Ring]
 magicRings = filter isMagic rings
 
-isMagic :: (Eq a, Num a) => Ring -> Bool
+isMagic :: Ring -> Bool
 isMagic = allSame . fmap sum
 
 rings :: [Ring]
