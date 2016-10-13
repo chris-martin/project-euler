@@ -19,6 +19,7 @@ import qualified Euler.Util.NumberWords  as NumberWords
 import qualified Euler.Util.TrianglePath as TrianglePath
 import qualified Euler.Util.PellEquation as PellEquation
 
+import qualified Euler.Problems.Problem9  as Problem9
 import qualified Euler.Problems.Problem11 as Problem11
 import qualified Euler.Problems.Problem15 as Problem15
 import qualified Euler.Problems.Problem19 as Problem19
@@ -29,7 +30,7 @@ import qualified Euler.Problems.Problem33 as Problem33
 import qualified Euler.Problems.Problem42 as Problem42
 import qualified Euler.Problems.Problem43 as Problem43
 import qualified Euler.Problems.Problem46 as Problem46
-import qualified Euler.Problems.Problem9  as Problem9
+import qualified Euler.Problems.Problem68 as Problem68
 
 import Control.Applicative (liftA2)
 import Control.Monad       (guard)
@@ -273,59 +274,6 @@ answer 67 = do text <- inputText 67
                return (showInteger (f text))
   where f = TrianglePath.reduceTriangle . TrianglePath.parseTriangle
 
--- The string is 16 digits iff the 10 is on an external node.
-
-{-
-
-       8
-        \
-         2     7
-        /  \  /
-       3    1
-      /\   /
-     9  4-0--6
-         \
-          5
-
--}
-answer 68 = pure ans
-  where
-    ans = maximum magicStrings
-
-    magicStrings :: [String]
-    magicStrings = concat . (fmap $ concat . fmap show) <$> magicGroups
-
-    magicGroups :: [[[Int]]]
-    magicGroups = filter isMagic groups
-
-    isMagic :: (Eq a, Num a) => [[a]] -> Bool
-    isMagic = allSame . fmap sum
-
-    allSame :: Eq a => [a] -> Bool
-    allSame []  = True
-    allSame [x] = True
-    allSame (x : zs@(y : _)) = x == y && allSame zs
-
-    indices = [ [ 6, 0, 4 ]
-              , [ 5, 4, 3 ]
-              , [ 9, 3, 2 ]
-              , [ 8, 2, 1 ]
-              , [ 7, 1, 0 ]
-              ]
-
-    groups :: [[[Int]]]
-    groups = do p <- permutations [1..9]
-                return $ indices & fmap (fmap (f p)) & cycleToMin
-
-    f _ 9 = 10
-    f p i = p !! i
-
-    -- Rotate the circle around such that the minimum element is first
-    cycleToMin :: Ord a => [a] -> [a]
-    cycleToMin xs = drop i xs ++ take i xs where i = indexOfMin xs
-
-    -- The index of the minimum element in the list
-    indexOfMin :: Ord a => [a] -> Int
-    indexOfMin xs = zip xs [0..] & minimum & snd
+answer 68 = pure Problem68.answer
 
 answer _ = pure "?"
