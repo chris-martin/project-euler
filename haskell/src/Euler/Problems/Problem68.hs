@@ -1,5 +1,7 @@
 module Euler.Problems.Problem68 (answer) where
 
+import Euler.Util.Foldable (allEqual)
+
 import Data.Function ((&))
 import Data.List     (permutations)
 
@@ -13,7 +15,7 @@ magicRings :: [Ring]
 magicRings = filter isMagic rings
 
 isMagic :: Ring -> Bool
-isMagic = allSame . fmap sum
+isMagic = allEqual . fmap sum
 
 rings :: [Ring]
 rings = do
@@ -57,9 +59,3 @@ cycleToMin xs = drop i xs ++ take i xs
 -- The index of the minimum element in the list.
 indexOfMin :: Ord a => [a] -> Int
 indexOfMin xs = zip xs [0..] & minimum & snd
-
--- Whether all of the items in a list are equal.
-allSame :: Eq a => [a] -> Bool
-allSame []  = True
-allSame [x] = True
-allSame (x : zs@(y : _)) = x == y && allSame zs

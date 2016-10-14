@@ -28,6 +28,7 @@ library
                      , Euler.Util.Digit
                      , Euler.Util.Fibonacci
                      , Euler.Util.FigurateNumbers
+                     , Euler.Util.Foldable
                      , Euler.Util.FrontierSearch
                      , Euler.Util.Inf
                      , Euler.Util.List
