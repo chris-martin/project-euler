@@ -2,7 +2,7 @@ module Euler.Util.Foldable
     ( allEqual
     ) where
 
-allEqual :: (Functor f, Foldable f, Eq a) => f a -> Bool
+allEqual :: (Foldable f, Eq a) => f a -> Bool
 -- ^ Whether all of the items in a list are equal.
 --
 -- >>> allEqual <$> [[], [1], [1,1], [1,2]]
