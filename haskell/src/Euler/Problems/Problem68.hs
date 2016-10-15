@@ -18,6 +18,9 @@ isMagic :: Ring -> Bool
 isMagic = allEqual . fmap sum
 
 rings :: [Ring]
+-- ^ All rings that produce 16-digit strings, possibly including
+--   repetition.
+
 rings = do
     p <- (10:) <$> permutations [1..9]
     return $ indices & fmap (fmap (p !!)) & cycleToMin
@@ -34,7 +37,7 @@ indices = [ [ 0, 5, 6 ]
 {-
 
 The string is 16 digits iff the 10 is on an external node.
-So we fix the 10 at index 0, an arbitrary point on the outer ring.
+So we fix the 10 at index 0, an arbitrary external node.
 
 The indices in this diagram are arbitrary, except for 0; since it
 represents 10, it must be on the outer ring.
