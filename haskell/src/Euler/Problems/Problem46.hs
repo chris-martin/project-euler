@@ -33,7 +33,7 @@ squareDoubles :: Integral a => [a]
 
 ---------------------------------------------------------------------------
 
-answer = (head . (filter (not . isPrime)))
+answer = (head . filter (not . isPrime))
          (OL.minus [3, 5..] goldbachNumbers)
 
 goldbachNumbers = FS.searchValues FS.Conf

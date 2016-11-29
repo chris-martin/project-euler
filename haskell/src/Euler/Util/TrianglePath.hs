@@ -12,16 +12,14 @@ module Euler.Util.TrianglePath
     , reduceTriangle
     ) where
 
-import Data.List.NonEmpty (NonEmpty (..), nonEmpty)
-import Data.Maybe         (catMaybes)
-import Data.Text          (Text)
+import Euler.Prelude
 
 import qualified Data.List.NonEmpty as NE
 import qualified Data.Text          as T
 
 import Euler.Util.List (neTails)
 
----------------------------------------------------------------
+-----------------------------------------------------------------------
 
 type Row      a = NonEmpty a
 type Triangle a = NonEmpty (Row a)
@@ -37,24 +35,27 @@ reduceTriangle :: Integral a => Triangle a -> a
 -- >>> reduceTriangle (parseTriangle (T.pack " 1\n2 3\n7 2 4"))
 -- 10
 
----------------------------------------------------------------
+-----------------------------------------------------------------------
 
-parseTriangle = NE.fromList . reverse . catMaybes . map parseRow . T.lines
-    where parseRow = nonEmpty . map (readI . T.unpack) . T.words
-          readI t = fromIntegral $ ((read t) :: Int)
+parseTriangle = NE.fromList . reverse . mapMaybe parseRow . T.lines
+  where
+    parseRow = nonEmpty . map (readI . T.unpack) . T.words
+    readI t = fromIntegral (read t :: Int)
 
----------------------------------------------------------------
+-----------------------------------------------------------------------
 
 -- If there's one row, choose its maximum element.
 reduceTriangle (row :| []) = maximum row
 
 -- If there are two rows and the second has one element, add it
 -- with the larger of the first two elements of the first row.
-reduceTriangle (row :| [x :| []]) = x + (maximum $ NE.take 2 row)
+reduceTriangle (row :| [x :| []]) = x + maximum (NE.take 2 row)
 
 -- Otherwise, collapse the first two rows by reducing small triangles
 -- formed by zipping the second row with suffixes of the first row.
 reduceTriangle (row1 :| row2 : otherRows) =
     reduceTriangle (newFirstRow :| otherRows)
-    where newFirstRow = do (row, x) <- NE.zip (neTails row1) row2
-                           return (reduceTriangle (row :| [x :| []]))
+  where
+    newFirstRow = do
+        (row, x) <- NE.zip (neTails row1) row2
+        return $ reduceTriangle $ row :| [x :| []]

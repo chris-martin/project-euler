@@ -5,9 +5,7 @@ module Euler.Util.ContinuedFractions
     , sqrtConvergents
     ) where
 
-import Data.Foldable (foldr')
-import Data.List (inits, intercalate)
-import Data.Ratio (Ratio, (%), numerator, denominator)
+import Euler.Prelude
 
 import Euler.Util.Arithmetic (isSquare, floorSqrt)
 

@@ -1,9 +1,9 @@
 module Euler.Problems.Problem11
     ( Grid, GridText, answer, parseGrid ) where
 
-import Euler.Util.List (sliding, transpose)
+import Euler.Prelude
 
-import Data.Text (Text)
+import Euler.Util.List (sliding, transpose)
 
 import qualified Data.Either    as Either
 import qualified Data.Text      as Text
@@ -16,7 +16,7 @@ type GridText = Text
 answer :: GridText -> Integer
 -- ^ The greatest product of four adjacent numbers in the same direction.
 
-answer = maximum . (map product) . groups . parseGrid
+answer = maximum . map product . groups . parseGrid
 
 type Grid = [[Integer]]
 
@@ -37,11 +37,11 @@ shift rows = (transpose . map shiftRow) (zip rows [0..])
   where
     shiftRow (row, i) = concat [ replicate i 0
                                , row
-                               , replicate (2 * (length row)) 0
+                               , replicate (2 * length row) 0
                                ]
 
 parseGrid :: GridText -> Grid
-parseGrid = (map parseLine) . Text.lines
+parseGrid = map parseLine . Text.lines
   where
     parseLine = map fst
               . Either.rights

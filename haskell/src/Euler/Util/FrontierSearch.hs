@@ -4,11 +4,13 @@ module Euler.Util.FrontierSearch
     , searchNodes
     ) where
 
-import           Data.Function   (on)
-import           Data.Maybe      (fromJust)
-import           Data.Set        (Set)
-import qualified Data.Set        as Set
-import           Euler.Util.List (dedupe)
+import Euler.Prelude
+
+import Euler.Util.List (dedupe)
+
+import qualified Data.Set as Set
+
+------------------------------------------------------------------------
 
 data Conf node value = Conf
     { next      :: node -> [node]
@@ -57,7 +59,7 @@ type Frontier node value = Set (NodeWrapper node value)
 nodesFromFrontier :: (Ord node, Ord value) =>
   Conf node value -> Frontier node value -> [NodeWrapper node value]
 nodesFromFrontier conf frontier =
-  node : (nodesFromFrontier conf newFrontier)
+    node : nodesFromFrontier conf newFrontier
   where
     (node, frontier') = fromJust (Set.minView frontier)
     newFrontier = Set.union frontier' (Set.fromList nextNodes)

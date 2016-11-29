@@ -6,7 +6,8 @@ module Euler.Util.Collatz
     , Lengths
     ) where
 
-import           Data.Map (Map)
+import Euler.Prelude
+
 import qualified Data.Map as Map
 
 ------------------------------------------------------------------

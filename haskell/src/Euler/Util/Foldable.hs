@@ -2,6 +2,10 @@ module Euler.Util.Foldable
     ( allEqual
     ) where
 
+import Euler.Prelude
+
+------------------------------------------------------------------------
+
 allEqual :: (Foldable f, Eq a) => f a -> Bool
 -- ^ Whether all of the items in a list are equal.
 --

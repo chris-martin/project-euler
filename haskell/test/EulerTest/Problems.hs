@@ -4,21 +4,16 @@ module EulerTest.Problems
     , answerTestMain
     ) where
 
+import Euler.Prelude
+
+import qualified Euler.Problems
+
 import Test.HUnit hiding (Test)
 import Test.Framework
 import Test.Framework.Providers.HUnit
 
-import Control.Monad      ( join )
-
-import Data.Bifunctor     ( bimap )
-import Data.List          ( find )
-import Data.Maybe         ( mapMaybe )
-import Data.Text          ( Text )
-
 import qualified Data.Text    as Text
 import qualified Data.Text.IO as TextIO
-
-import qualified Euler.Problems
 
 -----------------------------------------------------------------------
 
@@ -76,4 +71,4 @@ parseCorrectAnswer i text = fmap snd (find ((== showIntegral i) . fst) answers)
                            _      -> Nothing
 
 showIntegral :: Integral a => a -> String
-showIntegral i = show ((fromIntegral i) :: Integer)
+showIntegral i = show (fromIntegral i :: Integer)

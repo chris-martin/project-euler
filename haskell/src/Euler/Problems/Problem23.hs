@@ -7,12 +7,13 @@ module Euler.Problems.Problem23
     , answerBounded
     ) where
 
+import Euler.Prelude
+
 import Euler.Util.Prime (factorizations, properDivisorsOfPrimeProduct)
 
 import qualified Data.Map      as Map
 import qualified Data.Sequence as Seq
 import qualified Data.Set      as Set
-import           Data.Set      ((\\))
 
 ------------------------------------------------------------------
 
@@ -36,9 +37,10 @@ answerBounded bound = sum $
 xs :: (Integral a) => a -> [a]
 xs bound = [ ab x + ab y | x <- [0..l], y <- [x..l] ]
   where
-    divisorSums = fmap (sum . properDivisorsOfPrimeProduct) (factorizations bound)
+    divisorSums = fmap (sum . properDivisorsOfPrimeProduct)
+                       (factorizations bound)
     d = (divisorSums Map.!)
 
-    abundants = (Seq.fromList . (filter (\n -> d n > n))) [2..bound]
+    abundants = (Seq.fromList . filter (\n -> d n > n)) [2..bound]
     ab = (abundants `Seq.index`)
     l = length abundants - 1

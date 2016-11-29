@@ -5,7 +5,9 @@ module Euler.Util.Polynomial
     , findIntRootBetween
     ) where
 
-import Data.Maybe (isJust)
+import Euler.Prelude
+
+-------------------------------------------------------------------------------
 
 -- | Polynomials are represented by coefficient lists. For example,
 -- /7 + 5x - 4x^2 + 12x^4/ has coefficients @[7, 5, -4, 0, 12]@.
@@ -40,8 +42,8 @@ findIntRootBetween cfs x1 x2 = findIntRootBetweenP cfs (evalP cfs x1)
                                                        (evalP cfs x2)
 
 findIntRootBetweenP :: (Integral a) => [a] -> P a -> P a -> Maybe a
-findIntRootBetweenP cfs p1@(P { px = x1, py = y1 })
-                        p2@(P { px = x2, py = y2 })
+findIntRootBetweenP cfs p1@P{ px = x1, py = y1 }
+                        p2@P{ px = x2, py = y2 }
     | y1 == 0                = Just x1
     | y2 == 0                = Just x2
     | signum y1 == signum y2 = Nothing
@@ -49,5 +51,5 @@ findIntRootBetweenP cfs p1@(P { px = x1, py = y1 })
     | otherwise              = recur
     where
       recur = findIntRootBetweenP cfs mid $
-        if signum (py mid) == signum y1 then p2 else p1
-      mid = evalP cfs $ (min x1 x2) + ((abs (x1 - x2)) `div` 2)
+          if signum (py mid) == signum y1 then p2 else p1
+      mid = evalP cfs $ min x1 x2 + abs (x1 - x2) `div` 2

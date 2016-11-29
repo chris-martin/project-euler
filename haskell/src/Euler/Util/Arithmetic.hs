@@ -19,7 +19,7 @@ module Euler.Util.Arithmetic
     , million
     ) where
 
-import Data.Maybe (isJust)
+import Euler.Prelude
 
 -- $setup
 -- >>> import Test.QuickCheck

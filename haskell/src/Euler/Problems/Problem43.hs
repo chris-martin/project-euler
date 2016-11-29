@@ -27,4 +27,4 @@ answer = sum $ filter predicate pandigitals
 predicate i = and $ zipWith divides (primes :: [Integer])
                                     (substrings i)
 
-substrings = map (unDigits 10) . drop 1 . sliding 3 . digits 10
+substrings = map (unDigits (10 :: Integer)) . drop 1 . sliding 3 . digits 10

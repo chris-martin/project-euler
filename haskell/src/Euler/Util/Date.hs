@@ -13,6 +13,8 @@ module Euler.Util.Date
 
     ) where
 
+import Euler.Prelude
+
 -----------------------------------------------------------------------
 
 monthLength :: Int -> Int -> Int

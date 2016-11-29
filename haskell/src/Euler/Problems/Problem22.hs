@@ -8,12 +8,10 @@ module Euler.Problems.Problem22
     , answer
     ) where
 
+import Euler.Prelude
+
 import Euler.Util.WordScore
 
-import Data.List (sort)
-import Data.Text (Text)
-
-import qualified Data.Char as Char
 import qualified Data.Text as Text
 
 -- $setup

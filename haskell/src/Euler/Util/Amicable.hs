@@ -9,8 +9,9 @@ module Euler.Util.Amicable
     ( amicableNumbers
     ) where
 
-import qualified Data.Map         as Map
-import           Euler.Util.Prime (factorizations, properDivisorsOfPrimeProduct)
+import qualified Data.Map as Map
+
+import Euler.Util.Prime (factorizations, properDivisorsOfPrimeProduct)
 
 -----------------------------------------------------------------------
 
@@ -22,7 +23,7 @@ amicableNumbers :: Integer -> [Integer]
 
 amicableNumbers max = filter isAmicable [2..max]
   where
-    divisorSums = fmap (sum . properDivisorsOfPrimeProduct) $ factorizations max
+    divisorSums = (sum . properDivisorsOfPrimeProduct) <$> factorizations max
     d  = (divisorSums Map.!)
     d' = (`Map.lookup` divisorSums)
 

@@ -13,12 +13,7 @@ module Euler.Util.List
     , adjustIndex
     ) where
 
-import Data.Foldable      (maximumBy)
-import Data.Function      (on)
-import Data.List          (group)
-import Data.List.NonEmpty (NonEmpty (..))
-import Data.Maybe         (catMaybes, isJust)
-import Data.Ord           (compare)
+import Euler.Prelude
 
 import qualified Data.List.NonEmpty as NE
 import qualified Data.MultiSet      as MultiSet
@@ -121,4 +116,4 @@ dedupe = map head . group
 
 adjustEach f xs = [ adjustIndex i f xs | i <- [0 .. length xs - 1] ]
 
-adjustIndex i f xs = take i xs ++ [f $ xs !! i] ++ drop (i+1) xs
+adjustIndex i f xs = take i xs <> [f $ xs !! i] <> drop (i+1) xs

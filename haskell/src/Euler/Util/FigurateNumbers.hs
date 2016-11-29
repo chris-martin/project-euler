@@ -27,6 +27,8 @@ module Euler.Util.FigurateNumbers
 
     ) where
 
+import Euler.Prelude
+
 import qualified Euler.Util.Polynomial as Poly
 
 -- $setup

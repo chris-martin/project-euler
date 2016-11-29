@@ -7,11 +7,12 @@ module Euler.Util.WordScore
     , wordScoreText
     ) where
 
------------------------------------------------------------------
+import Euler.Prelude
 
 import qualified Data.Char as Char
 import qualified Data.Text as Text
-import           Data.Text (Text)
+
+-----------------------------------------------------------------
 
 wordScore :: String -> Integer
 -- ^ The sum of the letter scores in a string.
@@ -33,8 +34,8 @@ letterScore :: Char -> Int
 
 -----------------------------------------------------------------
 
-wordScore = sum . map (fromIntegral . letterScore)
+wordScore = sum . fmap (fromIntegral . letterScore)
 
 wordScoreText = wordScore . Text.unpack
 
-letterScore c = (Char.ord (Char.toUpper c)) - (Char.ord 'A') + 1
+letterScore c = Char.ord (Char.toUpper c) - Char.ord 'A' + 1

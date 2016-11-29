@@ -3,7 +3,7 @@ module Euler.Problems.Problem9
     , answerTriple
     ) where
 
-import Data.List (sort)
+import Euler.Prelude
 
 ----------------------------------------------------------------------
 
@@ -24,7 +24,7 @@ answerTriple = (threeSort . head) (filter isPythagorean tripleCandidates)
 
 -- | Candidate triples that aren't necessarily pythagorean
 tripleCandidates :: Integral a => [(a, a, a)]
-tripleCandidates = map completeTriple (pairsOf [1..magicNumber])
+tripleCandidates = map completeTriple $ pairsOf [1 .. magicNumber]
   where
     completeTriple (a, b) = (a, b, magicNumber - a - b)
     magicNumber = 1000

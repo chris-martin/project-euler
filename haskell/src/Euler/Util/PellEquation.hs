@@ -5,14 +5,11 @@ module Euler.Util.PellEquation
     , checkSolution
     ) where
 
-import Euler.Util.Arithmetic         (isSquare)
+import Euler.Prelude
+
 import Euler.Util.ContinuedFractions (sqrtConvergents)
 
-import Control.Arrow ((&&&))
-
-import           Data.Function ((&))
-import qualified Data.List     as List
-import           Data.Ratio    (numerator, denominator)
+import qualified Data.List as List
 
 ---------------------------------------------------------
 
@@ -35,5 +32,5 @@ checkSolution d (x, y) = (x^2) - (d * y^2) == 1
 
 fundamentalSolution d = do
     c <- sqrtConvergents d
-    s <- List.find (checkSolution d) $ (fmap (numerator &&& denominator)) c
-    return s
+    s <- List.find (checkSolution d) $ (numerator &&& denominator) <$> c
+    pure s

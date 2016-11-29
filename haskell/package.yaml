@@ -1,0 +1,73 @@
+name: Euler
+version: 0.1.0.0
+
+ghc-options: -Wall
+
+dependencies:
+  - base
+  - containers
+  - data-ordlist
+  - multimap
+  - multiset
+  - multiset-comb
+  - primes
+  - scientific
+  - semigroups
+  - text
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Euler.Prelude
+    - Euler.Problems
+    - Euler.Problems.Problem9
+    - Euler.Problems.Problem11
+    - Euler.Problems.Problem15
+    - Euler.Problems.Problem19
+    - Euler.Problems.Problem22
+    - Euler.Problems.Problem23
+    - Euler.Problems.Problem31
+    - Euler.Problems.Problem33
+    - Euler.Problems.Problem42
+    - Euler.Problems.Problem43
+    - Euler.Problems.Problem46
+    - Euler.Problems.Problem47
+    - Euler.Problems.Problem68
+    - Euler.Problems.Problem69
+    - Euler.Util.Amicable
+    - Euler.Util.Arithmetic
+    - Euler.Util.Collatz
+    - Euler.Util.ContinuedFractions
+    - Euler.Util.Date
+    - Euler.Util.Decimal
+    - Euler.Util.Digit
+    - Euler.Util.Fibonacci
+    - Euler.Util.FigurateNumbers
+    - Euler.Util.Foldable
+    - Euler.Util.FrontierSearch
+    - Euler.Util.Inf
+    - Euler.Util.List
+    - Euler.Util.Map
+    - Euler.Util.NumberWords
+    - Euler.Util.Pandigital
+    - Euler.Util.PellEquation
+    - Euler.Util.Polynomial
+    - Euler.Util.Prime
+    - Euler.Util.TrianglePath
+    - Euler.Util.WordScore
+
+tests:
+  test:
+    source-dirs: test
+    main: test.hs
+    dependencies:
+      - base
+      - Euler
+      - containers
+      - semigroups
+      - text
+      - HUnit
+      - test-framework
+      - test-framework-hunit
+      - doctest
+    ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N

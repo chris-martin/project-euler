@@ -15,9 +15,7 @@ module Euler.Util.Digit
     , intPalindrome
     ) where
 
-import Data.Char  (digitToInt)
-import Data.Maybe (catMaybes)
-import Data.Text  (Text, unpack)
+import Euler.Prelude
 
 import qualified Data.Text.Read as TextRead
 
@@ -87,20 +85,20 @@ intPalindrome :: (Integral a, Integral b)
 
 digitsRev _ 0 = []
 digitsRev base i = let (rest, lastDigit) = quotRem i (fromIntegral base)
-                   in  (fromIntegral lastDigit) : digitsRev base rest
+                   in  fromIntegral lastDigit : digitsRev base rest
 
 digits base = reverse . digitsRev base
 
 unDigits base = foldl f 0
-  where f a b = a * (fromIntegral base) + (fromIntegral b)
+  where f a b = a * fromIntegral base + fromIntegral b
 
 textDigits = stringDigits . unpack
 
 textIntMaybe = do e <- TextRead.decimal
-                  return $ case e of Right(a, t) -> Just a
-                                     _           -> Nothing
+                  return $ case e of Right (a, _) -> Just a
+                                     _            -> Nothing
 
-stringDigits = catMaybes . (map charIntMaybe)
+stringDigits = mapMaybe charIntMaybe
 
 charIntMaybe c
     | c `elem` ['0'..'9'] = Just $ digitToInt c

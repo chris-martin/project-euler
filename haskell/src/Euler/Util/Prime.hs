@@ -13,6 +13,7 @@ module Euler.Util.Prime
     , largestPrimeFactor
 
     -- * Divisors
+    , divisors
     , countDivisors
     , divisorsOfPrimeProduct
 
@@ -22,19 +23,17 @@ module Euler.Util.Prime
     , properDivisorsOfPrimeProduct
     ) where
 
-import qualified Data.Map.Strict             as Map'
-import qualified Data.MultiSet               as MultiSet
-import qualified Math.Combinatorics.Multiset as MS
+import Euler.Prelude
+
+import Euler.Util.Arithmetic (divides)
+import Euler.Util.List       (untilNothing)
 
 import qualified Euler.Util.FrontierSearch as FS
 import qualified Euler.Util.Inf            as Inf
 
-import Data.List           (group, sort)
-import Data.Map            (Map)
-import Data.Numbers.Primes (isPrime, primes)
-
-import Euler.Util.Arithmetic (divides)
-import Euler.Util.List       (untilNothing)
+import qualified Data.Map.Strict             as Map'
+import qualified Data.MultiSet               as MultiSet
+import qualified Math.Combinatorics.Multiset as MS
 
 -- $setup
 -- >>> import Test.QuickCheck
@@ -135,10 +134,10 @@ primeFactors n = sort $ primeFactors' [] n
     primeFactors' f' n' = primeFactors' f'' n''
       where
         f'' = d : f'
-        n'' = (fromIntegral n') `div` (fromIntegral d)
+        n'' = fromIntegral n' `div` fromIntegral d
         d = smallestPrimeFactor n'
 
-smallestPrimeFactor n = head $ filter (`divides` (fromIntegral n)) primes
+smallestPrimeFactor n = head $ filter (`divides` fromIntegral n) primes
 
 largestPrimeFactor n
     | isPrime n = fromIntegral n
@@ -146,20 +145,22 @@ largestPrimeFactor n
 
 countDivisors = product . map (fromIntegral . (+1) . length) . group . primeFactors
 
-factorizations n = toMap $ [] : (f [])
+factorizations n = toMap $ [] : f []
   where
     f tail = (concat . untilNothing . map g) primes
       where
         g p = let fs = p : tail
-              in  if product fs > n then Nothing else Just $ fs : (f fs)
+              in  if product fs > n then Nothing else Just $ fs : f fs
 
-    toMap = Map'.fromList . (map (\fs -> (product fs, sort fs)))
+    toMap = Map'.fromList . map (liftA2 (,) product sort)
 
 factorizationsAsc = (\(_, fs, _) -> MultiSet.toAscList fs) <$> FS.searchNodes FS.Conf
     { FS.start = [(1, MultiSet.empty, Inf.fromList primes)]
     , FS.next = \(n, factors, higherPrimes) ->
        let h:hs = Inf.toList higherPrimes in
-           (if MultiSet.size factors <= 1 then [(h, MultiSet.singleton h, Inf.fromList hs)] else []) ++
+           (if MultiSet.size factors <= 1
+               then [(h, MultiSet.singleton h, Inf.fromList hs)]
+               else []) <>
            ((\f -> (n*f, MultiSet.insert f factors, higherPrimes)) <$> takeWhile (<h) primes)
     , FS.nodeValue = \(n, _, _) -> n
     }

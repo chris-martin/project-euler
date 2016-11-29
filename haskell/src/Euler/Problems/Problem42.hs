@@ -1,13 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Euler.Problems.Problem42
-    ( answer, parseWords, isTriangleWord ) where
+    ( answer, parseWords, isTriangleWord
+    ) where
 
-import           Data.Text (Text)
-import qualified Data.Text as Text
+import Euler.Prelude
 
 import Euler.Util.FigurateNumbers (isTriangle)
-import Euler.Util.WordScore       (wordScore, wordScoreText)
+import Euler.Util.WordScore       (wordScoreText)
+
+import qualified Data.Text as Text
 
 --------------------------------------------------------------------
 

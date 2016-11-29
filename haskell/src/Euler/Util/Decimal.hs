@@ -2,6 +2,8 @@ module Euler.Util.Decimal
     ( repetendLength
     ) where
 
+import Euler.Prelude
+
 import qualified Data.Scientific as Sci
 
 ------------------------------------------------------

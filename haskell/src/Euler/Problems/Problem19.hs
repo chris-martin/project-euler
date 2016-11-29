@@ -1,9 +1,9 @@
 module Euler.Problems.Problem19
     ( Date(..), datesFrom1900, answer ) where
 
-import Euler.Util.Date (monthLength)
+import Euler.Prelude
 
-import Data.Function ((&))
+import Euler.Util.Date (monthLength)
 
 ------------------------------------------------------
 
@@ -25,7 +25,7 @@ isMatchingDate :: Date -> Bool
 
 ------------------------------------------------------
 
-answer = datesFrom1900 & (filter isMatchingDate) & length & fromIntegral
+answer = datesFrom1900 & filter isMatchingDate & length & fromIntegral
 
 datesFrom1900 = zipWith f dates weekdays
   where
@@ -45,6 +45,6 @@ datesFrom1900 = zipWith f dates weekdays
     weekdays = cycle [1 .. 7]
 
 isMatchingDate d =
-    (dateYear    d) /= 1900 &&
-    (dateDay     d) == 1    &&
-    (dateWeekday d) == 7
+    dateYear    d /= 1900 &&
+    dateDay     d == 1    &&
+    dateWeekday d == 7

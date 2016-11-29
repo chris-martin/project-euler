@@ -3,6 +3,10 @@
 
 module Euler.Util.NumberWords (word) where
 
+import Euler.Prelude
+
+----------------------------------------------------------
+
 word :: Int -> String
 -- ^
 -- >>> word 21
@@ -44,11 +48,11 @@ word 90 = "ninety"
 
 word i | i < 100 =
   let (a, b) = quotRem i 10
-  in (word (10 * a)) ++ (word b)
+  in  word (10 * a) <> word b
 
 word i | i < 1000 =
   case quotRem i 100 of
-    (a, 0) -> (word a) ++ "hundred"
-    (a, b) -> (word a) ++ "hundredand" ++ (word b)
+    (a, 0) -> word a <> "hundred"
+    (a, b) -> word a <> "hundredand" <> word b
 
 word 1000 = "onethousand"

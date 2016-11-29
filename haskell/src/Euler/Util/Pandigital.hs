@@ -9,10 +9,9 @@ module Euler.Util.Pandigital
     , pandigitalsRevOfLength
     ) where
 
-import Euler.Util.Digit (unDigits)
+import Euler.Prelude
 
-import Control.Monad (guard)
-import Data.List     (permutations, sort)
+import Euler.Util.Digit (unDigits)
 
 -----------------------------------------------------------------------
 
@@ -32,12 +31,12 @@ pandigitalsRevOfLength :: (Integral a, Integral b) => a -> [b]
 -----------------------------------------------------------------------
 
 pandigitals = do
-    p <- permutations [0..9]
+    p <- permutations [0 .. 9 :: Integer]
     guard (head p /= 0)
     return (unDigits 10 p)
 
 pandigitalsRev = concatMap pandigitalsRevOfLength [9, 8 .. (1 :: Int)]
 
 pandigitalsRevOfLength n =
-    ((map (unDigits 10)) . reverse . sort . permutations . (map fromIntegral))
+    (map (unDigits 10) . reverse . sort . permutations . map fromIntegral)
     [n, n-1 .. 1]

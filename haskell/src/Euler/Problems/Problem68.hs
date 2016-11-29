@@ -1,15 +1,14 @@
 module Euler.Problems.Problem68 (answer) where
 
-import Euler.Util.Foldable (allEqual)
+import Euler.Prelude
 
-import Data.Function ((&))
-import Data.List     (permutations)
+import Euler.Util.Foldable (allEqual)
 
 type Group = [Int]
 type Ring = [Group]
 
 answer :: String
-answer = maximum $ concat . (fmap $ concat . fmap show) <$> magicRings
+answer = maximum $ concatMap (concatMap show) <$> magicRings
 
 magicRings :: [Ring]
 magicRings = filter isMagic rings
@@ -18,8 +17,7 @@ isMagic :: Ring -> Bool
 isMagic = allEqual . fmap sum
 
 rings :: [Ring]
--- ^ All rings that produce 16-digit strings, possibly including
---   repetition.
+-- ^ All rings that produce 16-digit strings, possibly including repetition.
 
 rings = do
     p <- (10:) <$> permutations [1..9]
