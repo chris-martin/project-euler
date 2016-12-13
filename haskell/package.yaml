@@ -70,4 +70,5 @@ tests:
       - test-framework
       - test-framework-hunit
       - doctest
+      - QuickCheck
     ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N

@@ -1,10 +1,7 @@
-resolver: 'lts-7.2'
+resolver: 'lts-7.13'
 
 packages:
 - '.'
-
-extra-deps:
-- 'multiset-comb-0.2.4.1'
 
 nix:
   shell-file: 'shell.nix'
