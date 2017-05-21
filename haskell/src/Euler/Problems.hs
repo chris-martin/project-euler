@@ -1,4 +1,4 @@
-module Euler.Problems (answer) where
+module Euler.Problems (answers) where
 
 import Euler.Prelude
 
@@ -48,10 +48,17 @@ inputText i = TextIO.readFile ("../problems/" <> show i <> "-data.txt")
 showInteger :: Integer -> String
 showInteger = show
 
+(<&>) :: Functor f => f a -> (a -> b) -> f b
+(<&>) = flip fmap
+infixl 1 <&>
+
+(~>) :: a -> b -> (a, b)
+(~>) a b = (a, b)
+infixr 0 ~>
+
 -------------------------------------------------------------------------
 
--- | @'answer' n@ calculates the answer to Euler problem /n/, or
--- evaluates to @"?"@ if there is no solution known for problem /n/.
+-- | Answers to Euler problems.
 --
 -- The answers to Project Euler problems are all numeric, but the type
 -- here is 'String' rather than 'Integer' because in some cases the answer
@@ -60,101 +67,129 @@ showInteger = show
 --
 -- Most of the answers are pure, but 'IO' is allowed because some problems
 -- involve reading input data from files.
-answer :: Integral a => a -> IO String
+answers :: Map Int (IO String)
+answers = Map.fromList
 
-answer 1 = pure $ showInteger ans
-  where
-    ans = sum $ filter f [1..999]
-    f n = any (`divides` n) ([3, 5] :: [Integer])
+  [ 1 ~>
+    [1..999]
+    & filter (\n -> any (`divides` n) ([3, 5] :: [Integer]))
+    & sum & showInteger & pure
 
-answer 2 = pure $ showInteger ans
-  where
-    ans = (sum . filter even . takeWhile (< 4 * million)) fibs
+  , 2 ~>
+    fibs
+    & takeWhile (< 4 * million)
+    & filter even
+    & sum
+    & showInteger
+    & pure
 
-answer 3 = pure $ showInteger ans
-  where
-    ans = largestPrimeFactor (600851475143 :: Integer)
+  , 3 ~>
+    (600851475143 :: Integer)
+    & largestPrimeFactor
+    & showInteger
+    & pure
 
-answer 4 = pure $ showInteger ans
-  where
-    ans = (maximum . filter (intPalindrome (10 :: Integer))) products
-    products = do
-        a <- [1 .. 999]
-        b <- [1 .. a]
-        pure $ a * b
+  , 4 ~>
+    ([1 .. 999] >>= \a -> [1 .. a] <&> \b -> a * b)
+    & filter (intPalindrome (10 :: Integer))
+    & maximum
+    & showInteger
+    & pure
 
-answer 5 = pure $ showInteger ans
-  where
-    ans = product factors
-    -- greatest powers of primes within the bound
-    factors :: [Integer]
-    factors = map powerUp (takeWhile (<= bound) primes)
+  , 5 ~>
+    let -- greatest powers of primes within the bound
+        factors :: [Integer]
+        factors = map powerUp (takeWhile (<= bound) primes)
 
-    powerUp n = last (takeWhile (<= bound) (powersOf n))
-    powersOf n = map (n^) [(1 :: Int) ..]
-    bound = 20
+        powerUp n = last (takeWhile (<= bound) (powersOf n))
+        powersOf n = map (n^) [(1 :: Int) ..]
+        bound = 20
+    in  pure $ showInteger (product factors)
 
-answer 6 = pure $ showInteger ans
-  where
-    ans = square (sum xs) - sum (map square xs)
-    xs = [1..100]
+  , 6 ~>
+    (let xs = [1..100] in square (sum xs) - sum (map square xs))
+    & showInteger
+    & pure
 
-answer 7 = pure (showInteger ans)
-  where
-    ans = primes !! 10000
+  , 7 ~>
+    primes !! 10000
+    & showInteger
+    & pure
 
-answer 8 = do
-    text <- inputText 8
-    pure $ showInteger (f text)
-  where
-    f = maximum . map product . sliding 5 . map toInteger . textDigits
+  , 8 ~>
+    let f = maximum . map product . sliding 5 . map toInteger . textDigits
+    in do text <- inputText 8
+          pure $ showInteger (f text)
 
-answer 9 = pure $ showInteger Problem9.answer
+  , 9 ~>
+    Problem9.answer
+    & showInteger
+    & pure
 
-answer 10 = pure $ showInteger ans
-  where ans = sum $ takeWhile (< 2 * million) primes
+  , 10 ~>
+    primes
+    & takeWhile (< 2 * million)
+    & sum
+    & showInteger
+    & pure
 
-answer 11 = do
-    text <- inputText 11
-    pure $ show $ Problem11.answer text
+  , 11 ~>
+    do
+      text <- inputText 11
+      pure $ show $ Problem11.answer text
 
-answer 12 = pure $ showInteger ans
-  where
-    ans = (fromJust . List.find f) (scanl1 (+) [1..])
-    f n = countDivisors n > (500 :: Integer)
+  , 12 ~>
+    let f n = countDivisors n > (500 :: Integer)
+    in  pure $ showInteger (fromJust . List.find f) (scanl1 (+) [1..])
 
-answer 13 = do
-    text <- inputText 13
-    pure $ f text
-  where
-    f = take 10 . showInteger . sum . parseNumbers
-    parseNumbers = mapMaybe textIntMaybe . Text.lines
+  , 13 ~>
+    let f = take 10 . showInteger . sum . parseNumbers
+        parseNumbers = mapMaybe textIntMaybe . Text.lines
+    in  do text <- inputText 13
+           pure $ f text
 
-answer 14 = pure $ showInteger ans
-  where
-    ans = (keyWithMaxValue . collatzLengths) [1 .. million]
+  , 14 ~>
+    [1 .. million]
+    & collatzLengths
+    & keyWithMaxValue
+    & showInteger
+    pure
 
-answer 15 = pure $ showInteger Problem15.answer
+  , 15 ~>
+    Problem15.answer
+    & showInteger
+    & pure
 
-answer 16 = pure $ showInteger ans
-  where
-    ans = sum (digits 10 (2 ^ (1000 :: Integer) :: Integer))
+  , 16 ~>
+    (2 ^ (1000 :: Int) :: Integer)
+    & digits 10
+    & sum
+    & showInteger
+    & pure
 
-answer 17 = pure $ showInteger ans
-  where
-    ans = sum $ map (fromIntegral . length . NumberWords.word) [1..1000]
+  , 17 ~>
+    [1..1000]
+    & fmap (fromIntegral . length . NumberWords.word)
+    & sum
+    & showInteger
+    & pure
 
-answer 18 = do
-    text <- inputText 18
-    pure $ showInteger $ f text
-  where
-    f = TrianglePath.reduceTriangle . TrianglePath.parseTriangle
+  , 18 ~>
+    let f = TrianglePath.reduceTriangle . TrianglePath.parseTriangle
+    in  do
+          text <- inputText 18
+          pure $ showInteger $ f text
 
-answer 19 = pure $ showInteger Problem19.answer
+  , 19 ~>
+    pure $ showInteger Problem19.answer
 
-answer 20 = pure $ showInteger ans
-  where
-    ans = (sum . digits 10 . factorial) (100 :: Integer)
+  , 20 ~>
+    (100 :: Integer)
+    & factorial
+    & digits 10
+    & sum
+    & showInteger
+    & pure
 
 answer 21 = pure $ showInteger ans
   where
