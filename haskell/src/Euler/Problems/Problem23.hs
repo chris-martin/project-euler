@@ -11,9 +11,9 @@ import Euler.Prelude
 
 import Euler.Util.Prime (factorizations, properDivisorsOfPrimeProduct)
 
-import qualified Data.Map      as Map
+import qualified Data.Map as Map
 import qualified Data.Sequence as Seq
-import qualified Data.Set      as Set
+import qualified Data.Set as Set
 
 ------------------------------------------------------------------
 

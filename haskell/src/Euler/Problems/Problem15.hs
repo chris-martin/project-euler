@@ -3,7 +3,7 @@ module Euler.Problems.Problem15
 
 import Euler.Prelude
 
-import qualified Data.Map   as Map
+import qualified Data.Map as Map
 import qualified Data.Maybe as Maybe
 
 answer :: Integer

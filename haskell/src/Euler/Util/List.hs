@@ -16,8 +16,8 @@ module Euler.Util.List
 import Euler.Prelude
 
 import qualified Data.List.NonEmpty as NE
-import qualified Data.MultiSet      as MultiSet
-import qualified Data.Set           as Set
+import qualified Data.MultiSet as MultiSet
+import qualified Data.Set as Set
 
 -- $setup
 -- >>> import Data.Char (toUpper)

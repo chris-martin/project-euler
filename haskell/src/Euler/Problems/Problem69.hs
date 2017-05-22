@@ -3,10 +3,10 @@ module Euler.Problems.Problem69 (answer) where
 import Euler.Prelude
 
 import Euler.Util.Arithmetic (million)
-import Euler.Util.List       (maximumOn)
-import Euler.Util.Prime      (primes)
+import Euler.Util.List (maximumOn)
+import Euler.Util.Prime (primes)
 
-import qualified Data.Map    as Map
+import qualified Data.Map as Map
 import qualified Data.SetMap as SetMap
 
 answer :: Int

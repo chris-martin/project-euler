@@ -5,8 +5,8 @@ import Euler.Prelude
 
 import Euler.Util.List (sliding, transpose)
 
-import qualified Data.Either    as Either
-import qualified Data.Text      as Text
+import qualified Data.Either as Either
+import qualified Data.Text as Text
 import qualified Data.Text.Read as TextRead
 
 type GridText = Text

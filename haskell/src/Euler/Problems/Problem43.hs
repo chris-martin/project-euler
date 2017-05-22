@@ -2,10 +2,10 @@ module Euler.Problems.Problem43
     ( answer, substrings, predicate ) where
 
 import Euler.Util.Arithmetic (divides)
-import Euler.Util.Digit      (digits, unDigits)
-import Euler.Util.List       (sliding)
+import Euler.Util.Digit (digits, unDigits)
+import Euler.Util.List (sliding)
 import Euler.Util.Pandigital (pandigitals)
-import Euler.Util.Prime      (primes)
+import Euler.Util.Prime (primes)
 
 ---------------------------------------------------------
 

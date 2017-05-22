@@ -26,13 +26,13 @@ module Euler.Util.Prime
 import Euler.Prelude
 
 import Euler.Util.Arithmetic (divides)
-import Euler.Util.List       (untilNothing)
+import Euler.Util.List (untilNothing)
 
 import qualified Euler.Util.FrontierSearch as FS
-import qualified Euler.Util.Inf            as Inf
+import qualified Euler.Util.Inf as Inf
 
-import qualified Data.Map.Strict             as Map'
-import qualified Data.MultiSet               as MultiSet
+import qualified Data.Map.Strict as Map'
+import qualified Data.MultiSet as MultiSet
 import qualified Math.Combinatorics.Multiset as MS
 
 -- $setup

@@ -1,27 +1,25 @@
-module Euler.Problems (answer) where
+module Euler.Problems (answers) where
 
 import Euler.Prelude
 
-import Euler.Util.Amicable   (amicableNumbers)
+import Euler.Util.Amicable (amicableNumbers)
 import Euler.Util.Arithmetic (divides, factorial, intSqrt, million, square)
-import Euler.Util.Collatz    (collatzLengths)
-import Euler.Util.Decimal    (repetendLength)
-import Euler.Util.Digit      (digits, intPalindrome, textDigits, textIntMaybe,
-                              unDigits)
-import Euler.Util.Fibonacci  (fibs)
-import Euler.Util.List       (countDistinct, maximumOn, mode, sliding)
-import Euler.Util.Map        (keyWithMaxValue)
+import Euler.Util.Collatz (collatzLengths)
+import Euler.Util.Decimal (repetendLength)
+import Euler.Util.Digit
+  (digits, intPalindrome, textDigits, textIntMaybe, unDigits)
+import Euler.Util.Fibonacci (fibs)
+import Euler.Util.List (countDistinct, maximumOn, mode, sliding)
+import Euler.Util.Map (keyWithMaxValue)
 import Euler.Util.Pandigital (pandigitalsRev)
-import Euler.Util.Prime      (countDivisors, isPrime, largestPrimeFactor,
-                              primes)
+import Euler.Util.Prime (countDivisors, isPrime, largestPrimeFactor, primes)
 
 import Euler.Util.FigurateNumbers
 
-import qualified Euler.Util.NumberWords  as NumberWords
-import qualified Euler.Util.TrianglePath as TrianglePath
+import qualified Euler.Util.NumberWords as NumberWords
 import qualified Euler.Util.PellEquation as PellEquation
+import qualified Euler.Util.TrianglePath as TrianglePath
 
-import qualified Euler.Problems.Problem9  as Problem9
 import qualified Euler.Problems.Problem11 as Problem11
 import qualified Euler.Problems.Problem15 as Problem15
 import qualified Euler.Problems.Problem19 as Problem19
@@ -34,10 +32,12 @@ import qualified Euler.Problems.Problem43 as Problem43
 import qualified Euler.Problems.Problem46 as Problem46
 import qualified Euler.Problems.Problem68 as Problem68
 import qualified Euler.Problems.Problem69 as Problem69
+import qualified Euler.Problems.Problem9 as Problem9
 
-import qualified Data.List    as List
-import qualified Data.Set     as Set
-import qualified Data.Text    as Text
+import qualified Data.List as List
+import qualified Data.Map as Map
+import qualified Data.Set as Set
+import qualified Data.Text as Text
 import qualified Data.Text.IO as TextIO
 
 -------------------------------------------------------------------------
@@ -45,13 +45,13 @@ import qualified Data.Text.IO as TextIO
 inputText :: Int -> IO Text
 inputText i = TextIO.readFile ("../problems/" <> show i <> "-data.txt")
 
-showInteger :: Integer -> String
-showInteger = show
+(~>) :: a -> b -> (a, b)
+(~>) a b = (a, b)
+infixr 0 ~>
 
 -------------------------------------------------------------------------
 
--- | @'answer' n@ calculates the answer to Euler problem /n/, or
--- evaluates to @"?"@ if there is no solution known for problem /n/.
+-- | Answers to Euler problems.
 --
 -- The answers to Project Euler problems are all numeric, but the type
 -- here is 'String' rather than 'Integer' because in some cases the answer
@@ -60,162 +60,146 @@ showInteger = show
 --
 -- Most of the answers are pure, but 'IO' is allowed because some problems
 -- involve reading input data from files.
-answer :: Integral a => a -> IO String
+answers :: Map Integer (IO String)
+answers = Map.fromList
 
-answer 1 = pure $ showInteger ans
-  where
-    ans = sum $ filter f [1..999]
-    f n = any (`divides` n) ([3, 5] :: [Integer])
+  [ 1 ~>
+    [1..999] &
+    filter (\n -> any (`divides` n) ([3, 5] :: [Integer])) &
+    sum & showInteger & pure
 
-answer 2 = pure $ showInteger ans
-  where
-    ans = (sum . filter even . takeWhile (< 4 * million)) fibs
+  , 2 ~>
+    fibs &
+    takeWhile (< 4 * million) &
+    filter even &
+    sum & showInteger & pure
 
-answer 3 = pure $ showInteger ans
-  where
-    ans = largestPrimeFactor (600851475143 :: Integer)
+  , 3 ~>
+    (600851475143 :: Integer) &
+    largestPrimeFactor &
+    showInteger & pure
 
-answer 4 = pure $ showInteger ans
-  where
-    ans = (maximum . filter (intPalindrome (10 :: Integer))) products
-    products = do
-        a <- [1 .. 999]
-        b <- [1 .. a]
-        pure $ a * b
+  , 4 ~>
+    ([1 .. 999] >>= \a -> [1 .. a] <&> \b -> a * b) &
+    filter (intPalindrome (10 :: Integer)) &
+    maximum & showInteger & pure
 
-answer 5 = pure $ showInteger ans
-  where
-    ans = product factors
-    -- greatest powers of primes within the bound
-    factors :: [Integer]
-    factors = map powerUp (takeWhile (<= bound) primes)
+  , 5 ~>
+    let
+      -- greatest powers of primes within the bound
+      factors :: [Integer]
+      factors = map powerUp (takeWhile (<= bound) primes)
 
-    powerUp n = last (takeWhile (<= bound) (powersOf n))
-    powersOf n = map (n^) [(1 :: Int) ..]
-    bound = 20
+      powerUp n = last (takeWhile (<= bound) (powersOf n))
+      powersOf n = map (n^) [(1 :: Int) ..]
+      bound = 20
+    in
+      factors & product & showInteger & pure
 
-answer 6 = pure $ showInteger ans
-  where
-    ans = square (sum xs) - sum (map square xs)
-    xs = [1..100]
+  , 6 ~>
+    (let xs = [1..100] in square (sum xs) - sum (map square xs)) &
+    showInteger & pure
 
-answer 7 = pure (showInteger ans)
-  where
-    ans = primes !! 10000
+  , 7 ~> primes !! 10000 & showInteger & pure
 
-answer 8 = do
-    text <- inputText 8
-    pure $ showInteger (f text)
-  where
-    f = maximum . map product . sliding 5 . map toInteger . textDigits
+  , 8 ~>
+    inputText 8 <&> \text ->
+    text & textDigits & map toInteger & sliding 5 & map product &
+    maximum & showInteger
 
-answer 9 = pure $ showInteger Problem9.answer
+  , 9 ~> Problem9.answer & showInteger & pure
 
-answer 10 = pure $ showInteger ans
-  where ans = sum $ takeWhile (< 2 * million) primes
+  , 10 ~> primes & takeWhile (< 2 * million) & sum & showInteger & pure
 
-answer 11 = do
-    text <- inputText 11
-    pure $ show $ Problem11.answer text
+  , 11 ~> inputText 11 <&> \text -> text & Problem11.answer & show
 
-answer 12 = pure $ showInteger ans
-  where
-    ans = (fromJust . List.find f) (scanl1 (+) [1..])
-    f n = countDivisors n > (500 :: Integer)
+  , 12 ~>
+    scanl1 (+) [1..] &
+    List.find (\n -> countDivisors n > (500 :: Integer)) &
+    fromJust & showInteger & pure
 
-answer 13 = do
-    text <- inputText 13
-    pure $ f text
-  where
-    f = take 10 . showInteger . sum . parseNumbers
-    parseNumbers = mapMaybe textIntMaybe . Text.lines
+  , 13 ~>
+    inputText 13 <&> \text ->
+    text &
+    Text.lines & mapMaybe textIntMaybe &
+    sum & showInteger & take 10
 
-answer 14 = pure $ showInteger ans
-  where
-    ans = (keyWithMaxValue . collatzLengths) [1 .. million]
+  , 14 ~> [1 .. million] & collatzLengths & keyWithMaxValue & showInteger & pure
 
-answer 15 = pure $ showInteger Problem15.answer
+  , 15 ~> Problem15.answer & showInteger & pure
 
-answer 16 = pure $ showInteger ans
-  where
-    ans = sum (digits 10 (2 ^ (1000 :: Integer) :: Integer))
+  , 16 ~> (2 ^ (1000 :: Int) :: Integer) & digits 10 & sum & showInteger & pure
 
-answer 17 = pure $ showInteger ans
-  where
-    ans = sum $ map (fromIntegral . length . NumberWords.word) [1..1000]
+  , 17 ~>
+    [1..1000] &
+    fmap (fromIntegral . length . NumberWords.word) & sum & showInteger & pure
 
-answer 18 = do
-    text <- inputText 18
-    pure $ showInteger $ f text
-  where
-    f = TrianglePath.reduceTriangle . TrianglePath.parseTriangle
+  , 18 ~>
+    inputText 18 <&> \text ->
+    text &
+    TrianglePath.parseTriangle & TrianglePath.reduceTriangle &
+    showInteger
 
-answer 19 = pure $ showInteger Problem19.answer
+  , 19 ~> Problem19.answer & showInteger & pure
 
-answer 20 = pure $ showInteger ans
-  where
-    ans = (sum . digits 10 . factorial) (100 :: Integer)
+  , 20 ~> (100 :: Integer) & factorial & digits 10 & sum & showInteger & pure
 
-answer 21 = pure $ showInteger ans
-  where
-    ans = sum $ amicableNumbers 9999
+  , 21 ~> amicableNumbers 9999 & sum & showInteger & pure
 
-answer 22 = do
-    text <- inputText 22
-    pure $ showInteger $ Problem22.answer text
+  , 22 ~>
+    inputText 22 <&> \text ->
+    text & Problem22.answer & showInteger
 
-answer 23 = pure $ showInteger Problem23.answer
+  , 23 ~> Problem23.answer & showInteger & pure
 
-answer 24 = pure ans
-  where
-    ans = sort (permutations ['0'..'9']) !! (million - 1)
+  , 24 ~> pure $ sort (permutations ['0'..'9']) !! (million - 1)
 
-answer 25 = pure (showInteger ans)
-  where
-    ans = (fromIntegral . fromJust . findIndex (>= x)) (fibs :: [Integer])
-    x = 10 ^ (999 :: Integer)
+  , 25 ~>
+    (fibs :: [Integer]) &
+    findIndex (>= 10 ^ (999 :: Integer)) &
+    fromJust & fromIntegral & showInteger & pure
 
-answer 26 = pure (showInteger ans)
-  where
-    ans = maximumOn f [1..999]
-    f = repetendLength . (1 /) . fromIntegral
+  , 26 ~>
+    [1..999] &
+    maximumOn (repetendLength . (1 /) . fromIntegral) &
+    showInteger & pure
 
-answer 27 = pure (showInteger ans)
-  where
-    ans = (uncurry (*) . maximumOn nrOfPrimes) expressions
-    expressions = let x = 999; range = [-x..x]
-                  in  liftA2 (,) range range
-    apply (a, b) n = n*n + a*n + b
-    nrOfPrimes e = (length . takeWhile (isPrime . apply e)) [0..]
+  , 27 ~>
+    let
+      expressions = let x = 999; range = [-x..x]
+                    in  liftA2 (,) range range
+      apply (a, b) n = n*n + a*n + b
+      nrOfPrimes e = (length . takeWhile (isPrime . apply e)) [0..]
+    in
+      expressions & maximumOn nrOfPrimes & uncurry (*) & showInteger & pure
 
-answer 28 = pure $ showInteger ans
-  where
-    ans = 1 + sum (concatMap f [1..500])
-    f i = let j = 2 * i
-              x = square (j + 1)
-          in  [x, x - j, x - 2*j, x - 3*j]
+  , 28 ~>
+    [1..500] &
+    concatMap (\i -> let j = 2 * i; x = square (j + 1)
+                     in  [x, x - j, x - 2*j, x - 3*j]) &
+    sum & (+ 1) & showInteger & pure
 
-answer 29 = pure $ showInteger ans
-  where
-    ans = countDistinct [a ^ b | a <- r, b <- r]
-    r = [2..100] :: [Integer]
+  , 29 ~>
+    let r = [2..100] :: [Integer]
+    in  countDistinct [a ^ b | a <- r, b <- r] & showInteger & pure
 
-answer 30 = pure $ showInteger ans
-  where
-    ans = sum $ filter isMagic [2 .. (maxPowerSum maxNrOfDigits)]
-    maxPowerSum = (* (pow5 9 :: Integer))
-    minValue n = 10 ^ (n - 1)
-    isFeasible n = maxPowerSum n >= minValue n
-    maxNrOfDigits = (last . takeWhile isFeasible) [1..]
-    isMagic n = ((== n) . sum . map pow5 . digits 10) n
-    pow5 = (^ (5 :: Integer))
+  , 30 ~>
+    let
+      maxPowerSum = (* (pow5 9 :: Integer))
+      minValue n = 10 ^ (n - 1)
+      isFeasible n = maxPowerSum n >= minValue n
+      maxNrOfDigits = (last . takeWhile isFeasible) [1..]
+      isMagic n = ((== n) . sum . map pow5 . digits 10) n
+      pow5 = (^ (5 :: Integer))
+    in
+      [2 .. (maxPowerSum maxNrOfDigits)] & filter isMagic &
+      sum & showInteger & pure
 
-answer 31 = pure $ showInteger Problem31.answer
+  , 31 ~> Problem31.answer & showInteger & pure
 
-answer 32 = pure $ showInteger ans
-  where
-    ans = (sum . Set.fromList) zs
-    zs = do
+  , 32 ~>
+    let
+      zs = do
         p <- permutations [1 .. 9 :: Integer]
         let (q, zs') = splitAt 5 p
             z = unDigits 10 zs'
@@ -225,112 +209,122 @@ answer 32 = pure $ showInteger ans
             y = unDigits 10 ys
         guard $ x * y == z
         pure z
+    in
+      zs & Set.fromList & sum & showInteger & pure
 
-answer 33 = pure $ showInteger Problem33.answer
+  , 33 ~> Problem33.answer & showInteger & pure
 
-answer 34 = pure $ showInteger ans
-  where
-    ans = sum $ filter isCurious [3 .. 10 ^ maxDigits]
-    maxDigits = last $ takeWhile f [1..]
-      where f i = factorial (9 :: Integer) * i >= 10 ^ i
+  , 34 ~>
+    let
+      maxDigits =
+        [1..] &
+        takeWhile (\i -> factorial (9 :: Integer) * i >= 10 ^ i) &
+        last
 
-    isCurious :: Integer -> Bool
-    isCurious n = ((== n) . sum . map factorial . digits (10 :: Integer)) n
+      isCurious :: Integer -> Bool
+      isCurious n = ((== n) . sum . map factorial . digits (10 :: Integer)) n
+    in
+      [3 .. 10 ^ maxDigits] & filter isCurious & sum & showInteger & pure
 
-answer 35 = pure $ showInteger ans
-  where
-    ans = (fromIntegral . length . filter (all isPrime . digitRotations))
-          ([2 .. million - 1] :: [Integer])
+  , 35 ~>
+    let
+      digitRotations :: Integer -> [Integer]
+      digitRotations = map (unDigits 10) . listRotations . digits 10
 
-    digitRotations :: Integer -> [Integer]
-    digitRotations = map (unDigits 10) . listRotations . digits 10
+      listRotations :: [Integer] -> [[Integer]]
+      listRotations xs = (map (take l) . take l . List.tails . cycle) xs
+        where l = length xs
+    in
+      ([2 .. million - 1] :: [Integer]) &
+      filter (all isPrime . digitRotations) &
+      length & fromIntegral & showInteger & pure
 
-    listRotations :: [Integer] -> [[Integer]]
-    listRotations xs = (map (take l) . take l . List.tails . cycle) xs
-      where l = length xs
+  , 36 ~>
+    [1 .. million - 1] &
+    filter (\x -> intPalindrome ( 2 :: Int) x &&
+                  intPalindrome (10 :: Int) x) &
+    sum & showInteger & pure
 
-answer 36 = pure $ showInteger ans
-  where
-    ans = sum $ filter f [1 .. million - 1]
+  , 37 ~>
+    let
+      digitTruncations :: Integer -> [Integer]
+      digitTruncations = map (unDigits (10 :: Integer)) . truncations . digits 10
 
-    f :: Integer -> Bool
-    f x = intPalindrome ( 2 :: Int) x &&
-          intPalindrome (10 :: Int) x
+      truncations xs = filter (not . null) (List.tails xs <> List.inits xs)
+    in
+      [11 :: Integer ..] &
+      filter (all isPrime . digitTruncations) &
+      take 11 & sum & showInteger & pure
 
-answer 37 = pure $ showInteger ans
-  where
-    ans = (sum . take 11 . filter (all isPrime . digitTruncations))
-          [11 :: Integer ..]
+  , 38 ~>
+    let
+      xs =
+        concatMap (\k -> takeWhile (< 10^(9 :: Integer))
+        (map (catProduct k) [2 :: Integer ..])) [1 .. 10^(5 :: Integer) - 1]
+      catProduct k n =
+        unDigits (10 :: Integer) $ concatMap (digits 10 . (* k)) [1..n]
+      pan9 x =
+        let ds = digits 10 x
+        in  length ds == 9 && all (`elem` ds) [1..9 :: Integer]
+    in
+      xs & filter pan9 & maximum & showInteger & pure
 
-    digitTruncations :: Integer -> [Integer]
-    digitTruncations = map (unDigits (10 :: Integer)) . truncations . digits 10
+  , 39 ~>
+    let
+      maxPerimeter = 1000
+      xs =
+        catMaybes $
+        [1 .. maxPerimeter] >>= \a ->
+        [1 .. maxPerimeter] <&> \b ->
+        intSqrt (square a + square b) <&> \c ->
+        a + b + c
+    in
+      xs & filter (<= maxPerimeter) & mode & showInteger & pure
 
-    truncations xs = filter (not . null) (List.tails xs <> List.inits xs)
+  , 40 ~>
+    let d i = concatMap (digits 10) [1 :: Integer ..] !! (i - 1)
+    in  ([0..6] :: [Integer]) & map (d . (10 ^)) & product & showInteger & pure
 
-answer 38 = pure $ showInteger ans
-  where
-    ans = maximum $ filter pan9 xs
-    xs = concatMap (\k -> takeWhile (< 10^(9 :: Integer))
-         (map (catProduct k) [2 :: Integer ..])) [1 .. 10^(5 :: Integer) - 1]
-    catProduct k n = unDigits (10 :: Integer) $ concatMap (digits 10 . (* k)) [1..n]
-    pan9 x = let ds = digits 10 x
-             in  length ds == 9 && all (`elem` ds) [1..9 :: Integer]
+  , 41 ~> pandigitalsRev & filter isPrime & head & showInteger & pure
 
-answer 39 = pure $ showInteger ans
-  where
-    ans = mode $ filter (<= maxPerimeter) xs
-    maxPerimeter = 1000
-    xs = catMaybes $ do
-        a <- [1 .. maxPerimeter]
-        b <- [1 .. maxPerimeter]
-        pure $ do
-            c <- intSqrt $ square a + square b
-            pure $ a + b + c
+  , 42 ~>
+    inputText 42 <&> \text ->
+    text & Problem42.answer & showInteger
 
-answer 40 = pure $ showInteger ans
-  where
-    ans = product (map (d . (10 ^)) ([0..6] :: [Integer]))
-    d i = concatMap (digits 10) [1 :: Integer ..] !! (i - 1)
+  , 43 ~> Problem43.answer & showInteger & pure
 
-answer 41 = pure $ showInteger ans
-  where
-    ans = head $ filter isPrime pandigitalsRev
-
-answer 42 = do
-    text <- inputText 42
-    pure $ showInteger $ Problem42.answer text
-
-answer 43 = pure $ showInteger Problem43.answer
-
-answer 44 = pure $ showInteger ans
-  where
-    ans = head $ do
+  , 44 ~>
+    let
+      ans = head $ do
         (n, a) <- zip [0..] pentagonals
         b <- take n pentagonals
         guard $ isPentagonal (a + b)
         let c = a - b
         guard $ isPentagonal c
         pure c
+    in
+      ans & showInteger & pure
 
-answer 45 = pure $ showInteger ans
-  where
-    ans = head $ dropWhile (<= 40755) xs
-    xs = filter (liftA2 (&&) isPentagonal isTriangle) hexagonals
+  , 45 ~>
+    hexagonals &
+    filter (liftA2 (&&) isPentagonal isTriangle) &
+    dropWhile (<= 40755) & head & showInteger & pure
 
-answer 46 = pure $ showInteger Problem46.answer
+  , 46 ~> Problem46.answer & showInteger & pure
 
-answer 66 = pure $ showInteger ans
-  where
-    ans = maximumOn PellEquation.fundamentalSolution [2..1000]
+  , 66 ~>
+    [2..1000] &
+    maximumOn PellEquation.fundamentalSolution &
+    showInteger & pure
 
-answer 67 = do
-    text <- inputText 67
-    pure $ showInteger $ f text
-  where
-    f = TrianglePath.reduceTriangle . TrianglePath.parseTriangle
+  , 67 ~>
+    inputText 67 <&> \text ->
+    text &
+    TrianglePath.parseTriangle & TrianglePath.reduceTriangle &
+    showInteger
 
-answer 68 = pure Problem68.answer
+  , 68 ~> Problem68.answer & pure
 
-answer 69 = pure $ show (Problem69.answer :: Int)
+  , 69 ~> (Problem69.answer :: Int) & show & pure
 
-answer _ = pure "?"
+  ]

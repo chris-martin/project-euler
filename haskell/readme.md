@@ -1,21 +1,13 @@
 Use [Stack](http://docs.haskellstack.org/en/stable/README.html) to build.
 
-Fast tests
------------
+To run the doctests:
 
-The fast tests are everything in `Euler.Util`, and answer checks for
-problems with fast answers.
+    stack test euler:doctest
+    
+To check problems with fast solutions:
 
-To run all of the fast tests:
+    stack test euler:fast
 
-    stack test
+To check a single problem *n*:
 
-Slow tests
-----------
-
-Answer checks for problems with slower answers are separated into
-their own test suites to be run individually.
-
-To run the test for problem *n*:
-
-    stack test --test-arguments=n
+    stack test euler:one --test-arguments=n

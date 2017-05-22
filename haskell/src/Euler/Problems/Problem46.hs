@@ -4,11 +4,11 @@ module Euler.Problems.Problem46
     , squareDoubles
     ) where
 
-import Euler.Util.List  (adjustEach)
+import Euler.Util.List (adjustEach)
 import Euler.Util.Prime (isPrime, primes)
 
 import qualified Euler.Util.FrontierSearch as FS
-import qualified Euler.Util.Inf            as Inf
+import qualified Euler.Util.Inf as Inf
 
 import qualified Data.List.Ordered as OL
 

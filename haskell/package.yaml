@@ -1,4 +1,4 @@
-name: Euler
+name: euler
 version: 0.1.0.0
 
 ghc-options: -Wall
@@ -57,18 +57,37 @@ library:
     - Euler.Util.WordScore
 
 tests:
-  test:
+
+  doctest:
     source-dirs: test
-    main: test.hs
+    main: doctest.hs
     dependencies:
       - base
-      - Euler
+      - doctest
+    ghc-options: -threaded
+
+  fast:
+    source-dirs: test
+    main: fast.hs
+    dependencies:
+      - base
       - containers
-      - semigroups
-      - text
+      - euler
+      - euler-test
       - HUnit
       - test-framework
       - test-framework-hunit
-      - doctest
-      - QuickCheck
-    ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+    ghc-options: -threaded
+
+  one:
+    source-dirs: test
+    main: one.hs
+    dependencies:
+      - base
+      - containers
+      - euler
+      - euler-test
+      - HUnit
+      - test-framework
+      - test-framework-hunit
+    ghc-options: -threaded

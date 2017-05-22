@@ -15,7 +15,7 @@ module Euler.Util.TrianglePath
 import Euler.Prelude
 
 import qualified Data.List.NonEmpty as NE
-import qualified Data.Text          as T
+import qualified Data.Text as T
 
 import Euler.Util.List (neTails)
 

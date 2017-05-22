@@ -7,7 +7,7 @@ module Euler.Util.ContinuedFractions
 
 import Euler.Prelude
 
-import Euler.Util.Arithmetic (isSquare, floorSqrt)
+import Euler.Util.Arithmetic (floorSqrt, isSquare)
 
 ----------------------------------------------------------------
 

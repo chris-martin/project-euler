@@ -7,7 +7,7 @@ module Euler.Problems.Problem42
 import Euler.Prelude
 
 import Euler.Util.FigurateNumbers (isTriangle)
-import Euler.Util.WordScore       (wordScoreText)
+import Euler.Util.WordScore (wordScoreText)
 
 import qualified Data.Text as Text
 
