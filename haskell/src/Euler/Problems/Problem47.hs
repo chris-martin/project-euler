@@ -1,13 +1,13 @@
 module Euler.Problems.Problem47
-    ( answer
-    , answerN
-    ) where
+  ( answer
+  , answerN
+  ) where
 
 answer :: Integer
-answer = answerN (4 :: Int)
+answer =
+  answerN (4 :: Int)
 
-answerN :: (Integral a, Integral b) => a -> b
--- ^ The least /n/ consecutive numbers to have /n/ distinct prime factors.
+-- | The least /n/ consecutive numbers to have /n/ distinct prime factors.
 --
 -- The first two consecutive numbers to have two distinct prime factors
 -- are /14 = 2 × 7/ and /15 = 3 × 5/.
@@ -21,5 +21,5 @@ answerN :: (Integral a, Integral b) => a -> b
 --
 -- todo >>> answerN 3
 -- 644
-
+answerN :: (Integral a, Integral b) => a -> b
 answerN _ = undefined -- todo

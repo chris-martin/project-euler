@@ -1,13 +1,18 @@
 module Euler.Problems.Problem15
-    ( answer, countPaths, countPaths', P, Counts ) where
+  ( answer
+  , countPaths
+  , countPaths'
+  , P
+  , Counts
+  ) where
 
 import Euler.Prelude
 
 import qualified Data.Map as Map
 import qualified Data.Maybe as Maybe
 
+-- | The number of routes through a 20x20 grid.
 answer :: Integer
--- ^ The number of routes through a 20x20 grid.
 
 answer = countPaths (20, 20)
 
@@ -16,14 +21,17 @@ countPaths :: P       -- ^ (x, y)
 
 countPaths d = (Maybe.fromJust . Map.lookup d) (countPaths' Map.empty [d])
 
-type P = (Integer, Integer) -- ^ Position in the grid
+-- | Position in the grid
+type P = (Integer, Integer)
 
-type Counts = Map P Integer -- ^ Mapping from positions in the grid to
-                            --   the number of routes from the position
+-- | Mapping from positions in the grid to the number of routes from the
+-- position.
+type Counts = Map P Integer
 
-countPaths' :: Counts -- ^ Some counts that are already known
-            -> [P]    -- ^ Stack of positions yet to be considered
-            -> Counts -- ^ Counts from every position
+countPaths'
+  :: Counts -- ^ Some counts that are already known
+  -> [P]    -- ^ Stack of positions yet to be considered
+  -> Counts -- ^ Counts from every position
 
 -- When the stack is empty, we're done.
 countPaths' counts [] = counts
@@ -47,5 +55,5 @@ countPaths' counts stack@((x, y):restOfStack)
   | otherwise = countPaths' counts (unknownAdjacencies ++ stack)
 
   where
-    adjacencies = [(x-1, y), (x, y-1)]
+    adjacencies = [(x - 1, y), (x, y - 1)]
     unknownAdjacencies = filter (`Map.notMember` counts) adjacencies
