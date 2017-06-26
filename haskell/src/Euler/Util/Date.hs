@@ -1,21 +1,26 @@
--- | Dates are used in Euler problem 19.
+{- |
 
+Dates are used in Euler problem 19.
+
+-}
 module Euler.Util.Date
-    (
-    -- * Functions
-      monthLength
-    , monthLengths
-    , yearLength
-    , leap
+  (
+  -- * Functions
+    monthLength
+  , monthLengths
+  , yearLength
+  , leap
 
-    -- * Properties
-    -- $properties
+  -- * Properties
+  -- $properties
 
-    ) where
+  ) where
 
 import Euler.Prelude
 
------------------------------------------------------------------------
+import Data.List ((!!))
+
+--------------------------------------------------------------------------------
 
 monthLength :: Int -> Int -> Int
 -- ^ @'monthLength' y m@ is the number of days in month @m@ of year @y@.
@@ -29,13 +34,13 @@ yearLength :: Int -> Int
 -- in February.
 leap :: Int -> Bool
 
------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 monthLength y 2 = if leap y then 29 else 28 -- february
 --                 jan feb mar apr may jun jul aug sep oct nov dec
 monthLength _ m = [31, 0,  31, 30, 31, 30, 31, 31, 30, 31, 30, 31] !! (m - 1)
 
-monthLengths y = map (monthLength y) [1..12]
+monthLengths y = monthLength y <$> [1..12]
 
 yearLength y = if leap y then 366 else 365
 
@@ -44,10 +49,12 @@ leap year | year `mod` 400 == 0 = True
           | year `mod`   4 == 0 = True
           | otherwise           = False
 
------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 
--- $properties
---
--- The length of a year is equal to the sum of the lengths of its months.
---
--- prop> yearLength y == sum (monthLengths y)
+{- $properties
+
+The length of a year is equal to the sum of the lengths of its months.
+
+prop> yearLength y == sum (monthLengths y)
+
+-}

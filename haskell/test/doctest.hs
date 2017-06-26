@@ -1,3 +1,5 @@
+import Prelude
+
 import Test.DocTest
 
 main :: IO ()

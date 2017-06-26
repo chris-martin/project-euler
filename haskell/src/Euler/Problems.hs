@@ -65,14 +65,14 @@ answers = Map.fromList
 
   [ 1 ~>
     [1..999] &
-    filter (\n -> any (`divides` n) ([3, 5] :: [Integer])) &
-    sum & showInteger & pure
+    List.filter (\n -> List.any (`divides` n) ([3, 5] :: [Integer])) &
+    List.sum & showInteger & pure
 
   , 2 ~>
     fibs &
-    takeWhile (< 4 * million) &
-    filter even &
-    sum & showInteger & pure
+    List.takeWhile (< 4 * million) &
+    List.filter even &
+    List.sum & showInteger & pure
 
   , 3 ~>
     (600851475143 :: Integer) &
@@ -81,40 +81,42 @@ answers = Map.fromList
 
   , 4 ~>
     ([1 .. 999] >>= \a -> [1 .. a] <&> \b -> a * b) &
-    filter (intPalindrome (10 :: Integer)) &
-    maximum & showInteger & pure
+    List.filter (intPalindrome (10 :: Integer)) &
+    List.maximum & showInteger & pure
 
   , 5 ~>
     let
       -- greatest powers of primes within the bound
       factors :: [Integer]
-      factors = map powerUp (takeWhile (<= bound) primes)
+      factors = fmap powerUp (List.takeWhile (<= bound) primes)
 
-      powerUp n = last (takeWhile (<= bound) (powersOf n))
-      powersOf n = map (n^) [(1 :: Int) ..]
+      powerUp n = List.last (List.takeWhile (<= bound) (powersOf n))
+      powersOf n = fmap (n^) [(1 :: Int) ..]
       bound = 20
     in
-      factors & product & showInteger & pure
+      factors & List.product & showInteger & pure
 
   , 6 ~>
-    (let xs = [1..100] in square (sum xs) - sum (map square xs)) &
+    (let xs = [1..100] in square (List.sum xs) - List.sum (fmap square xs)) &
     showInteger & pure
 
-  , 7 ~> primes !! 10000 & showInteger & pure
+  , 7 ~> primes List.!! 10000 & showInteger & pure
 
   , 8 ~>
     inputText 8 <&> \text ->
-    text & textDigits & map toInteger & sliding 5 & map product &
-    maximum & showInteger
+    text & textDigits & fmap toInteger & sliding 5 & fmap List.product &
+    List.maximum & showInteger
 
-  , 9 ~> Problem9.answer & showInteger & pure
+  , 9 ~> Problem9.answer & showNatural & pure
 
-  , 10 ~> primes & takeWhile (< 2 * million) & sum & showInteger & pure
+  , 10 ~>
+    primes & List.takeWhile (< 2 * million) &
+    List.sum & showInteger & pure
 
   , 11 ~> inputText 11 <&> \text -> text & Problem11.answer & show
 
   , 12 ~>
-    scanl1 (+) [1..] &
+    List.scanl1 (+) [1..] &
     List.find (\n -> countDivisors n > (500 :: Integer)) &
     fromJust & showInteger & pure
 
@@ -122,17 +124,21 @@ answers = Map.fromList
     inputText 13 <&> \text ->
     text &
     Text.lines & mapMaybe textIntMaybe &
-    sum & showInteger & take 10
+    List.sum & showInteger & List.take 10
 
-  , 14 ~> [1 .. million] & collatzLengths & keyWithMaxValue & showInteger & pure
+  , 14 ~>
+    [1 .. million] & collatzLengths & keyWithMaxValue &
+    showNatural & pure
 
   , 15 ~> Problem15.answer & showInteger & pure
 
-  , 16 ~> (2 ^ (1000 :: Int) :: Integer) & digits 10 & sum & showInteger & pure
+  , 16 ~>
+    (2 ^ (1000 :: Int) :: Integer) & digits 10 & List.sum &
+    showInteger & pure
 
   , 17 ~>
-    [1..1000] &
-    fmap (fromIntegral . length . NumberWords.word) & sum & showInteger & pure
+    [1..1000] & foldMap NumberWords.word &
+    fmap (NumberWords.getLetterCount >>> showNatural)
 
   , 18 ~>
     inputText 18 <&> \text ->
@@ -142,9 +148,11 @@ answers = Map.fromList
 
   , 19 ~> Problem19.answer & showInteger & pure
 
-  , 20 ~> (100 :: Integer) & factorial & digits 10 & sum & showInteger & pure
+  , 20 ~>
+    (100 :: Integer) & factorial & digits 10 &
+    List.sum & showInteger & pure
 
-  , 21 ~> amicableNumbers 9999 & sum & showInteger & pure
+  , 21 ~> amicableNumbers 9999 & List.sum & showInteger & pure
 
   , 22 ~>
     inputText 22 <&> \text ->
@@ -152,7 +160,7 @@ answers = Map.fromList
 
   , 23 ~> Problem23.answer & showInteger & pure
 
-  , 24 ~> pure $ sort (permutations ['0'..'9']) !! (million - 1)
+  , 24 ~> pure $ sort (permutations ['0'..'9']) List.!! (million - 1)
 
   , 25 ~>
     (fibs :: [Integer]) &
@@ -169,15 +177,15 @@ answers = Map.fromList
       expressions = let x = 999; range = [-x..x]
                     in  liftA2 (,) range range
       apply (a, b) n = n*n + a*n + b
-      nrOfPrimes e = (length . takeWhile (isPrime . apply e)) [0..]
+      nrOfPrimes e = (List.length . List.takeWhile (isPrime . apply e)) [0..]
     in
       expressions & maximumOn nrOfPrimes & uncurry (*) & showInteger & pure
 
   , 28 ~>
     [1..500] &
-    concatMap (\i -> let j = 2 * i; x = square (j + 1)
+    foldMap (\i -> let j = 2 * i; x = square (j + 1)
                      in  [x, x - j, x - 2*j, x - 3*j]) &
-    sum & (+ 1) & showInteger & pure
+    List.sum & (+ 1) & showInteger & pure
 
   , 29 ~>
     let r = [2..100] :: [Integer]
@@ -188,29 +196,29 @@ answers = Map.fromList
       maxPowerSum = (* (pow5 9 :: Integer))
       minValue n = 10 ^ (n - 1)
       isFeasible n = maxPowerSum n >= minValue n
-      maxNrOfDigits = (last . takeWhile isFeasible) [1..]
-      isMagic n = ((== n) . sum . map pow5 . digits 10) n
+      maxNrOfDigits = (List.last . List.takeWhile isFeasible) [1..]
+      isMagic n = ((== n) . List.sum . fmap pow5 . digits 10) n
       pow5 = (^ (5 :: Integer))
     in
-      [2 .. (maxPowerSum maxNrOfDigits)] & filter isMagic &
-      sum & showInteger & pure
+      [2 .. (maxPowerSum maxNrOfDigits)] & List.filter isMagic &
+      List.sum & showInteger & pure
 
-  , 31 ~> Problem31.answer & showInteger & pure
+  , 31 ~> Problem31.answer & showNatural & pure
 
   , 32 ~>
     let
       zs = do
         p <- permutations [1 .. 9 :: Integer]
-        let (q, zs') = splitAt 5 p
+        let (q, zs') = List.splitAt 5 p
             z = unDigits 10 zs'
         xl <- [1, 2]
-        let (xs, ys) = splitAt xl q
+        let (xs, ys) = List.splitAt xl q
             x = unDigits 10 xs
             y = unDigits 10 ys
         guard $ x * y == z
         pure z
     in
-      zs & Set.fromList & sum & showInteger & pure
+      zs & Set.fromList & List.sum & showInteger & pure
 
   , 33 ~> Problem33.answer & showInteger & pure
 
@@ -218,56 +226,62 @@ answers = Map.fromList
     let
       maxDigits =
         [1..] &
-        takeWhile (\i -> factorial (9 :: Integer) * i >= 10 ^ i) &
-        last
+        List.takeWhile (\i -> factorial (9 :: Integer) * i >= 10 ^ i) &
+        List.last
 
       isCurious :: Integer -> Bool
-      isCurious n = ((== n) . sum . map factorial . digits (10 :: Integer)) n
+      isCurious n =
+        ((== n) . List.sum . fmap factorial . digits (10 :: Integer)) n
     in
-      [3 .. 10 ^ maxDigits] & filter isCurious & sum & showInteger & pure
+      [3 .. 10 ^ maxDigits] & List.filter isCurious &
+      List.sum & showInteger & pure
 
   , 35 ~>
     let
       digitRotations :: Integer -> [Integer]
-      digitRotations = map (unDigits 10) . listRotations . digits 10
+      digitRotations = fmap (unDigits 10) . listRotations . digits 10
 
       listRotations :: [Integer] -> [[Integer]]
-      listRotations xs = (map (take l) . take l . List.tails . cycle) xs
-        where l = length xs
+      listRotations xs =
+          (fmap (List.take l) . List.take l . List.tails . List.cycle) xs
+        where
+          l = List.length xs
     in
       ([2 .. million - 1] :: [Integer]) &
-      filter (all isPrime . digitRotations) &
-      length & fromIntegral & showInteger & pure
+      List.filter (List.all isPrime . digitRotations) &
+      List.length & fromIntegral & showInteger & pure
 
   , 36 ~>
     [1 .. million - 1] &
-    filter (\x -> intPalindrome ( 2 :: Int) x &&
-                  intPalindrome (10 :: Int) x) &
-    sum & showInteger & pure
+    List.filter (\x -> intPalindrome ( 2 :: Int) x &&
+                       intPalindrome (10 :: Int) x) &
+    List.sum & showInteger & pure
 
   , 37 ~>
     let
       digitTruncations :: Integer -> [Integer]
-      digitTruncations = map (unDigits (10 :: Integer)) . truncations . digits 10
+      digitTruncations =
+        fmap (unDigits (10 :: Integer)) . truncations . digits 10
 
-      truncations xs = filter (not . null) (List.tails xs <> List.inits xs)
+      truncations xs =
+        List.filter (not . List.null) (List.tails xs <> List.inits xs)
     in
       [11 :: Integer ..] &
-      filter (all isPrime . digitTruncations) &
-      take 11 & sum & showInteger & pure
+      List.filter (List.all isPrime . digitTruncations) &
+      List.take 11 & List.sum & showInteger & pure
 
   , 38 ~>
     let
       xs =
-        concatMap (\k -> takeWhile (< 10^(9 :: Integer))
-        (map (catProduct k) [2 :: Integer ..])) [1 .. 10^(5 :: Integer) - 1]
+        foldMap (\k -> List.takeWhile (< 10^(9 :: Integer))
+        (fmap (catProduct k) [2 :: Integer ..])) [1 .. 10^(5 :: Integer) - 1]
       catProduct k n =
-        unDigits (10 :: Integer) $ concatMap (digits 10 . (* k)) [1..n]
+        unDigits (10 :: Integer) $ foldMap (digits 10 . (* k)) [1..n]
       pan9 x =
         let ds = digits 10 x
-        in  length ds == 9 && all (`elem` ds) [1..9 :: Integer]
+        in  List.length ds == 9 && List.all (`List.elem` ds) [1..9 :: Integer]
     in
-      xs & filter pan9 & maximum & showInteger & pure
+      xs & List.filter pan9 & List.maximum & showInteger & pure
 
   , 39 ~>
     let
@@ -279,13 +293,16 @@ answers = Map.fromList
         intSqrt (square a + square b) <&> \c ->
         a + b + c
     in
-      xs & filter (<= maxPerimeter) & mode & showInteger & pure
+      xs & List.filter (<= maxPerimeter) & mode & showInteger & pure
 
   , 40 ~>
-    let d i = concatMap (digits 10) [1 :: Integer ..] !! (i - 1)
-    in  ([0..6] :: [Integer]) & map (d . (10 ^)) & product & showInteger & pure
+    let d i = foldMap (digits 10) [1 :: Integer ..] List.!! (i - 1)
+    in  ([0..6] :: [Integer]) & fmap (d . (10 ^)) &
+        List.product & showInteger & pure
 
-  , 41 ~> pandigitalsRev & filter isPrime & head & showInteger & pure
+  , 41 ~>
+    pandigitalsRev & List.filter isPrime & List.head &
+    showInteger & pure
 
   , 42 ~>
     inputText 42 <&> \text ->
@@ -295,9 +312,9 @@ answers = Map.fromList
 
   , 44 ~>
     let
-      ans = head $ do
-        (n, a) <- zip [0..] pentagonals
-        b <- take n pentagonals
+      ans = List.head $ do
+        (n, a) <- List.zip [0..] pentagonals
+        b <- List.take n pentagonals
         guard $ isPentagonal (a + b)
         let c = a - b
         guard $ isPentagonal c
@@ -307,8 +324,8 @@ answers = Map.fromList
 
   , 45 ~>
     hexagonals &
-    filter (liftA2 (&&) isPentagonal isTriangle) &
-    dropWhile (<= 40755) & head & showInteger & pure
+    List.filter (liftA2 (&&) isPentagonal isTriangle) &
+    List.dropWhile (<= 40755) & List.head & showInteger & pure
 
   , 46 ~> Problem46.answer & showInteger & pure
 

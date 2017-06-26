@@ -6,6 +6,7 @@ Checks the answers for problems that have reasonably fast solutions.
 
 import Test.Framework
 
+import Euler.Prelude
 import Euler.Test (answerTest)
 
 main :: IO ()

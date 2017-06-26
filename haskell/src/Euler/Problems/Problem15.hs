@@ -8,6 +8,8 @@ module Euler.Problems.Problem15
 
 import Euler.Prelude
 
+import qualified Data.Foldable as Foldable
+import qualified Data.List as List
 import qualified Data.Map as Map
 import qualified Data.Maybe as Maybe
 
@@ -47,13 +49,13 @@ countPaths' counts stack@((x, y):restOfStack)
 
   -- If both of the adjacencies' counts are known, then this count
   -- is their sum. Add it to the counts and pop it off the stack,
-  | null unknownAdjacencies =
-      let c = sum $ mapMaybe (`Map.lookup` counts) adjacencies
+  | Foldable.null unknownAdjacencies =
+      let c = Foldable.sum $ mapMaybe (`Map.lookup` counts) adjacencies
       in  countPaths' (Map.insert (x, y) c counts) restOfStack
 
   -- There are some unknown adjacencies. Add them to the stack.
-  | otherwise = countPaths' counts (unknownAdjacencies ++ stack)
+  | otherwise = countPaths' counts (unknownAdjacencies <> stack)
 
   where
     adjacencies = [(x - 1, y), (x, y - 1)]
-    unknownAdjacencies = filter (`Map.notMember` counts) adjacencies
+    unknownAdjacencies = List.filter (`Map.notMember` counts) adjacencies

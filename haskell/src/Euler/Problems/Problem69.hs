@@ -8,6 +8,8 @@ import Euler.Util.Arithmetic (million)
 import Euler.Util.List (maximumOn)
 import Euler.Util.Prime (primes)
 
+import qualified Data.Foldable as Foldable
+import qualified Data.List as List
 import qualified Data.Map as Map
 import qualified Data.SetMap as SetMap
 
@@ -26,19 +28,22 @@ rcToList =
 
 totient :: RC -> Int -> Int
 totient rc n =
-  n - 1 - length (SetMap.lookup n $ toSetMap rc)
+  n - 1 - Foldable.length (SetMap.lookup n $ toSetMap rc)
 
--- |
--- >>> makeRC 10
--- [(4,[2]),(6,[2,3,4]),(8,[2,4,6]),(9,[3,6]),(10,[2,4,5,6,8])]
+{- |
+
+>>> makeRC 10
+[(4,[2]),(6,[2,3,4]),(8,[2,4,6]),(9,[3,6]),(10,[2,4,5,6,8])]
+
+-}
 makeRC :: Int -> RC
 makeRC bound = RC $ foldr' (uncurry SetMap.insert) SetMap.empty $
     primes
-    & takeWhile (<= bound)
+    & List.takeWhile (<= bound)
     & (=<<) (\p ->
-        iterate (\(m, xs) -> (m + p, m : xs)) (p, [])
-        & takeWhile (\(m, _) -> m <= bound)
-        & (=<<) (\(m, xs) -> map (\x -> (m, x)) xs)
+        List.iterate (\(m, xs) -> (m + p, m : xs)) (p, [])
+        & List.takeWhile (\(m, _) -> m <= bound)
+        & (=<<) (\(m, xs) -> fmap (\x -> (m, x)) xs)
       )
 
 instance Show RC

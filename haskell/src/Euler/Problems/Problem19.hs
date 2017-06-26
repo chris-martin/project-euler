@@ -8,22 +8,32 @@ import Euler.Prelude
 
 import Euler.Util.Date (monthLength)
 
+import Data.List (filter, length, zipWith, cycle)
+
 ------------------------------------------------------
 
--- | The number of Sundays that fell on the first of the month
--- during the twentieth century (1 Jan 1901 to 31 Dec 2000).
+{- |
+
+The number of Sundays that fell on the first of the month during the twentieth
+century (1 Jan 1901 to 31 Dec 2000).
+
+-}
 answer :: Integer
 answer =
   datesFrom1900 & filter isMatchingDate & length & fromIntegral
 
 data Date = Date
-    { dateYear    :: Int -- ^ Anno Domini
-    , dateMonth   :: Int -- ^ 1 (january) to 12 (december)
-    , dateDay     :: Int -- ^ 1 to 31
-    , dateWeekday :: Int -- ^ 1 (money) to 7 (sunday)
-    }
+  { dateYear    :: Int -- ^ Anno Domini
+  , dateMonth   :: Int -- ^ 1 (january) to 12 (december)
+  , dateDay     :: Int -- ^ 1 to 31
+  , dateWeekday :: Int -- ^ 1 (money) to 7 (sunday)
+  }
 
--- | All dates starting from Jan 1, 1900.
+{- |
+
+All dates starting from Jan 1, 1900.
+
+-}
 datesFrom1900 :: [Date]
 datesFrom1900 =
     zipWith f dates weekdays

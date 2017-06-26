@@ -1,12 +1,17 @@
 name: euler
 version: 0.1.0.0
 
-ghc-options: -Wall
+ghc-options:
+  - -Wall
+
+default-extensions:
+  - NoImplicitPrelude
 
 dependencies:
   - base
   - containers
   - data-ordlist
+  - exceptions
   - multimap
   - multiset
   - multiset-comb

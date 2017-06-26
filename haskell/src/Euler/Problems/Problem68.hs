@@ -25,12 +25,17 @@ import Euler.Prelude
 
 import Euler.Util.Foldable (allEqual)
 
+import Data.List (filter, (!!))
+
+import qualified Data.Foldable as Foldable
+import qualified Data.List as List
+
 type Group = [Int]
 type Ring = [Group]
 
 answer :: String
 answer =
-  maximum $ concatMap (concatMap show) <$> magicRings
+  Foldable.maximum $ foldMap (foldMap show) <$> magicRings
 
 magicRings :: [Ring]
 magicRings =
@@ -38,16 +43,24 @@ magicRings =
 
 isMagic :: Ring -> Bool
 isMagic =
-  allEqual . fmap sum
+  allEqual . fmap Foldable.sum
 
--- | All rings that produce 16-digit strings, possibly including repetition.
+{- |
+
+All rings that produce 16-digit strings, possibly including repetition.
+
+-}
 rings :: [Ring]
 rings =
   (10:) <$> permutations [1..9] <&> \p ->
   indices & fmap (fmap (p !!)) & cycleToMin
 
--- | Groups from the diagram above. The starting point is arbitrary, but it's
--- important that the groups are in clockwise order.
+{- |
+
+Groups from the diagram above. The starting point is arbitrary, but it's
+important that the groups are in clockwise order.
+
+-}
 indices :: Ring
 indices =
   [ [ 0, 5, 6 ]
@@ -57,13 +70,21 @@ indices =
   , [ 4, 9, 5 ]
   ]
 
--- | Rotate the circle around such that the minimum element is first.
+{- |
+
+Rotate the circle around such that the minimum element is first.
+
+-}
 cycleToMin :: Ord a => [a] -> [a]
 cycleToMin xs =
   let i = indexOfMin xs
-  in  drop i xs ++ take i xs
+  in  List.drop i xs <> List.take i xs
 
--- | The index of the minimum element in the list.
+{- |
+
+The index of the minimum element in the list.
+
+-}
 indexOfMin :: Ord a => [a] -> Int
 indexOfMin xs =
-  zip xs [0..] & minimum & snd
+  List.zip xs [0..] & Foldable.minimum & snd

@@ -8,30 +8,41 @@ import Euler.Prelude hiding (toList)
 
 import qualified Data.List.NonEmpty as NE
 
---------------------------------------------------------------
+--------------------------------------------------------------------------------
 
+{- |
+
+A wrapper for infinite lists, with typeclasses operating on only the list's
+'head'. This is not correct in all circumstances, but is useful for (for
+example) tails of an infinite sequence without duplicate elements.
+
+-}
 newtype Inf a = Inf (NonEmpty a)
--- ^ A wrapper for infinite lists, with typeclasses operating
---   on only the list's 'head'. This is not correct in all
---   circumstances, but is useful for (for example) tails of
---   an infinite sequence without duplicate elements.
 
-instance Show a => Show (Inf a) where
+{- |
+
+>>> show $ fromList [5..]
+"Inf (5, ...)"
+
+-}
+instance Show a => Show (Inf a)
+  where
     show (Inf (x :| _)) = "Inf (" <> show x <> ", ...)"
--- ^
--- >>> show $ fromList [5..]
--- "Inf (5, ...)"
 
-instance Ord a => Ord (Inf a) where
+instance Ord a => Ord (Inf a)
+  where
     compare = compare `on` infHead
 
+{- |
+
+prop> fromList [5..] == fromList [5..]
+prop> fromList [5..] /= fromList [6..]
+
+-}
 instance Eq a => Eq (Inf a) where
     (==) = (==) `on` infHead
--- ^
--- prop> fromList [5..] == fromList [5..]
--- prop> fromList [5..] /= fromList [6..]
 
---------------------------------------------------------------
+--------------------------------------------------------------------------------
 
 fromList :: [a] -> Inf a
 fromList xs = Inf $ NE.fromList xs
