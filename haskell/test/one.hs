@@ -8,7 +8,11 @@ Checks the answer for a particular problem.
 
 import Euler.Test (answerTest)
 
+import Control.Monad ((>>=))
+import Data.Monoid (mempty)
+import Prelude (Integer, read)
 import System.Environment (getArgs)
+import System.IO (IO)
 import Test.Framework
 
 main :: IO ()
