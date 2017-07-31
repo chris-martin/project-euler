@@ -69,6 +69,7 @@ tests:
     dependencies:
       - base
       - doctest
+      - QuickCheck
     ghc-options: -threaded
 
   fast:
