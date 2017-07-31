@@ -32,7 +32,7 @@ instance Exception NumberWordException
 --------------------------------------------------------------------------------
 
 newtype LetterCount = LetterCount (Sum Natural)
- deriving (Eq, Ord, Monoid, Num, Semigroup, Show)
+  deriving (Eq, Ord, Monoid, Num, Semigroup, Show)
 
 instance IsString LetterCount
   where
