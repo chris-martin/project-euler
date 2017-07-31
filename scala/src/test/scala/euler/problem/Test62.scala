@@ -7,7 +7,7 @@ import problem62._
 class Test62 extends org.scalatest.FreeSpec
 with TimeLimitedTests {
 
-  val timeLimit = Span(2000, Millis)
+  val timeLimit = Span(5000, Millis)
 
   "Three permutations" in assertResult(41063625)(permutationCubes(3))
 
