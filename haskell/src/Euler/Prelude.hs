@@ -47,8 +47,3 @@ showInteger = show
 
 showNatural :: Natural -> String
 showNatural = show
-
--- A sad orphan :(
-instance Semigroup a => Semigroup (IO a)
-  where
-    iox <> ioy = iox >>= \x -> ioy <&> \y -> x <> y

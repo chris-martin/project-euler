@@ -1,6 +1,8 @@
--- This file has been generated from package.yaml by hpack version 0.17.0.
+-- This file has been generated from package.yaml by hpack version 0.20.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 47816b41818aaf8b37188848f4f55e480936e1776f3ee09fb928291dececcdcb
 
 name:           euler-test
 version:        0.1.0.0
@@ -12,10 +14,10 @@ library
       ./.
   ghc-options: -Wall
   build-depends:
-      base
+      HUnit
+    , base
     , containers
     , euler
-    , HUnit
     , test-framework
     , test-framework-hunit
     , text

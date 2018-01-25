@@ -1,8 +1,8 @@
-resolver: lts-8.23
+resolver: lts-10.3
 
 packages:
   - .
   - test
 
-nix:
-  shell-file: shell.nix
+extra-deps:
+  - multiset-comb-0.2.4.1
