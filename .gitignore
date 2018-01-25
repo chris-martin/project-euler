@@ -1,4 +1,3 @@
-/haskell/*.cabal
 /haskell/.stack-work
 /scala/target
 /scala/project/target
