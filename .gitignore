@@ -1,4 +1,5 @@
 /haskell/.stack-work
+/haskell/cabal.config
 /scala/target
 /scala/project/target
 /clojure/*/target
