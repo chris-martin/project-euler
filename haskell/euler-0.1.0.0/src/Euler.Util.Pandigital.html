@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{- |
+
+Pandigital numbers contain each of the digits [1..n] exactly once. For example:
+21, 213, and 52314 are pandigital; 0, 11, 13, and 23 are not.
+
+Euler problems 41 and 43 deal with pandigital numbers.
+
+-}</span><span>
+</span><a name="line-9"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Euler.Util.Pandigital</span><span>
+</span><a name="line-10"></a><span>  </span><span class="hs-special">(</span><span> </span><a href="Euler.Util.Pandigital.html#pandigitals"><span class="hs-identifier hs-var">pandigitals</span></a><span>
+</span><a name="line-11"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.Pandigital.html#pandigitalsRev"><span class="hs-identifier hs-var">pandigitalsRev</span></a><span>
+</span><a name="line-12"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.Pandigital.html#pandigitalsRevOfLength"><span class="hs-identifier hs-var">pandigitalsRevOfLength</span></a><span>
+</span><a name="line-13"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-14"></a><span>
+</span><a name="line-15"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Prelude.html"><span class="hs-identifier">Euler.Prelude</span></a><span>
+</span><a name="line-16"></a><span>
+</span><a name="line-17"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Util.Digit.html"><span class="hs-identifier">Euler.Util.Digit</span></a><span> </span><span class="hs-special">(</span><a href="Euler.Util.Digit.html#unDigits"><span class="hs-identifier hs-var">unDigits</span></a><span class="hs-special">)</span><span>
+</span><a name="line-18"></a><span>
+</span><a name="line-19"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.List</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">List</span><span>
+</span><a name="line-20"></a><span>
+</span><a name="line-21"></a><span class="hs-comment">-----------------------------------------------------------------------</span><span>
+</span><a name="line-22"></a><span>
+</span><a name="line-23"></a><span class="hs-comment">{- |
+
+All pandigitals, in no particular order.
+
+-}</span><span>
+</span><a name="line-28"></a><span class="hs-identifier">pandigitals</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679074555"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679074555"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span>
+</span><a name="line-29"></a><a name="pandigitals"><a href="Euler.Util.Pandigital.html#pandigitals"><span class="hs-identifier">pandigitals</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-30"></a><span>  </span><span class="hs-identifier hs-var">permutations</span><span> </span><span class="hs-special">[</span><span class="hs-number">0</span><span> </span><span class="hs-glyph">..</span><span> </span><span class="hs-number">9</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integer</span><span class="hs-special">]</span><span> </span><span class="hs-operator hs-var">&gt;&gt;=</span><span> </span><span class="hs-glyph">\</span><a name="local-6989586621679074556"><a href="#local-6989586621679074556"><span class="hs-identifier">p</span></a></a><span> </span><span class="hs-glyph">-&gt;</span><span>
+</span><a name="line-31"></a><span>  </span><span class="hs-identifier hs-var">guard</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">List.head</span><span> </span><a href="#local-6989586621679074556"><span class="hs-identifier hs-var">p</span></a><span> </span><span class="hs-operator hs-var">/=</span><span> </span><span class="hs-number">0</span><span class="hs-special">)</span><span> </span><span class="hs-operator hs-var">$&gt;</span><span>
+</span><a name="line-32"></a><span>  </span><a href="Euler.Util.Digit.html#unDigits"><span class="hs-identifier hs-var">unDigits</span></a><span> </span><span class="hs-number">10</span><span> </span><a href="#local-6989586621679074556"><span class="hs-identifier hs-var">p</span></a><span>
+</span><a name="line-33"></a><span>
+</span><a name="line-34"></a><span class="hs-comment">{- |
+
+All pandigitals, ordered from greatest to least. The first number in this list
+is 987,654,321, and the last is 1.
+
+-}</span><span>
+</span><a name="line-40"></a><span class="hs-identifier">pandigitalsRev</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679074554"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679074554"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span>
+</span><a name="line-41"></a><a name="pandigitalsRev"><a href="Euler.Util.Pandigital.html#pandigitalsRev"><span class="hs-identifier">pandigitalsRev</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-42"></a><span>  </span><span class="hs-identifier hs-var">foldMap</span><span> </span><a href="Euler.Util.Pandigital.html#pandigitalsRevOfLength"><span class="hs-identifier hs-var">pandigitalsRevOfLength</span></a><span> </span><span class="hs-special">[</span><span class="hs-number">9</span><span class="hs-special">,</span><span> </span><span class="hs-number">8</span><span> </span><span class="hs-glyph">..</span><span> </span><span class="hs-special">(</span><span class="hs-number">1</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span class="hs-special">)</span><span class="hs-special">]</span><span>
+</span><a name="line-43"></a><span>
+</span><a name="line-44"></a><span class="hs-comment">{- |
+
+The 1-to-/n/ pandigitals, ordered from greatest to least.
+
+&gt;&gt;&gt; pandigitalsRevOfLength 3
+[321,312,231,213,132,123]
+
+-}</span><span>
+</span><a name="line-52"></a><span class="hs-identifier">pandigitalsRevOfLength</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679074552"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679074553"><span class="hs-identifier hs-type">b</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679074552"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679074553"><span class="hs-identifier hs-type">b</span></a><span class="hs-special">]</span><span>
+</span><a name="line-53"></a><a name="pandigitalsRevOfLength"><a href="Euler.Util.Pandigital.html#pandigitalsRevOfLength"><span class="hs-identifier">pandigitalsRevOfLength</span></a></a><span> </span><a name="local-6989586621679074557"><a href="#local-6989586621679074557"><span class="hs-identifier">n</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-54"></a><span>  </span><span class="hs-identifier hs-var">fmap</span><span> </span><span class="hs-special">(</span><a href="Euler.Util.Digit.html#unDigits"><span class="hs-identifier hs-var">unDigits</span></a><span> </span><span class="hs-number">10</span><span class="hs-special">)</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">List.reverse</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">sort</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">permutations</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">fmap</span><span> </span><span class="hs-identifier hs-var">fromIntegral</span><span> </span><span class="hs-operator hs-var">$</span><span>
+</span><a name="line-55"></a><span>  </span><span class="hs-special">[</span><a href="#local-6989586621679074557"><span class="hs-identifier hs-var">n</span></a><span class="hs-special">,</span><span> </span><a href="#local-6989586621679074557"><span class="hs-identifier hs-var">n</span></a><span class="hs-glyph">-</span><span class="hs-number">1</span><span> </span><span class="hs-glyph">..</span><span> </span><span class="hs-number">1</span><span class="hs-special">]</span><span>
+</span><a name="line-56"></a></pre></body></html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{- |
+
+&lt;https://en.wikipedia.org/wiki/Figurate_number Figurate numbers&gt; are sets of
+numbers related to polygon shapes.
+
+-}</span><span>
+</span><a name="line-7"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Euler.Util.FigurateNumbers</span><span>
+</span><a name="line-8"></a><span>  </span><span class="hs-special">(</span><span>
+</span><a name="line-9"></a><span>  </span><span class="hs-comment">-- $setup</span><span>
+</span><a name="line-10"></a><span>
+</span><a name="line-11"></a><span>  </span><span class="hs-comment">-- * Triangle</span><span>
+</span><a name="line-12"></a><span>    </span><a href="Euler.Util.FigurateNumbers.html#triangles"><span class="hs-identifier hs-var">triangles</span></a><span>
+</span><a name="line-13"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.FigurateNumbers.html#triangleN"><span class="hs-identifier hs-var">triangleN</span></a><span>
+</span><a name="line-14"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.FigurateNumbers.html#isTriangle"><span class="hs-identifier hs-var">isTriangle</span></a><span>
+</span><a name="line-15"></a><span>  </span><span class="hs-comment">-- ** Properties</span><span>
+</span><a name="line-16"></a><span>  </span><span class="hs-comment">-- $triangleProperties</span><span>
+</span><a name="line-17"></a><span>
+</span><a name="line-18"></a><span>  </span><span class="hs-comment">-- * Pentagonal</span><span>
+</span><a name="line-19"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.FigurateNumbers.html#pentagonals"><span class="hs-identifier hs-var">pentagonals</span></a><span>
+</span><a name="line-20"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.FigurateNumbers.html#pentagonalN"><span class="hs-identifier hs-var">pentagonalN</span></a><span>
+</span><a name="line-21"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.FigurateNumbers.html#isPentagonal"><span class="hs-identifier hs-var">isPentagonal</span></a><span>
+</span><a name="line-22"></a><span>  </span><span class="hs-comment">-- ** Properties</span><span>
+</span><a name="line-23"></a><span>  </span><span class="hs-comment">-- $pentagonalProperties</span><span>
+</span><a name="line-24"></a><span>
+</span><a name="line-25"></a><span>  </span><span class="hs-comment">-- * Hexagonal</span><span>
+</span><a name="line-26"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.FigurateNumbers.html#hexagonals"><span class="hs-identifier hs-var">hexagonals</span></a><span>
+</span><a name="line-27"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.FigurateNumbers.html#hexagonalN"><span class="hs-identifier hs-var">hexagonalN</span></a><span>
+</span><a name="line-28"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.FigurateNumbers.html#isHexagonal"><span class="hs-identifier hs-var">isHexagonal</span></a><span>
+</span><a name="line-29"></a><span>  </span><span class="hs-comment">-- ** Properties</span><span>
+</span><a name="line-30"></a><span>  </span><span class="hs-comment">-- $hexagonalProperties</span><span>
+</span><a name="line-31"></a><span>
+</span><a name="line-32"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-33"></a><span>
+</span><a name="line-34"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Prelude.html"><span class="hs-identifier">Euler.Prelude</span></a><span>
+</span><a name="line-35"></a><span>
+</span><a name="line-36"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><a href="Euler.Util.Polynomial.html"><span class="hs-identifier">Euler.Util.Polynomial</span></a><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Poly</span><span>
+</span><a name="line-37"></a><span>
+</span><a name="line-38"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.List</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">List</span><span>
+</span><a name="line-39"></a><span>
+</span><a name="line-40"></a><span class="hs-comment">{- $setup
+
+&gt;&gt;&gt; import Test.QuickCheck
+&gt;&gt;&gt; import Data.List.Ordered (member, isSorted)
+
+-}</span><span>
+</span><a name="line-46"></a><span>
+</span><a name="line-47"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-48"></a><span class="hs-comment">--  Triangle</span><span>
+</span><a name="line-49"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-50"></a><span>
+</span><a name="line-51"></a><span class="hs-comment">{- | All of the triangle numbers, ascending.
+
+&gt;&gt;&gt; take 5 triangles
+[1,3,6,10,15]
+
+-}</span><span>
+</span><a name="line-57"></a><span class="hs-identifier">triangles</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679076225"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679076225"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span>
+</span><a name="line-58"></a><span>
+</span><a name="line-59"></a><span class="hs-comment">{- |
+
+@'triangleN' n@ is the /n/th triangle number.
+
+-}</span><span>
+</span><a name="line-64"></a><span class="hs-identifier">triangleN</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679076224"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679076224"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679076224"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-65"></a><span>
+</span><a name="line-66"></a><span class="hs-comment">{- |
+
+@'isTriangle' x@ denotes whether 'triangles' contains @x@.
+
+-}</span><span>
+</span><a name="line-71"></a><span class="hs-identifier">isTriangle</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679076223"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679076223"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Bool</span><span>
+</span><a name="line-72"></a><span>
+</span><a name="line-73"></a><span class="hs-comment">{- $triangleProperties
+
+prop&gt; \(Positive n) -&gt; isTriangle n == member n triangles
+
+prop&gt; isSorted (take 100 triangles)
+
+-}</span><span>
+</span><a name="line-80"></a><span>
+</span><a name="line-81"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-82"></a><span class="hs-comment">--  Pentagonal</span><span>
+</span><a name="line-83"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-84"></a><span>
+</span><a name="line-85"></a><span class="hs-comment">{- |
+
+All of the pentagonal numbers, ascending.
+
+&gt;&gt;&gt; take 10 pentagonals
+[1,5,12,22,35,51,70,92,117,145]
+
+-}</span><span>
+</span><a name="line-93"></a><span class="hs-identifier">pentagonals</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679076222"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679076222"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span>
+</span><a name="line-94"></a><span>
+</span><a name="line-95"></a><span class="hs-comment">{- |
+
+@'pentagonalN' n@ is the /n/th pentagonal number.
+
+-}</span><span>
+</span><a name="line-100"></a><span class="hs-identifier">pentagonalN</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679076221"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679076221"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679076221"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-101"></a><span>
+</span><a name="line-102"></a><span class="hs-comment">{- |
+
+@'isPentagonal' x@ denotes whether 'pentagonals' contains @x@.
+
+-}</span><span>
+</span><a name="line-107"></a><span class="hs-identifier">isPentagonal</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679076220"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679076220"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Bool</span><span>
+</span><a name="line-108"></a><span>
+</span><a name="line-109"></a><span class="hs-comment">{- $pentagonalProperties
+
+prop&gt; \(Positive n) -&gt; isPentagonal n == member n pentagonals
+
+prop&gt; isSorted (take 100 pentagonals)
+
+-}</span><span>
+</span><a name="line-116"></a><span>
+</span><a name="line-117"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-118"></a><span class="hs-comment">--  Hexagonal</span><span>
+</span><a name="line-119"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-120"></a><span>
+</span><a name="line-121"></a><span class="hs-comment">{- |
+
+All of the hexagonal numbers, ascending.
+
+&gt;&gt;&gt; take 5 hexagonals
+[1,6,15,28,45]
+
+-}</span><span>
+</span><a name="line-129"></a><span class="hs-identifier">hexagonals</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679076219"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679076219"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span>
+</span><a name="line-130"></a><span>
+</span><a name="line-131"></a><span class="hs-comment">{- |
+
+@'hexagonalN' n@ is the /n/th hexagonal number.
+
+-}</span><span>
+</span><a name="line-136"></a><span class="hs-identifier">hexagonalN</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679076218"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679076218"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679076218"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-137"></a><span>
+</span><a name="line-138"></a><span class="hs-comment">{- |
+
+@'isHexagonal' x@ denotes whether 'hexagonals' contains @x@.
+
+-}</span><span>
+</span><a name="line-143"></a><span class="hs-identifier">isHexagonal</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679076217"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679076217"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Bool</span><span>
+</span><a name="line-144"></a><span>
+</span><a name="line-145"></a><span class="hs-comment">{- $hexagonalProperties
+
+prop&gt; \(Positive n) -&gt; isHexagonal n == member n hexagonals
+
+prop&gt; isSorted (take 100 hexagonals)
+
+-}</span><span>
+</span><a name="line-152"></a><span>
+</span><a name="line-153"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-154"></a><span class="hs-comment">--  Lookup by index</span><span>
+</span><a name="line-155"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-156"></a><span>
+</span><a name="line-157"></a><a name="triangleN"><a href="Euler.Util.FigurateNumbers.html#triangleN"><span class="hs-identifier">triangleN</span></a></a><span>   </span><a name="local-6989586621679076226"><a href="#local-6989586621679076226"><span class="hs-identifier">n</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span> </span><a href="#local-6989586621679076226"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-operator hs-var">*</span><span> </span><span class="hs-special">(</span><span>    </span><a href="#local-6989586621679076226"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-operator hs-var">+</span><span> </span><span class="hs-number">1</span><span class="hs-special">)</span><span> </span><span class="hs-special">)</span><span> </span><span class="hs-special">`</span><span class="hs-identifier hs-var">div</span><span class="hs-special">`</span><span> </span><span class="hs-number">2</span><span>
+</span><a name="line-158"></a><a name="pentagonalN"><a href="Euler.Util.FigurateNumbers.html#pentagonalN"><span class="hs-identifier">pentagonalN</span></a></a><span> </span><a name="local-6989586621679076227"><a href="#local-6989586621679076227"><span class="hs-identifier">n</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span> </span><a href="#local-6989586621679076227"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-operator hs-var">*</span><span> </span><span class="hs-special">(</span><span class="hs-number">3</span><span> </span><span class="hs-operator hs-var">*</span><span> </span><a href="#local-6989586621679076227"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-glyph">-</span><span> </span><span class="hs-number">1</span><span class="hs-special">)</span><span> </span><span class="hs-special">)</span><span> </span><span class="hs-special">`</span><span class="hs-identifier hs-var">div</span><span class="hs-special">`</span><span> </span><span class="hs-number">2</span><span>
+</span><a name="line-159"></a><a name="hexagonalN"><a href="Euler.Util.FigurateNumbers.html#hexagonalN"><span class="hs-identifier">hexagonalN</span></a></a><span>  </span><a name="local-6989586621679076228"><a href="#local-6989586621679076228"><span class="hs-identifier">n</span></a></a><span> </span><span class="hs-glyph">=</span><span>   </span><a href="#local-6989586621679076228"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-operator hs-var">*</span><span> </span><span class="hs-special">(</span><span class="hs-number">2</span><span> </span><span class="hs-operator hs-var">*</span><span> </span><a href="#local-6989586621679076228"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-glyph">-</span><span> </span><span class="hs-number">1</span><span class="hs-special">)</span><span>
+</span><a name="line-160"></a><span>
+</span><a name="line-161"></a><span>
+</span><a name="line-162"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-163"></a><span class="hs-comment">--  Iteration</span><span>
+</span><a name="line-164"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-165"></a><span>
+</span><a name="line-166"></a><a name="triangles"><a href="Euler.Util.FigurateNumbers.html#triangles"><span class="hs-identifier">triangles</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">fmap</span><span> </span><a href="Euler.Util.FigurateNumbers.html#triangleN"><span class="hs-identifier hs-var">triangleN</span></a><span> </span><span class="hs-special">[</span><span class="hs-number">1</span><span class="hs-glyph">..</span><span class="hs-special">]</span><span>
+</span><a name="line-167"></a><span>
+</span><a name="line-168"></a><a name="pentagonals"><a href="Euler.Util.FigurateNumbers.html#pentagonals"><span class="hs-identifier">pentagonals</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-169"></a><span>  </span><span class="hs-identifier hs-var">fmap</span><span> </span><span class="hs-identifier hs-var">snd</span><span> </span><span class="hs-operator hs-var">$</span><span>
+</span><a name="line-170"></a><span>  </span><span class="hs-identifier hs-var">List.iterate</span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><span class="hs-special">(</span><a name="local-6989586621679076229"><a href="#local-6989586621679076229"><span class="hs-identifier">n</span></a></a><span class="hs-special">,</span><span> </span><a name="local-6989586621679076230"><a href="#local-6989586621679076230"><span class="hs-identifier">p</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679076229"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-operator hs-var">+</span><span> </span><span class="hs-number">1</span><span class="hs-special">,</span><span>
+</span><a name="line-171"></a><span>                            </span><a href="#local-6989586621679076230"><span class="hs-identifier hs-var">p</span></a><span> </span><span class="hs-operator hs-var">+</span><span> </span><span class="hs-number">3</span><span> </span><span class="hs-operator hs-var">*</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679076229"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-operator hs-var">+</span><span> </span><span class="hs-number">1</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-</span><span> </span><span class="hs-number">2</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-172"></a><span>               </span><span class="hs-special">(</span><span class="hs-number">1</span><span class="hs-special">,</span><span> </span><span class="hs-number">1</span><span class="hs-special">)</span><span>
+</span><a name="line-173"></a><span>
+</span><a name="line-174"></a><a name="hexagonals"><a href="Euler.Util.FigurateNumbers.html#hexagonals"><span class="hs-identifier">hexagonals</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">fmap</span><span> </span><a href="Euler.Util.FigurateNumbers.html#hexagonalN"><span class="hs-identifier hs-var">hexagonalN</span></a><span> </span><span class="hs-special">[</span><span class="hs-number">1</span><span class="hs-glyph">..</span><span class="hs-special">]</span><span>
+</span><a name="line-175"></a><span>
+</span><a name="line-176"></a><span>
+</span><a name="line-177"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-178"></a><span class="hs-comment">--  Testing</span><span>
+</span><a name="line-179"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-180"></a><span>
+</span><a name="line-181"></a><span class="hs-comment">{-
+
+Tests are done by checking whether the solution of some polynomial is integral.
+
+-}</span><span>
+</span><a name="line-186"></a><span>
+</span><a name="line-187"></a><span class="hs-comment">-- 0 = -2x + n + n^2</span><span>
+</span><a name="line-188"></a><a name="isTriangle"><a href="Euler.Util.FigurateNumbers.html#isTriangle"><span class="hs-identifier">isTriangle</span></a></a><span>   </span><a name="local-6989586621679076231"><a href="#local-6989586621679076231"><span class="hs-identifier">x</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Euler.Util.Polynomial.html#hasIntRootBetween"><span class="hs-identifier hs-var">Poly.hasIntRootBetween</span></a><span> </span><span class="hs-special">[</span><span> </span><span class="hs-glyph">-</span><span class="hs-number">2</span><span> </span><span class="hs-operator hs-var">*</span><span> </span><a href="#local-6989586621679076231"><span class="hs-identifier hs-var">x</span></a><span class="hs-special">,</span><span>  </span><span class="hs-number">1</span><span class="hs-special">,</span><span> </span><span class="hs-number">1</span><span> </span><span class="hs-special">]</span><span> </span><span class="hs-number">0</span><span> </span><a href="#local-6989586621679076231"><span class="hs-identifier hs-var">x</span></a><span>
+</span><a name="line-189"></a><span>
+</span><a name="line-190"></a><span class="hs-comment">-- 0 = 3n^2 - n - 2x</span><span>
+</span><a name="line-191"></a><a name="isPentagonal"><a href="Euler.Util.FigurateNumbers.html#isPentagonal"><span class="hs-identifier">isPentagonal</span></a></a><span> </span><a name="local-6989586621679076232"><a href="#local-6989586621679076232"><span class="hs-identifier">x</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Euler.Util.Polynomial.html#hasIntRootBetween"><span class="hs-identifier hs-var">Poly.hasIntRootBetween</span></a><span> </span><span class="hs-special">[</span><span> </span><span class="hs-glyph">-</span><span class="hs-number">2</span><span> </span><span class="hs-operator hs-var">*</span><span> </span><a href="#local-6989586621679076232"><span class="hs-identifier hs-var">x</span></a><span class="hs-special">,</span><span> </span><span class="hs-glyph">-</span><span class="hs-number">1</span><span class="hs-special">,</span><span> </span><span class="hs-number">3</span><span> </span><span class="hs-special">]</span><span> </span><span class="hs-number">0</span><span> </span><a href="#local-6989586621679076232"><span class="hs-identifier hs-var">x</span></a><span>
+</span><a name="line-192"></a><span>
+</span><a name="line-193"></a><span class="hs-comment">-- 0 = -2x -n + 2n^2</span><span>
+</span><a name="line-194"></a><a name="isHexagonal"><a href="Euler.Util.FigurateNumbers.html#isHexagonal"><span class="hs-identifier">isHexagonal</span></a></a><span>  </span><a name="local-6989586621679076233"><a href="#local-6989586621679076233"><span class="hs-identifier">x</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Euler.Util.Polynomial.html#hasIntRootBetween"><span class="hs-identifier hs-var">Poly.hasIntRootBetween</span></a><span> </span><span class="hs-special">[</span><span>     </span><span class="hs-glyph">-</span><a href="#local-6989586621679076233"><span class="hs-identifier hs-var">x</span></a><span class="hs-special">,</span><span> </span><span class="hs-glyph">-</span><span class="hs-number">1</span><span class="hs-special">,</span><span> </span><span class="hs-number">2</span><span> </span><span class="hs-special">]</span><span> </span><span class="hs-number">0</span><span> </span><a href="#local-6989586621679076233"><span class="hs-identifier hs-var">x</span></a><span>
+</span><a name="line-195"></a></pre></body></html>

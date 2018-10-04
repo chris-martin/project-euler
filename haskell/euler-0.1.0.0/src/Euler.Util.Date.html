@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{- |
+
+Dates are used in Euler problem 19.
+
+-}</span><span>
+</span><a name="line-6"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Euler.Util.Date</span><span>
+</span><a name="line-7"></a><span>  </span><span class="hs-special">(</span><span>
+</span><a name="line-8"></a><span>  </span><span class="hs-comment">-- * Functions</span><span>
+</span><a name="line-9"></a><span>    </span><a href="Euler.Util.Date.html#monthLength"><span class="hs-identifier hs-var">monthLength</span></a><span>
+</span><a name="line-10"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.Date.html#monthLengths"><span class="hs-identifier hs-var">monthLengths</span></a><span>
+</span><a name="line-11"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.Date.html#yearLength"><span class="hs-identifier hs-var">yearLength</span></a><span>
+</span><a name="line-12"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.Date.html#leap"><span class="hs-identifier hs-var">leap</span></a><span>
+</span><a name="line-13"></a><span>
+</span><a name="line-14"></a><span>  </span><span class="hs-comment">-- * Properties</span><span>
+</span><a name="line-15"></a><span>  </span><span class="hs-comment">-- $properties</span><span>
+</span><a name="line-16"></a><span>
+</span><a name="line-17"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-18"></a><span>
+</span><a name="line-19"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Prelude.html"><span class="hs-identifier">Euler.Prelude</span></a><span>
+</span><a name="line-20"></a><span>
+</span><a name="line-21"></a><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">Data.List</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-operator hs-var">!!</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-22"></a><span>
+</span><a name="line-23"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-24"></a><span>
+</span><a name="line-25"></a><span class="hs-identifier">monthLength</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Int</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-26"></a><span class="hs-comment">-- ^ @'monthLength' y m@ is the number of days in month @m@ of year @y@.</span><span>
+</span><a name="line-27"></a><span>
+</span><a name="line-28"></a><span class="hs-identifier">monthLengths</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-identifier hs-type">Int</span><span class="hs-special">]</span><span>
+</span><a name="line-29"></a><span>
+</span><a name="line-30"></a><span class="hs-comment">-- | The number of days in a year AD.</span><span>
+</span><a name="line-31"></a><span class="hs-identifier">yearLength</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-32"></a><span>
+</span><a name="line-33"></a><span class="hs-comment">-- | Whether a year AD is a leap year. Leap years contain an extra day</span><span>
+</span><a name="line-34"></a><span class="hs-comment">-- in February.</span><span>
+</span><a name="line-35"></a><span class="hs-identifier">leap</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Bool</span><span>
+</span><a name="line-36"></a><span>
+</span><a name="line-37"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-38"></a><span>
+</span><a name="line-39"></a><a name="monthLength"><a href="Euler.Util.Date.html#monthLength"><span class="hs-identifier">monthLength</span></a></a><span> </span><a name="local-6989586621679042029"><a href="#local-6989586621679042029"><span class="hs-identifier">y</span></a></a><span> </span><span class="hs-number">2</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">if</span><span> </span><a href="Euler.Util.Date.html#leap"><span class="hs-identifier hs-var">leap</span></a><span> </span><a href="#local-6989586621679042029"><span class="hs-identifier hs-var">y</span></a><span> </span><span class="hs-keyword">then</span><span> </span><span class="hs-number">29</span><span> </span><span class="hs-keyword">else</span><span> </span><span class="hs-number">28</span><span> </span><span class="hs-comment">-- february</span><span>
+</span><a name="line-40"></a><span class="hs-comment">--                 jan feb mar apr may jun jul aug sep oct nov dec</span><span>
+</span><a name="line-41"></a><span class="hs-identifier">monthLength</span><span> </span><span class="hs-identifier">_</span><span> </span><a name="local-6989586621679042030"><a href="#local-6989586621679042030"><span class="hs-identifier">m</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-number">31</span><span class="hs-special">,</span><span> </span><span class="hs-number">0</span><span class="hs-special">,</span><span>  </span><span class="hs-number">31</span><span class="hs-special">,</span><span> </span><span class="hs-number">30</span><span class="hs-special">,</span><span> </span><span class="hs-number">31</span><span class="hs-special">,</span><span> </span><span class="hs-number">30</span><span class="hs-special">,</span><span> </span><span class="hs-number">31</span><span class="hs-special">,</span><span> </span><span class="hs-number">31</span><span class="hs-special">,</span><span> </span><span class="hs-number">30</span><span class="hs-special">,</span><span> </span><span class="hs-number">31</span><span class="hs-special">,</span><span> </span><span class="hs-number">30</span><span class="hs-special">,</span><span> </span><span class="hs-number">31</span><span class="hs-special">]</span><span> </span><span class="hs-operator hs-var">!!</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679042030"><span class="hs-identifier hs-var">m</span></a><span> </span><span class="hs-glyph">-</span><span> </span><span class="hs-number">1</span><span class="hs-special">)</span><span>
+</span><a name="line-42"></a><span>
+</span><a name="line-43"></a><a name="monthLengths"><a href="Euler.Util.Date.html#monthLengths"><span class="hs-identifier">monthLengths</span></a></a><span> </span><a name="local-6989586621679042031"><a href="#local-6989586621679042031"><span class="hs-identifier">y</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Euler.Util.Date.html#monthLength"><span class="hs-identifier hs-var">monthLength</span></a><span> </span><a href="#local-6989586621679042031"><span class="hs-identifier hs-var">y</span></a><span> </span><span class="hs-operator hs-var">&lt;$&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-number">1</span><span class="hs-glyph">..</span><span class="hs-number">12</span><span class="hs-special">]</span><span>
+</span><a name="line-44"></a><span>
+</span><a name="line-45"></a><a name="yearLength"><a href="Euler.Util.Date.html#yearLength"><span class="hs-identifier">yearLength</span></a></a><span> </span><a name="local-6989586621679042032"><a href="#local-6989586621679042032"><span class="hs-identifier">y</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">if</span><span> </span><a href="Euler.Util.Date.html#leap"><span class="hs-identifier hs-var">leap</span></a><span> </span><a href="#local-6989586621679042032"><span class="hs-identifier hs-var">y</span></a><span> </span><span class="hs-keyword">then</span><span> </span><span class="hs-number">366</span><span> </span><span class="hs-keyword">else</span><span> </span><span class="hs-number">365</span><span>
+</span><a name="line-46"></a><span>
+</span><a name="line-47"></a><a name="leap"><a href="Euler.Util.Date.html#leap"><span class="hs-identifier">leap</span></a></a><span> </span><a name="local-6989586621679042033"><a href="#local-6989586621679042033"><span class="hs-identifier">year</span></a></a><span> </span><span class="hs-glyph">|</span><span> </span><a href="#local-6989586621679042033"><span class="hs-identifier hs-var">year</span></a><span> </span><span class="hs-special">`</span><span class="hs-identifier hs-var">mod</span><span class="hs-special">`</span><span> </span><span class="hs-number">400</span><span> </span><span class="hs-operator hs-var">==</span><span> </span><span class="hs-number">0</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">True</span><span>
+</span><a name="line-48"></a><span>          </span><span class="hs-glyph">|</span><span> </span><a href="#local-6989586621679042033"><span class="hs-identifier hs-var">year</span></a><span> </span><span class="hs-special">`</span><span class="hs-identifier hs-var">mod</span><span class="hs-special">`</span><span> </span><span class="hs-number">100</span><span> </span><span class="hs-operator hs-var">==</span><span> </span><span class="hs-number">0</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">False</span><span>
+</span><a name="line-49"></a><span>          </span><span class="hs-glyph">|</span><span> </span><a href="#local-6989586621679042033"><span class="hs-identifier hs-var">year</span></a><span> </span><span class="hs-special">`</span><span class="hs-identifier hs-var">mod</span><span class="hs-special">`</span><span>   </span><span class="hs-number">4</span><span> </span><span class="hs-operator hs-var">==</span><span> </span><span class="hs-number">0</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">True</span><span>
+</span><a name="line-50"></a><span>          </span><span class="hs-glyph">|</span><span> </span><span class="hs-identifier hs-var">otherwise</span><span>           </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">False</span><span>
+</span><a name="line-51"></a><span>
+</span><a name="line-52"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-53"></a><span>
+</span><a name="line-54"></a><span class="hs-comment">{- $properties
+
+The length of a year is equal to the sum of the lengths of its months.
+
+prop&gt; yearLength y == sum (monthLengths y)
+
+-}</span><span>
+</span><a name="line-61"></a></pre></body></html>

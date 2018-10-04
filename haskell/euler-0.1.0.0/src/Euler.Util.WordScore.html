@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">-- | The system of mapping letters to integers used by Euler</span><span>
+</span><a name="line-2"></a><span class="hs-comment">-- problems 22 and 42.</span><span>
+</span><a name="line-3"></a><span>
+</span><a name="line-4"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Euler.Util.WordScore</span><span>
+</span><a name="line-5"></a><span>  </span><span class="hs-special">(</span><span> </span><a href="Euler.Util.WordScore.html#letterScore"><span class="hs-identifier hs-var">letterScore</span></a><span>
+</span><a name="line-6"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.WordScore.html#wordScore"><span class="hs-identifier hs-var">wordScore</span></a><span>
+</span><a name="line-7"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.WordScore.html#wordScoreText"><span class="hs-identifier hs-var">wordScoreText</span></a><span>
+</span><a name="line-8"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-9"></a><span>
+</span><a name="line-10"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Prelude.html"><span class="hs-identifier">Euler.Prelude</span></a><span>
+</span><a name="line-11"></a><span>
+</span><a name="line-12"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.Char</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Char</span><span>
+</span><a name="line-13"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.Foldable</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Foldable</span><span>
+</span><a name="line-14"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.Text</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Text</span><span>
+</span><a name="line-15"></a><span>
+</span><a name="line-16"></a><span class="hs-comment">-----------------------------------------------------------------</span><span>
+</span><a name="line-17"></a><span>
+</span><a name="line-18"></a><span class="hs-comment">{- |
+
+The sum of the letter scores in a string.
+
+&gt; C   o    l    i   n
+&gt; 3 + 15 + 12 + 9 + 14
+
+&gt;&gt;&gt; wordScore &quot;Colin&quot;
+53
+
+-}</span><span>
+</span><a name="line-29"></a><span class="hs-identifier">wordScore</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">String</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Integer</span><span>
+</span><a name="line-30"></a><a name="wordScore"><a href="Euler.Util.WordScore.html#wordScore"><span class="hs-identifier">wordScore</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-31"></a><span>  </span><span class="hs-identifier hs-var">fmap</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">fromIntegral</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><a href="Euler.Util.WordScore.html#letterScore"><span class="hs-identifier hs-var">letterScore</span></a><span class="hs-special">)</span><span> </span><span class="hs-operator hs-var">&gt;&gt;&gt;</span><span> </span><span class="hs-identifier hs-var">Foldable.sum</span><span>
+</span><a name="line-32"></a><span>
+</span><a name="line-33"></a><span class="hs-comment">{- |
+
+Same as 'wordScore', but for 'Text' instead of 'String'.
+
+-}</span><span>
+</span><a name="line-38"></a><span class="hs-identifier">wordScoreText</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Text</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Integer</span><span>
+</span><a name="line-39"></a><a name="wordScoreText"><a href="Euler.Util.WordScore.html#wordScoreText"><span class="hs-identifier">wordScoreText</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-40"></a><span>  </span><span class="hs-identifier hs-var">Text.unpack</span><span> </span><span class="hs-operator hs-var">&gt;&gt;&gt;</span><span> </span><a href="Euler.Util.WordScore.html#wordScore"><span class="hs-identifier hs-var">wordScore</span></a><span>
+</span><a name="line-41"></a><span>
+</span><a name="line-42"></a><span class="hs-comment">{- |
+
+Maps the letters @['A'..'Z']@ to @[1..26]@, case-insensitively.
+
+&gt;&gt;&gt; map letterScore &quot;AaBZ&quot;
+[1,1,2,26]
+
+-}</span><span>
+</span><a name="line-50"></a><span class="hs-identifier">letterScore</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Char</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-51"></a><a name="letterScore"><a href="Euler.Util.WordScore.html#letterScore"><span class="hs-identifier">letterScore</span></a></a><span> </span><a name="local-6989586621679080246"><a href="#local-6989586621679080246"><span class="hs-identifier">c</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-52"></a><span>  </span><span class="hs-identifier hs-var">Char.ord</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">Char.toUpper</span><span> </span><a href="#local-6989586621679080246"><span class="hs-identifier hs-var">c</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">-</span><span> </span><span class="hs-identifier hs-var">Char.ord</span><span> </span><span class="hs-char">'A'</span><span> </span><span class="hs-operator hs-var">+</span><span> </span><span class="hs-number">1</span><span>
+</span><a name="line-53"></a></pre></body></html>

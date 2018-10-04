@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Euler.Util.List</span><span>
+</span><a name="line-2"></a><span>  </span><span class="hs-special">(</span><span>
+</span><a name="line-3"></a><span>  </span><span class="hs-comment">-- $setup</span><span>
+</span><a name="line-4"></a><span>    </span><a href="Euler.Util.List.html#neTails"><span class="hs-identifier hs-var">neTails</span></a><span>
+</span><a name="line-5"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.List.html#sliding"><span class="hs-identifier hs-var">sliding</span></a><span>
+</span><a name="line-6"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.List.html#transpose"><span class="hs-identifier hs-var">transpose</span></a><span>
+</span><a name="line-7"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.List.html#untilNothing"><span class="hs-identifier hs-var">untilNothing</span></a><span>
+</span><a name="line-8"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.List.html#maximumOn"><span class="hs-identifier hs-var">maximumOn</span></a><span>
+</span><a name="line-9"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.List.html#countDistinct"><span class="hs-identifier hs-var">countDistinct</span></a><span>
+</span><a name="line-10"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.List.html#mode"><span class="hs-identifier hs-var">mode</span></a><span>
+</span><a name="line-11"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.List.html#dedupe"><span class="hs-identifier hs-var">dedupe</span></a><span>
+</span><a name="line-12"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.List.html#adjustEach"><span class="hs-identifier hs-var">adjustEach</span></a><span>
+</span><a name="line-13"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.List.html#adjustIndex"><span class="hs-identifier hs-var">adjustIndex</span></a><span>
+</span><a name="line-14"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-15"></a><span>
+</span><a name="line-16"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Prelude.html"><span class="hs-identifier">Euler.Prelude</span></a><span>
+</span><a name="line-17"></a><span>
+</span><a name="line-18"></a><span class="hs-keyword">import</span><span> </span><span class="hs-identifier">Data.List</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><span class="hs-operator hs-var">!!</span><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-19"></a><span>
+</span><a name="line-20"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.List</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">List</span><span>
+</span><a name="line-21"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.List.NonEmpty</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">NE</span><span>
+</span><a name="line-22"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.MultiSet</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">MultiSet</span><span>
+</span><a name="line-23"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.Set</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Set</span><span>
+</span><a name="line-24"></a><span>
+</span><a name="line-25"></a><span class="hs-comment">{- $setup
+
+&gt;&gt;&gt; import Data.Char (toUpper)
+
+-}</span><span>
+</span><a name="line-30"></a><span>
+</span><a name="line-31"></a><span class="hs-comment">---------------------------------------------------------------------------</span><span>
+</span><a name="line-32"></a><span>
+</span><a name="line-33"></a><span class="hs-comment">{- |
+
+Like 'tails', but only the non-empty tails from a non-empty list. The result is
+non-empty because every non-empty list has at least one non-empy suffix
+(itself).
+
+&gt;&gt;&gt; neTails (1 :| [])
+(1 :| []) :| []
+
+&gt;&gt;&gt; neTails ('a' :| &quot;bc&quot;)
+('a' :| &quot;bc&quot;) :| ['b' :| &quot;c&quot;,'c' :| &quot;&quot;]
+
+-}</span><span>
+</span><a name="line-46"></a><span class="hs-identifier">neTails</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">NonEmpty</span><span> </span><a href="#local-6989586621679051305"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">NonEmpty</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">NonEmpty</span><span> </span><a href="#local-6989586621679051305"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">)</span><span>
+</span><a name="line-47"></a><a name="neTails"><a href="Euler.Util.List.html#neTails"><span class="hs-identifier">neTails</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">NE.fromList</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">catMaybes</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">NE.toList</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">fmap</span><span> </span><span class="hs-identifier hs-var">NE.nonEmpty</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">NE.tails</span><span>
+</span><a name="line-48"></a><span>
+</span><a name="line-49"></a><span class="hs-comment">{- | Sublists of a fixed length.
+
+&gt;&gt;&gt; sliding 2 &quot;abcd&quot;
+[&quot;ab&quot;,&quot;bc&quot;,&quot;cd&quot;]
+
+&gt;&gt;&gt; sliding 3 &quot;abcde&quot;
+[&quot;abc&quot;,&quot;bcd&quot;,&quot;cde&quot;]
+
+-}</span><span>
+</span><a name="line-58"></a><span class="hs-identifier">sliding</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679051304"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">[</span><a href="#local-6989586621679051304"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span class="hs-special">]</span><span>
+</span><a name="line-59"></a><a name="sliding"><a href="Euler.Util.List.html#sliding"><span class="hs-identifier">sliding</span></a></a><span> </span><span class="hs-identifier">_</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><a name="line-60"></a><span class="hs-identifier">sliding</span><span> </span><a name="local-6989586621679051306"><a href="#local-6989586621679051306"><span class="hs-identifier">n</span></a></a><span> </span><a name="local-6989586621679051307"><a href="#local-6989586621679051307"><span class="hs-identifier">xs</span></a></a><span class="hs-glyph">@</span><span class="hs-special">(</span><span class="hs-identifier">_</span><span class="hs-glyph">:</span><a name="local-6989586621679051308"><a href="#local-6989586621679051308"><span class="hs-identifier">ys</span></a></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-61"></a><span>  </span><span class="hs-keyword">if</span><span> </span><span class="hs-identifier hs-var">List.length</span><span> </span><a href="#local-6989586621679051307"><span class="hs-identifier hs-var">xs</span></a><span> </span><span class="hs-operator hs-var">&gt;=</span><span> </span><a href="#local-6989586621679051306"><span class="hs-identifier hs-var">n</span></a><span>
+</span><a name="line-62"></a><span>    </span><span class="hs-keyword">then</span><span> </span><span class="hs-identifier hs-var">List.take</span><span> </span><a href="#local-6989586621679051306"><span class="hs-identifier hs-var">n</span></a><span> </span><a href="#local-6989586621679051307"><span class="hs-identifier hs-var">xs</span></a><span> </span><span class="hs-glyph">:</span><span> </span><a href="Euler.Util.List.html#sliding"><span class="hs-identifier hs-var">sliding</span></a><span> </span><a href="#local-6989586621679051306"><span class="hs-identifier hs-var">n</span></a><span> </span><a href="#local-6989586621679051308"><span class="hs-identifier hs-var">ys</span></a><span>
+</span><a name="line-63"></a><span>    </span><span class="hs-keyword">else</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><a name="line-64"></a><span>
+</span><a name="line-65"></a><span class="hs-comment">{- |
+
+&gt;&gt;&gt; transpose [&quot;abc&quot;,&quot;def&quot;]
+[&quot;ad&quot;,&quot;be&quot;,&quot;cf&quot;]
+
+-}</span><span>
+</span><a name="line-71"></a><span class="hs-identifier">transpose</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-special">[</span><a href="#local-6989586621679051303"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">[</span><a href="#local-6989586621679051303"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span class="hs-special">]</span><span>
+</span><a name="line-72"></a><a name="transpose"><a href="Euler.Util.List.html#transpose"><span class="hs-identifier">transpose</span></a></a><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>     </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><a name="line-73"></a><span class="hs-identifier">transpose</span><span> </span><span class="hs-special">(</span><span class="hs-special">[</span><span class="hs-special">]</span><span class="hs-glyph">:</span><span class="hs-identifier">_</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span class="hs-special">]</span><span>
+</span><a name="line-74"></a><span class="hs-identifier">transpose</span><span> </span><a name="local-6989586621679051309"><a href="#local-6989586621679051309"><span class="hs-identifier">xs</span></a></a><span>     </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">List.head</span><span> </span><span class="hs-operator hs-var">&lt;$&gt;</span><span> </span><a href="#local-6989586621679051309"><span class="hs-identifier hs-var">xs</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">:</span><span> </span><a href="Euler.Util.List.html#transpose"><span class="hs-identifier hs-var">transpose</span></a><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">List.tail</span><span> </span><span class="hs-operator hs-var">&lt;$&gt;</span><span> </span><a href="#local-6989586621679051309"><span class="hs-identifier hs-var">xs</span></a><span class="hs-special">)</span><span>
+</span><a name="line-75"></a><span>
+</span><a name="line-76"></a><span class="hs-comment">{- |
+
+&gt;&gt;&gt; untilNothing [Just 1, Just 2, Nothing, Just 3]
+[1,2]
+
+-}</span><span>
+</span><a name="line-82"></a><span class="hs-identifier">untilNothing</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-identifier hs-type">Maybe</span><span> </span><a href="#local-6989586621679051302"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679051302"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span>
+</span><a name="line-83"></a><a name="untilNothing"><a href="Euler.Util.List.html#untilNothing"><span class="hs-identifier">untilNothing</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">catMaybes</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">List.takeWhile</span><span> </span><span class="hs-identifier hs-var">isJust</span><span>
+</span><a name="line-84"></a><span>
+</span><a name="line-85"></a><span class="hs-comment">{- |
+
+@'maximumOn' f@ is equivalent to @'maximumBy' ('compare' `'on'` f)@, but is more
+efficient when @f@ is costly.
+
+-}</span><span>
+</span><a name="line-91"></a><span class="hs-identifier">maximumOn</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Ord</span><span> </span><a href="#local-6989586621679051300"><span class="hs-identifier hs-type">b</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679051301"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679051300"><span class="hs-identifier hs-type">b</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679051301"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679051301"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-92"></a><a name="maximumOn"><a href="Euler.Util.List.html#maximumOn"><span class="hs-identifier">maximumOn</span></a></a><span> </span><a name="local-6989586621679051310"><a href="#local-6989586621679051310"><span class="hs-identifier">f</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">fst</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">maximumBy</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">compare</span><span> </span><span class="hs-special">`</span><span class="hs-identifier hs-var">on</span><span class="hs-special">`</span><span> </span><span class="hs-identifier hs-var">snd</span><span class="hs-special">)</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">fmap</span><span> </span><span class="hs-special">(</span><span class="hs-glyph">\</span><a name="local-6989586621679051311"><a href="#local-6989586621679051311"><span class="hs-identifier">x</span></a></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679051311"><span class="hs-identifier hs-var">x</span></a><span class="hs-special">,</span><span> </span><a href="#local-6989586621679051310"><span class="hs-identifier hs-var">f</span></a><span> </span><a href="#local-6989586621679051311"><span class="hs-identifier hs-var">x</span></a><span class="hs-special">)</span><span class="hs-special">)</span><span>
+</span><a name="line-93"></a><span>
+</span><a name="line-94"></a><span class="hs-comment">{- | The number of unique elements in a list.
+
+&gt;&gt;&gt; countDistinct []
+0
+
+&gt;&gt;&gt; countDistinct &quot;aaaaabaa&quot;
+2
+
+-}</span><span>
+</span><a name="line-103"></a><span class="hs-identifier">countDistinct</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-type">Ord</span><span> </span><a href="#local-6989586621679051298"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679051299"><span class="hs-identifier hs-type">b</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679051298"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679051299"><span class="hs-identifier hs-type">b</span></a><span>
+</span><a name="line-104"></a><a name="countDistinct"><a href="Euler.Util.List.html#countDistinct"><span class="hs-identifier">countDistinct</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">fromIntegral</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">List.length</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">Set.fromList</span><span>
+</span><a name="line-105"></a><span>
+</span><a name="line-106"></a><span class="hs-comment">{- |
+
+The most common element in the list, assuming the list is nonempty and has a
+single most common element.
+
+&gt;&gt;&gt; mode &quot;abbbbcc&quot;
+'b'
+
+-}</span><span>
+</span><a name="line-115"></a><span class="hs-identifier">mode</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Ord</span><span> </span><a href="#local-6989586621679051297"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679051297"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679051297"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-116"></a><a name="mode"><a href="Euler.Util.List.html#mode"><span class="hs-identifier">mode</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">fst</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><a href="Euler.Util.List.html#maximumOn"><span class="hs-identifier hs-var">maximumOn</span></a><span> </span><span class="hs-identifier hs-var">snd</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">MultiSet.toOccurList</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">MultiSet.fromList</span><span>
+</span><a name="line-117"></a><span>
+</span><a name="line-118"></a><span class="hs-comment">{- |
+
+Remove consecutive duplicate elements from a list.
+
+&gt;&gt;&gt; dedupe []
+[]
+
+&gt;&gt;&gt; dedupe &quot;abbbbcca&quot;
+&quot;abca&quot;
+
+-}</span><span>
+</span><a name="line-129"></a><span class="hs-identifier">dedupe</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Eq</span><span> </span><a href="#local-6989586621679051296"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679051296"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679051296"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span>
+</span><a name="line-130"></a><a name="dedupe"><a href="Euler.Util.List.html#dedupe"><span class="hs-identifier">dedupe</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">fmap</span><span> </span><span class="hs-identifier hs-var">List.head</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">group</span><span>
+</span><a name="line-131"></a><span>
+</span><a name="line-132"></a><span class="hs-comment">{- |
+
+&gt;&gt;&gt; adjustIndex 2 toUpper &quot;abcd&quot;
+&quot;abCd&quot;
+
+-}</span><span>
+</span><a name="line-138"></a><span class="hs-identifier">adjustIndex</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679051295"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679051295"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679051295"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679051295"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span>
+</span><a name="line-139"></a><a name="adjustIndex"><a href="Euler.Util.List.html#adjustIndex"><span class="hs-identifier">adjustIndex</span></a></a><span> </span><a name="local-6989586621679051312"><a href="#local-6989586621679051312"><span class="hs-identifier">i</span></a></a><span> </span><a name="local-6989586621679051313"><a href="#local-6989586621679051313"><span class="hs-identifier">f</span></a></a><span> </span><a name="local-6989586621679051314"><a href="#local-6989586621679051314"><span class="hs-identifier">xs</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">List.take</span><span> </span><a href="#local-6989586621679051312"><span class="hs-identifier hs-var">i</span></a><span> </span><a href="#local-6989586621679051314"><span class="hs-identifier hs-var">xs</span></a><span> </span><span class="hs-operator hs-var">&lt;&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679051313"><span class="hs-identifier hs-var">f</span></a><span> </span><span class="hs-operator hs-var">$</span><span> </span><a href="#local-6989586621679051314"><span class="hs-identifier hs-var">xs</span></a><span> </span><span class="hs-operator hs-var">!!</span><span> </span><a href="#local-6989586621679051312"><span class="hs-identifier hs-var">i</span></a><span class="hs-special">]</span><span> </span><span class="hs-operator hs-var">&lt;&gt;</span><span> </span><span class="hs-identifier hs-var">List.drop</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679051312"><span class="hs-identifier hs-var">i</span></a><span class="hs-operator hs-var">+</span><span class="hs-number">1</span><span class="hs-special">)</span><span> </span><a href="#local-6989586621679051314"><span class="hs-identifier hs-var">xs</span></a><span>
+</span><a name="line-140"></a><span>
+</span><a name="line-141"></a><span class="hs-comment">{- |
+
+&gt;&gt;&gt; adjustEach toUpper &quot;abc&quot;
+[&quot;Abc&quot;,&quot;aBc&quot;,&quot;abC&quot;]
+
+&gt;&gt;&gt; adjustEach id []
+[]
+
+-}</span><span>
+</span><a name="line-150"></a><span class="hs-identifier">adjustEach</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679051294"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679051294"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="#local-6989586621679051294"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-special">[</span><a href="#local-6989586621679051294"><span class="hs-identifier hs-type">a</span></a><span class="hs-special">]</span><span class="hs-special">]</span><span>
+</span><a name="line-151"></a><a name="adjustEach"><a href="Euler.Util.List.html#adjustEach"><span class="hs-identifier">adjustEach</span></a></a><span> </span><a name="local-6989586621679051315"><a href="#local-6989586621679051315"><span class="hs-identifier">f</span></a></a><span> </span><a name="local-6989586621679051316"><a href="#local-6989586621679051316"><span class="hs-identifier">xs</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">[</span><span> </span><a href="Euler.Util.List.html#adjustIndex"><span class="hs-identifier hs-var">adjustIndex</span></a><span> </span><a href="#local-6989586621679051317"><span class="hs-identifier hs-var">i</span></a><span> </span><a href="#local-6989586621679051315"><span class="hs-identifier hs-var">f</span></a><span> </span><a href="#local-6989586621679051316"><span class="hs-identifier hs-var">xs</span></a><span> </span><span class="hs-glyph">|</span><span> </span><a name="local-6989586621679051317"><a href="#local-6989586621679051317"><span class="hs-identifier">i</span></a></a><span> </span><span class="hs-glyph">&lt;-</span><span> </span><span class="hs-special">[</span><span class="hs-number">0</span><span> </span><span class="hs-glyph">..</span><span> </span><span class="hs-identifier hs-var">List.length</span><span> </span><a href="#local-6989586621679051316"><span class="hs-identifier hs-var">xs</span></a><span> </span><span class="hs-glyph">-</span><span> </span><span class="hs-number">1</span><span class="hs-special">]</span><span> </span><span class="hs-special">]</span><span>
+</span><a name="line-152"></a></pre></body></html>

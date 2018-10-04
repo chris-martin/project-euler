@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE OverloadedStrings #-}</span><span>
+</span><a name="line-2"></a><span>
+</span><a name="line-3"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Euler.Problems.Problem22</span><span>
+</span><a name="line-4"></a><span>  </span><span class="hs-special">(</span><span> </span><span class="hs-comment">-- $setup</span><span>
+</span><a name="line-5"></a><span>    </span><a href="Euler.Problems.Problem22.html#InputText"><span class="hs-identifier hs-type">InputText</span></a><span>
+</span><a name="line-6"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Problems.Problem22.html#parseNames"><span class="hs-identifier hs-var">parseNames</span></a><span>
+</span><a name="line-7"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Problems.Problem22.html#unquote"><span class="hs-identifier hs-var">unquote</span></a><span>
+</span><a name="line-8"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Problems.Problem22.html#answer"><span class="hs-identifier hs-var">answer</span></a><span>
+</span><a name="line-9"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-10"></a><span>
+</span><a name="line-11"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Prelude.html"><span class="hs-identifier">Euler.Prelude</span></a><span>
+</span><a name="line-12"></a><span>
+</span><a name="line-13"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Util.WordScore.html"><span class="hs-identifier">Euler.Util.WordScore</span></a><span>
+</span><a name="line-14"></a><span>
+</span><a name="line-15"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.List</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">List</span><span>
+</span><a name="line-16"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.Text</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Text</span><span>
+</span><a name="line-17"></a><span>
+</span><a name="line-18"></a><span class="hs-comment">-- $setup</span><span>
+</span><a name="line-19"></a><span class="hs-comment">-- &gt;&gt;&gt; :set -XOverloadedStrings</span><span>
+</span><a name="line-20"></a><span>
+</span><a name="line-21"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-22"></a><span>
+</span><a name="line-23"></a><span class="hs-comment">{- |
+
+The contents of the input file: a comma-delimited list of quoted strings.
+
+-}</span><span>
+</span><a name="line-28"></a><span class="hs-keyword">type</span><span> </span><a name="InputText"><a href="Euler.Problems.Problem22.html#InputText"><span class="hs-identifier">InputText</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-type">Text</span><span>
+</span><a name="line-29"></a><span>
+</span><a name="line-30"></a><span class="hs-keyword">type</span><span> </span><a name="Name"><a href="Euler.Problems.Problem22.html#Name"><span class="hs-identifier">Name</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-type">Text</span><span>
+</span><a name="line-31"></a><span>
+</span><a name="line-32"></a><span class="hs-comment">{- |
+
+The answer to the problem, given the input text.
+
+&gt;&gt;&gt; answer &quot;\&quot;Bob\&quot;,\&quot;Alice\&quot;&quot;
+68
+
+&gt;       A   l    i   c   e           B   o    b
+&gt; (1 * (1 + 12 + 9 + 3 + 5)) + (2 * (2 + 15 + 2))
+
+-}</span><span>
+</span><a name="line-43"></a><span class="hs-identifier">answer</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="Euler.Problems.Problem22.html#InputText"><span class="hs-identifier hs-type">InputText</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Integer</span><span>
+</span><a name="line-44"></a><a name="answer"><a href="Euler.Problems.Problem22.html#answer"><span class="hs-identifier">answer</span></a></a><span> </span><a name="local-6989586621679080470"><a href="#local-6989586621679080470"><span class="hs-identifier">text</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-45"></a><span>    </span><span class="hs-identifier hs-var">List.sum</span><span> </span><a href="#local-6989586621679080472"><span class="hs-identifier hs-var">scores</span></a><span>
+</span><a name="line-46"></a><span>  </span><span class="hs-keyword">where</span><span>
+</span><a name="line-47"></a><span>    </span><a name="local-6989586621679080471"><a href="#local-6989586621679080471"><span class="hs-identifier">names</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">sort</span><span> </span><span class="hs-special">(</span><a href="Euler.Problems.Problem22.html#parseNames"><span class="hs-identifier hs-var">parseNames</span></a><span> </span><a href="#local-6989586621679080470"><span class="hs-identifier hs-var">text</span></a><span class="hs-special">)</span><span>
+</span><a name="line-48"></a><span>    </span><a name="local-6989586621679080472"><a href="#local-6989586621679080472"><span class="hs-identifier">scores</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">List.zipWith</span><span> </span><span class="hs-special">(</span><span class="hs-operator hs-var">*</span><span class="hs-special">)</span><span> </span><span class="hs-special">[</span><span class="hs-number">1</span><span class="hs-glyph">..</span><span class="hs-special">]</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">fmap</span><span> </span><span class="hs-special">(</span><a href="Euler.Util.WordScore.html#wordScore"><span class="hs-identifier hs-var">wordScore</span></a><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">Text.unpack</span><span class="hs-special">)</span><span> </span><a href="#local-6989586621679080471"><span class="hs-identifier hs-var">names</span></a><span class="hs-special">)</span><span>
+</span><a name="line-49"></a><span>
+</span><a name="line-50"></a><span class="hs-comment">{- |
+
+Parse the input text for this problem.
+
+&gt;&gt;&gt; parseNames &quot;\&quot;Alice\&quot;,\&quot;Bob\&quot;&quot;
+[&quot;Alice&quot;,&quot;Bob&quot;]
+
+-}</span><span>
+</span><a name="line-58"></a><span class="hs-identifier">parseNames</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="Euler.Problems.Problem22.html#InputText"><span class="hs-identifier hs-type">InputText</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><a href="Euler.Problems.Problem22.html#Name"><span class="hs-identifier hs-type">Name</span></a><span class="hs-special">]</span><span>
+</span><a name="line-59"></a><a name="parseNames"><a href="Euler.Problems.Problem22.html#parseNames"><span class="hs-identifier">parseNames</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-60"></a><span>  </span><span class="hs-identifier hs-var">fmap</span><span> </span><span class="hs-special">(</span><a href="Euler.Problems.Problem22.html#unquote"><span class="hs-identifier hs-var">unquote</span></a><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">Text.strip</span><span class="hs-special">)</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">Text.splitOn</span><span> </span><span class="hs-string">&quot;,&quot;</span><span>
+</span><a name="line-61"></a><span>
+</span><a name="line-62"></a><span class="hs-comment">{- |
+
+&gt;&gt;&gt; unquote &quot;\&quot;Alice\&quot;&quot;
+&quot;Alice&quot;
+
+-}</span><span>
+</span><a name="line-68"></a><span class="hs-identifier">unquote</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Text</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Text</span><span>
+</span><a name="line-69"></a><a name="unquote"><a href="Euler.Problems.Problem22.html#unquote"><span class="hs-identifier">unquote</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-70"></a><span>    </span><span class="hs-identifier hs-var">Text.dropWhile</span><span> </span><a href="#local-6989586621679080473"><span class="hs-identifier hs-var">isQ</span></a><span> </span><span class="hs-operator hs-var">.</span><span> </span><span class="hs-identifier hs-var">Text.dropWhileEnd</span><span> </span><a href="#local-6989586621679080473"><span class="hs-identifier hs-var">isQ</span></a><span>
+</span><a name="line-71"></a><span>  </span><span class="hs-keyword">where</span><span>
+</span><a name="line-72"></a><span>    </span><a name="local-6989586621679080473"><a href="#local-6989586621679080473"><span class="hs-identifier">isQ</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-operator hs-var">==</span><span> </span><span class="hs-char">'&quot;'</span><span class="hs-special">)</span><span>
+</span><a name="line-73"></a></pre></body></html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE ScopedTypeVariables #-}</span><span>
+</span><a name="line-2"></a><span>
+</span><a name="line-3"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Euler.Util.Arithmetic</span><span>
+</span><a name="line-4"></a><span>  </span><span class="hs-special">(</span><span>
+</span><a name="line-5"></a><span>  </span><span class="hs-comment">-- $setup</span><span>
+</span><a name="line-6"></a><span>
+</span><a name="line-7"></a><span>  </span><span class="hs-comment">-- * Functions</span><span>
+</span><a name="line-8"></a><span>    </span><a href="Euler.Util.Arithmetic.html#divides"><span class="hs-identifier hs-var">divides</span></a><span>
+</span><a name="line-9"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.Arithmetic.html#square"><span class="hs-identifier hs-var">square</span></a><span>
+</span><a name="line-10"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.Arithmetic.html#intSqrt"><span class="hs-identifier hs-var">intSqrt</span></a><span>
+</span><a name="line-11"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.Arithmetic.html#floorSqrt"><span class="hs-identifier hs-var">floorSqrt</span></a><span>
+</span><a name="line-12"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.Arithmetic.html#isSquare"><span class="hs-identifier hs-var">isSquare</span></a><span>
+</span><a name="line-13"></a><span>
+</span><a name="line-14"></a><span>  </span><span class="hs-comment">-- * Factorial</span><span>
+</span><a name="line-15"></a><span>  </span><span class="hs-comment">-- ** Functions</span><span>
+</span><a name="line-16"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.Arithmetic.html#factorial"><span class="hs-identifier hs-var">factorial</span></a><span class="hs-special">,</span><span> </span><a href="Euler.Util.Arithmetic.html#factorials"><span class="hs-identifier hs-var">factorials</span></a><span>
+</span><a name="line-17"></a><span>  </span><span class="hs-comment">-- ** Properties</span><span>
+</span><a name="line-18"></a><span>  </span><span class="hs-comment">-- $factorialProperties</span><span>
+</span><a name="line-19"></a><span>
+</span><a name="line-20"></a><span>  </span><span class="hs-comment">-- * Constants</span><span>
+</span><a name="line-21"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Util.Arithmetic.html#million"><span class="hs-identifier hs-var">million</span></a><span>
+</span><a name="line-22"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-23"></a><span>
+</span><a name="line-24"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Prelude.html"><span class="hs-identifier">Euler.Prelude</span></a><span>
+</span><a name="line-25"></a><span>
+</span><a name="line-26"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.Foldable</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Foldable</span><span>
+</span><a name="line-27"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.List</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">List</span><span>
+</span><a name="line-28"></a><span>
+</span><a name="line-29"></a><span class="hs-comment">-- $setup</span><span>
+</span><a name="line-30"></a><span class="hs-comment">-- &gt;&gt;&gt; import Test.QuickCheck</span><span>
+</span><a name="line-31"></a><span>
+</span><a name="line-32"></a><span class="hs-comment">---------------------------------------------------------</span><span>
+</span><a name="line-33"></a><span>
+</span><a name="line-34"></a><span class="hs-comment">{- |
+
+@a ``divides`` b@ iff /a/ is a divisor of /b/; in other words, /b/ = 0 (mod
+/a/).
+
+-}</span><span>
+</span><a name="line-40"></a><span class="hs-identifier">divides</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679041080"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679041080"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679041080"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Bool</span><span>
+</span><a name="line-41"></a><a name="local-6989586621679041081"><a href="#local-6989586621679041081"><span class="hs-identifier">d</span></a></a><span> </span><span class="hs-special">`</span><a name="divides"><a href="Euler.Util.Arithmetic.html#divides"><span class="hs-identifier">divides</span></a></a><span class="hs-special">`</span><span> </span><a name="local-6989586621679041082"><a href="#local-6989586621679041082"><span class="hs-identifier">n</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041082"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-special">`</span><span class="hs-identifier hs-var">mod</span><span class="hs-special">`</span><span> </span><a href="#local-6989586621679041081"><span class="hs-identifier hs-var">d</span></a><span> </span><span class="hs-operator hs-var">==</span><span> </span><span class="hs-number">0</span><span>
+</span><a name="line-42"></a><span>
+</span><a name="line-43"></a><span class="hs-comment">{- |
+
+@'square' x@ = /x^2/
+
+-}</span><span>
+</span><a name="line-48"></a><span class="hs-identifier">square</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Num</span><span> </span><a href="#local-6989586621679041079"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679041079"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679041079"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-49"></a><a name="square"><a href="Euler.Util.Arithmetic.html#square"><span class="hs-identifier">square</span></a></a><span> </span><a name="local-6989586621679041083"><a href="#local-6989586621679041083"><span class="hs-identifier">x</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041083"><span class="hs-identifier hs-var">x</span></a><span> </span><span class="hs-operator hs-var">*</span><span> </span><a href="#local-6989586621679041083"><span class="hs-identifier hs-var">x</span></a><span>
+</span><a name="line-50"></a><span>
+</span><a name="line-51"></a><span class="hs-comment">{- |
+
+@'intSqrt' x@ is the integer /r/ such that /r^2 = x/, if such an integer exists.
+
+prop&gt; \(NonNegative n) -&gt; intSqrt (n^2) === Just n
+
+prop&gt; \(Positive n) -&gt; intSqrt(n^2 + 1) === Nothing
+
+prop&gt; \(Positive n) -&gt; intSqrt((n+1)^2 - 1) === Nothing
+
+-}</span><span>
+</span><a name="line-62"></a><span class="hs-identifier">intSqrt</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679041078"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679041078"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Maybe</span><span> </span><a href="#local-6989586621679041078"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-63"></a><a name="intSqrt"><a href="Euler.Util.Arithmetic.html#intSqrt"><span class="hs-identifier">intSqrt</span></a></a><span> </span><a name="local-6989586621679041084"><a href="#local-6989586621679041084"><span class="hs-identifier">n</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041087"><span class="hs-identifier hs-var">searchWithGuess</span></a><span> </span><span class="hs-number">0</span><span> </span><a href="#local-6989586621679041084"><span class="hs-identifier hs-var">n</span></a><span> </span><a href="#local-6989586621679041085"><span class="hs-identifier hs-var">initialGuess</span></a><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-64"></a><span>
+</span><a name="line-65"></a><span>  </span><a name="local-6989586621679041085"><a href="#local-6989586621679041085"><span class="hs-identifier">initialGuess</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">round</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">sqrt</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">fromIntegral</span><span> </span><a href="#local-6989586621679041084"><span class="hs-identifier hs-var">n</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Double</span><span class="hs-special">)</span><span>
+</span><a name="line-66"></a><span>
+</span><a name="line-67"></a><span>  </span><span class="hs-comment">-- A rather naive binary search, between the inclusive bounds a and b.</span><span>
+</span><a name="line-68"></a><span>  </span><a name="local-6989586621679041086"><a href="#local-6989586621679041086"><span class="hs-identifier">search</span></a></a><span> </span><a name="local-6989586621679041088"><a href="#local-6989586621679041088"><span class="hs-identifier">a</span></a></a><span> </span><a name="local-6989586621679041089"><a href="#local-6989586621679041089"><span class="hs-identifier">b</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-69"></a><span>    </span><span class="hs-keyword">if</span><span> </span><a href="#local-6989586621679041088"><span class="hs-identifier hs-var">a</span></a><span> </span><span class="hs-operator hs-var">&gt;</span><span> </span><a href="#local-6989586621679041089"><span class="hs-identifier hs-var">b</span></a><span>
+</span><a name="line-70"></a><span>      </span><span class="hs-keyword">then</span><span> </span><span class="hs-identifier hs-var">Nothing</span><span>
+</span><a name="line-71"></a><span>      </span><span class="hs-keyword">else</span><span> </span><span class="hs-keyword">let</span><span> </span><a name="local-6989586621679041090"><a href="#local-6989586621679041090"><span class="hs-identifier">guess</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041088"><span class="hs-identifier hs-var">a</span></a><span> </span><span class="hs-operator hs-var">+</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><a href="#local-6989586621679041089"><span class="hs-identifier hs-var">b</span></a><span> </span><span class="hs-glyph">-</span><span> </span><a href="#local-6989586621679041088"><span class="hs-identifier hs-var">a</span></a><span class="hs-special">)</span><span> </span><span class="hs-special">`</span><span class="hs-identifier hs-var">div</span><span class="hs-special">`</span><span> </span><span class="hs-number">2</span><span class="hs-special">)</span><span>
+</span><a name="line-72"></a><span>           </span><span class="hs-keyword">in</span><span>  </span><a href="#local-6989586621679041087"><span class="hs-identifier hs-var">searchWithGuess</span></a><span> </span><a href="#local-6989586621679041088"><span class="hs-identifier hs-var">a</span></a><span> </span><a href="#local-6989586621679041089"><span class="hs-identifier hs-var">b</span></a><span> </span><a href="#local-6989586621679041090"><span class="hs-identifier hs-var">guess</span></a><span>
+</span><a name="line-73"></a><span>
+</span><a name="line-74"></a><span>  </span><a name="local-6989586621679041087"><a href="#local-6989586621679041087"><span class="hs-identifier">searchWithGuess</span></a></a><span> </span><a name="local-6989586621679041091"><a href="#local-6989586621679041091"><span class="hs-identifier">a</span></a></a><span> </span><a name="local-6989586621679041092"><a href="#local-6989586621679041092"><span class="hs-identifier">b</span></a></a><span> </span><a name="local-6989586621679041093"><a href="#local-6989586621679041093"><span class="hs-identifier">guess</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-75"></a><span>    </span><span class="hs-keyword">case</span><span> </span><span class="hs-identifier hs-var">compare</span><span> </span><span class="hs-special">(</span><a href="Euler.Util.Arithmetic.html#square"><span class="hs-identifier hs-var">square</span></a><span> </span><a href="#local-6989586621679041093"><span class="hs-identifier hs-var">guess</span></a><span class="hs-special">)</span><span> </span><a href="#local-6989586621679041084"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-keyword">of</span><span>
+</span><a name="line-76"></a><span>      </span><span class="hs-identifier hs-var">EQ</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-var">Just</span><span> </span><a href="#local-6989586621679041093"><span class="hs-identifier hs-var">guess</span></a><span>
+</span><a name="line-77"></a><span>      </span><span class="hs-identifier hs-var">GT</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679041086"><span class="hs-identifier hs-var">search</span></a><span> </span><a href="#local-6989586621679041091"><span class="hs-identifier hs-var">a</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621679041093"><span class="hs-identifier hs-var">guess</span></a><span> </span><span class="hs-glyph">-</span><span> </span><span class="hs-number">1</span><span class="hs-special">)</span><span>
+</span><a name="line-78"></a><span>      </span><span class="hs-identifier hs-var">LT</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679041086"><span class="hs-identifier hs-var">search</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621679041093"><span class="hs-identifier hs-var">guess</span></a><span> </span><span class="hs-operator hs-var">+</span><span> </span><span class="hs-number">1</span><span class="hs-special">)</span><span> </span><a href="#local-6989586621679041092"><span class="hs-identifier hs-var">b</span></a><span>
+</span><a name="line-79"></a><span>
+</span><a name="line-80"></a><span class="hs-comment">{- |
+
+@'floorSqrt' x@ is the largest integer /r/ such that /r^2 &lt;= x/.
+
+prop&gt; \(NonNegative n) -&gt; floorSqrt (n^2) === n
+
+prop&gt; \(Positive n) -&gt; floorSqrt(n^2 + 1) === n
+
+prop&gt; \(Positive n) -&gt; floorSqrt((n+1)^2 - 1) === n
+
+-}</span><span>
+</span><a name="line-91"></a><span class="hs-identifier">floorSqrt</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679041077"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679041077"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679041077"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-92"></a><a name="floorSqrt"><a href="Euler.Util.Arithmetic.html#floorSqrt"><span class="hs-identifier">floorSqrt</span></a></a><span> </span><a name="local-6989586621679041094"><a href="#local-6989586621679041094"><span class="hs-identifier">n</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041097"><span class="hs-identifier hs-var">searchWithGuess</span></a><span> </span><span class="hs-number">0</span><span> </span><a href="#local-6989586621679041094"><span class="hs-identifier hs-var">n</span></a><span> </span><a href="#local-6989586621679041095"><span class="hs-identifier hs-var">initialGuess</span></a><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-93"></a><span>
+</span><a name="line-94"></a><span>  </span><a name="local-6989586621679041095"><a href="#local-6989586621679041095"><span class="hs-identifier">initialGuess</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">floor</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">sqrt</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">fromIntegral</span><span> </span><a href="#local-6989586621679041094"><span class="hs-identifier hs-var">n</span></a><span class="hs-special">)</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Double</span><span class="hs-special">)</span><span>
+</span><a name="line-95"></a><span>
+</span><a name="line-96"></a><span>  </span><span class="hs-comment">-- A rather naive binary search, between the inclusive bounds a and b.</span><span>
+</span><a name="line-97"></a><span>  </span><a name="local-6989586621679041096"><a href="#local-6989586621679041096"><span class="hs-identifier">search</span></a></a><span> </span><a name="local-6989586621679041098"><a href="#local-6989586621679041098"><span class="hs-identifier">a</span></a></a><span> </span><a name="local-6989586621679041099"><a href="#local-6989586621679041099"><span class="hs-identifier">b</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-98"></a><span>    </span><span class="hs-keyword">case</span><span> </span><span class="hs-identifier hs-var">compare</span><span> </span><a href="#local-6989586621679041098"><span class="hs-identifier hs-var">a</span></a><span> </span><a href="#local-6989586621679041099"><span class="hs-identifier hs-var">b</span></a><span> </span><span class="hs-keyword">of</span><span>
+</span><a name="line-99"></a><span>      </span><span class="hs-identifier hs-var">GT</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-var">undefined</span><span>
+</span><a name="line-100"></a><span>      </span><span class="hs-identifier hs-var">EQ</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><a href="#local-6989586621679041098"><span class="hs-identifier hs-var">a</span></a><span>
+</span><a name="line-101"></a><span>      </span><span class="hs-identifier hs-var">LT</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-keyword">let</span><span> </span><a name="local-6989586621679041100"><a href="#local-6989586621679041100"><span class="hs-identifier">guess</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041098"><span class="hs-identifier hs-var">a</span></a><span> </span><span class="hs-operator hs-var">+</span><span> </span><span class="hs-special">(</span><span class="hs-special">(</span><a href="#local-6989586621679041099"><span class="hs-identifier hs-var">b</span></a><span> </span><span class="hs-glyph">-</span><span> </span><a href="#local-6989586621679041098"><span class="hs-identifier hs-var">a</span></a><span class="hs-special">)</span><span> </span><span class="hs-special">`</span><span class="hs-identifier hs-var">div</span><span class="hs-special">`</span><span> </span><span class="hs-number">2</span><span class="hs-special">)</span><span>
+</span><a name="line-102"></a><span>            </span><span class="hs-keyword">in</span><span>  </span><a href="#local-6989586621679041097"><span class="hs-identifier hs-var">searchWithGuess</span></a><span> </span><a href="#local-6989586621679041098"><span class="hs-identifier hs-var">a</span></a><span> </span><a href="#local-6989586621679041099"><span class="hs-identifier hs-var">b</span></a><span> </span><a href="#local-6989586621679041100"><span class="hs-identifier hs-var">guess</span></a><span>
+</span><a name="line-103"></a><span>
+</span><a name="line-104"></a><span>  </span><a name="local-6989586621679041097"><a href="#local-6989586621679041097"><span class="hs-identifier">searchWithGuess</span></a></a><span> </span><a name="local-6989586621679041101"><a href="#local-6989586621679041101"><span class="hs-identifier">a</span></a></a><span> </span><a name="local-6989586621679041102"><a href="#local-6989586621679041102"><span class="hs-identifier">b</span></a></a><span> </span><a name="local-6989586621679041103"><a href="#local-6989586621679041103"><span class="hs-identifier">guess</span></a></a><span>
+</span><a name="line-105"></a><span>      </span><span class="hs-glyph">|</span><span> </span><a href="#local-6989586621679041101"><span class="hs-identifier hs-var">a</span></a><span> </span><span class="hs-operator hs-var">==</span><span> </span><a href="#local-6989586621679041102"><span class="hs-identifier hs-var">b</span></a><span>                </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041101"><span class="hs-identifier hs-var">a</span></a><span>
+</span><a name="line-106"></a><span>      </span><span class="hs-glyph">|</span><span> </span><a href="#local-6989586621679041104"><span class="hs-identifier hs-var">sq1</span></a><span> </span><span class="hs-operator hs-var">==</span><span> </span><a href="#local-6989586621679041094"><span class="hs-identifier hs-var">n</span></a><span>              </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041103"><span class="hs-identifier hs-var">guess</span></a><span>
+</span><a name="line-107"></a><span>      </span><span class="hs-glyph">|</span><span> </span><a href="#local-6989586621679041105"><span class="hs-identifier hs-var">sq2</span></a><span> </span><span class="hs-operator hs-var">==</span><span> </span><a href="#local-6989586621679041094"><span class="hs-identifier hs-var">n</span></a><span>              </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041103"><span class="hs-identifier hs-var">guess</span></a><span> </span><span class="hs-operator hs-var">+</span><span> </span><span class="hs-number">1</span><span>
+</span><a name="line-108"></a><span>      </span><span class="hs-glyph">|</span><span> </span><a href="#local-6989586621679041104"><span class="hs-identifier hs-var">sq1</span></a><span> </span><span class="hs-operator hs-var">&lt;</span><span> </span><a href="#local-6989586621679041094"><span class="hs-identifier hs-var">n</span></a><span> </span><span class="hs-operator hs-var">&amp;&amp;</span><span> </span><a href="#local-6989586621679041105"><span class="hs-identifier hs-var">sq2</span></a><span> </span><span class="hs-operator hs-var">&gt;</span><span> </span><a href="#local-6989586621679041094"><span class="hs-identifier hs-var">n</span></a><span>    </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041103"><span class="hs-identifier hs-var">guess</span></a><span>
+</span><a name="line-109"></a><span>      </span><span class="hs-glyph">|</span><span> </span><a href="#local-6989586621679041104"><span class="hs-identifier hs-var">sq1</span></a><span> </span><span class="hs-operator hs-var">&gt;</span><span> </span><a href="#local-6989586621679041094"><span class="hs-identifier hs-var">n</span></a><span>               </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041096"><span class="hs-identifier hs-var">search</span></a><span> </span><a href="#local-6989586621679041101"><span class="hs-identifier hs-var">a</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621679041103"><span class="hs-identifier hs-var">guess</span></a><span> </span><span class="hs-glyph">-</span><span> </span><span class="hs-number">1</span><span class="hs-special">)</span><span>
+</span><a name="line-110"></a><span>      </span><span class="hs-glyph">|</span><span> </span><a href="#local-6989586621679041105"><span class="hs-identifier hs-var">sq2</span></a><span> </span><span class="hs-operator hs-var">&lt;</span><span> </span><a href="#local-6989586621679041094"><span class="hs-identifier hs-var">n</span></a><span>               </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679041096"><span class="hs-identifier hs-var">search</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621679041103"><span class="hs-identifier hs-var">guess</span></a><span> </span><span class="hs-operator hs-var">+</span><span> </span><span class="hs-number">1</span><span class="hs-special">)</span><span> </span><a href="#local-6989586621679041102"><span class="hs-identifier hs-var">b</span></a><span>
+</span><a name="line-111"></a><span>      </span><span class="hs-keyword">where</span><span> </span><a name="local-6989586621679041104"><a href="#local-6989586621679041104"><span class="hs-identifier">sq1</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Euler.Util.Arithmetic.html#square"><span class="hs-identifier hs-var">square</span></a><span> </span><a href="#local-6989586621679041103"><span class="hs-identifier hs-var">guess</span></a><span>
+</span><a name="line-112"></a><span>            </span><a name="local-6989586621679041105"><a href="#local-6989586621679041105"><span class="hs-identifier">sq2</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="Euler.Util.Arithmetic.html#square"><span class="hs-identifier hs-var">square</span></a><span> </span><span class="hs-special">(</span><a href="#local-6989586621679041103"><span class="hs-identifier hs-var">guess</span></a><span> </span><span class="hs-operator hs-var">+</span><span> </span><span class="hs-number">1</span><span class="hs-special">)</span><span>
+</span><a name="line-113"></a><span>
+</span><a name="line-114"></a><span class="hs-comment">{- |
+
+@'isSquare' x@ iff @x@ is a square.
+
+prop&gt; \(NonNegative n) -&gt; isSquare (square n)
+
+prop&gt; \(Positive n) -&gt; not (isSquare $ (square n) + 1)
+
+-}</span><span>
+</span><a name="line-123"></a><span class="hs-identifier">isSquare</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679041076"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679041076"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Bool</span><span>
+</span><a name="line-124"></a><a name="isSquare"><a href="Euler.Util.Arithmetic.html#isSquare"><span class="hs-identifier">isSquare</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">isJust</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><a href="Euler.Util.Arithmetic.html#intSqrt"><span class="hs-identifier hs-var">intSqrt</span></a><span>
+</span><a name="line-125"></a><span>
+</span><a name="line-126"></a><span class="hs-comment">{- |
+
+One million = /1,000,000/.
+
+-}</span><span>
+</span><a name="line-131"></a><span class="hs-identifier">million</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679041075"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679041075"><span class="hs-identifier hs-type">a</span></a><span>
+</span><a name="line-132"></a><a name="million"><a href="Euler.Util.Arithmetic.html#million"><span class="hs-identifier">million</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-number">10</span><span> </span><span class="hs-operator hs-var">^</span><span> </span><span class="hs-special">(</span><span class="hs-number">6</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Int</span><span class="hs-special">)</span><span>
+</span><a name="line-133"></a><span>
+</span><a name="line-134"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-135"></a><span>
+</span><a name="line-136"></a><span class="hs-comment">{- |
+
+@'factorial' n@ (often written as /n!/) is the product of the integers from 1 to
+/n/, inclusive.
+
+-}</span><span>
+</span><a name="line-142"></a><span class="hs-identifier">factorial</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integral</span><span> </span><a href="#local-6989586621679041074"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">=&gt;</span><span> </span><a href="#local-6989586621679041074"><span class="hs-identifier hs-type">a</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Integer</span><span>
+</span><a name="line-143"></a><a name="factorial"><a href="Euler.Util.Arithmetic.html#factorial"><span class="hs-identifier">factorial</span></a></a><span> </span><a name="local-6989586621679041106"><a href="#local-6989586621679041106"><span class="hs-identifier">n</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">Foldable.product</span><span> </span><span class="hs-special">[</span><span class="hs-number">1</span><span> </span><span class="hs-glyph">..</span><span> </span><span class="hs-identifier hs-var">fromIntegral</span><span> </span><a href="#local-6989586621679041106"><span class="hs-identifier hs-var">n</span></a><span class="hs-special">]</span><span>
+</span><a name="line-144"></a><span>
+</span><a name="line-145"></a><span class="hs-comment">{- |
+
+All of the factorials, ascending. Equivalent to @'map' 'factorial' [0..]@.
+
+&gt;&gt;&gt; take 10 factorials
+[1,1,2,6,24,120,720,5040,40320,362880]
+
+-}</span><span>
+</span><a name="line-153"></a><span class="hs-identifier">factorials</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-special">[</span><span class="hs-identifier hs-type">Integer</span><span class="hs-special">]</span><span>
+</span><a name="line-154"></a><a name="factorials"><a href="Euler.Util.Arithmetic.html#factorials"><span class="hs-identifier">factorials</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-number">1</span><span> </span><span class="hs-glyph">:</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">List.scanl1</span><span> </span><span class="hs-special">(</span><span class="hs-operator hs-var">*</span><span class="hs-special">)</span><span> </span><span class="hs-special">[</span><span class="hs-number">1</span><span class="hs-glyph">..</span><span class="hs-special">]</span><span class="hs-special">)</span><span>
+</span><a name="line-155"></a><span>
+</span><a name="line-156"></a><span class="hs-comment">{-
+
+$factorialProperties
+
+prop&gt; \(NonNegative n) -&gt; factorial n === factorials !! n
+
+-}</span><span>
+</span><a name="line-163"></a></pre></body></html>

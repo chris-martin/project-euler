@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Euler.Util.Decimal</span><span>
+</span><a name="line-2"></a><span>  </span><span class="hs-special">(</span><span> </span><a href="Euler.Util.Decimal.html#repetendLength"><span class="hs-identifier hs-var">repetendLength</span></a><span>
+</span><a name="line-3"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-4"></a><span>
+</span><a name="line-5"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Prelude.html"><span class="hs-identifier">Euler.Prelude</span></a><span>
+</span><a name="line-6"></a><span>
+</span><a name="line-7"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.Scientific</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Sci</span><span>
+</span><a name="line-8"></a><span>
+</span><a name="line-9"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-10"></a><span>
+</span><a name="line-11"></a><span class="hs-comment">{- |
+
+The length of the repeating portion of a rational number's decimal
+representation. If a decimal doesn't repeat, its repetend length is 0.
+
+&gt;&gt;&gt; [repetendLength (1/n) | n &lt;- [1..10]]
+[0,0,1,0,0,1,6,0,1,0]
+
+&gt;&gt;&gt; repetendLength (608/615) -- 0.9(88617)
+5
+
+-}</span><span>
+</span><a name="line-23"></a><span class="hs-identifier">repetendLength</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Rational</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Int</span><span>
+</span><a name="line-24"></a><a name="repetendLength"><a href="Euler.Util.Decimal.html#repetendLength"><span class="hs-identifier">repetendLength</span></a></a><span> </span><a name="local-6989586621679043713"><a href="#local-6989586621679043713"><span class="hs-identifier">r</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-25"></a><span>  </span><span class="hs-keyword">case</span><span> </span><span class="hs-identifier hs-var">Sci.fromRationalRepetend</span><span> </span><span class="hs-identifier hs-var">Nothing</span><span> </span><a href="#local-6989586621679043713"><span class="hs-identifier hs-var">r</span></a><span> </span><span class="hs-keyword">of</span><span>
+</span><a name="line-26"></a><span>    </span><span class="hs-identifier hs-var">Right</span><span> </span><span class="hs-special">(</span><span class="hs-identifier">_</span><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-var">Nothing</span><span class="hs-special">)</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-number">0</span><span>
+</span><a name="line-27"></a><span>    </span><span class="hs-identifier hs-var">Right</span><span> </span><span class="hs-special">(</span><a name="local-6989586621679043714"><a href="#local-6989586621679043714"><span class="hs-identifier">s</span></a></a><span class="hs-special">,</span><span> </span><span class="hs-identifier hs-var">Just</span><span> </span><a name="local-6989586621679043715"><a href="#local-6989586621679043715"><span class="hs-identifier">i</span></a></a><span class="hs-special">)</span><span>  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-var">negate</span><span> </span><span class="hs-special">(</span><span class="hs-identifier">Sci.base10Exponent</span><span> </span><a href="#local-6989586621679043714"><span class="hs-identifier hs-var">s</span></a><span> </span><span class="hs-operator hs-var">+</span><span> </span><a href="#local-6989586621679043715"><span class="hs-identifier hs-var">i</span></a><span class="hs-special">)</span><span>
+</span><a name="line-28"></a><span>    </span><span class="hs-identifier">_</span><span>                  </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-var">undefined</span><span>
+</span><a name="line-29"></a></pre></body></html>

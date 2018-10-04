@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-pragma">{-# LANGUAGE OverloadedStrings #-}</span><span>
+</span><a name="line-2"></a><span>
+</span><a name="line-3"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Euler.Problems.Problem42</span><span>
+</span><a name="line-4"></a><span>  </span><span class="hs-special">(</span><span> </span><a href="Euler.Problems.Problem42.html#answer"><span class="hs-identifier hs-var">answer</span></a><span>
+</span><a name="line-5"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Problems.Problem42.html#parseWords"><span class="hs-identifier hs-var">parseWords</span></a><span>
+</span><a name="line-6"></a><span>  </span><span class="hs-special">,</span><span> </span><a href="Euler.Problems.Problem42.html#isTriangleWord"><span class="hs-identifier hs-var">isTriangleWord</span></a><span>
+</span><a name="line-7"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-8"></a><span>
+</span><a name="line-9"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Prelude.html"><span class="hs-identifier">Euler.Prelude</span></a><span>
+</span><a name="line-10"></a><span>
+</span><a name="line-11"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Util.FigurateNumbers.html"><span class="hs-identifier">Euler.Util.FigurateNumbers</span></a><span> </span><span class="hs-special">(</span><a href="Euler.Util.FigurateNumbers.html#isTriangle"><span class="hs-identifier hs-var">isTriangle</span></a><span class="hs-special">)</span><span>
+</span><a name="line-12"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Util.WordScore.html"><span class="hs-identifier">Euler.Util.WordScore</span></a><span> </span><span class="hs-special">(</span><a href="Euler.Util.WordScore.html#wordScoreText"><span class="hs-identifier hs-var">wordScoreText</span></a><span class="hs-special">)</span><span>
+</span><a name="line-13"></a><span>
+</span><a name="line-14"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.List</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">List</span><span>
+</span><a name="line-15"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.Text</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Text</span><span>
+</span><a name="line-16"></a><span>
+</span><a name="line-17"></a><span class="hs-comment">{- |
+
+The contents of the input file: a comma-delimited list of quoted strings.
+
+-}</span><span>
+</span><a name="line-22"></a><span class="hs-keyword">type</span><span> </span><a name="InputText"><a href="Euler.Problems.Problem42.html#InputText"><span class="hs-identifier">InputText</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-type">Text</span><span>
+</span><a name="line-23"></a><span>
+</span><a name="line-24"></a><span class="hs-comment">{- |
+
+The number of triangle words in the input.
+
+-}</span><span>
+</span><a name="line-29"></a><span class="hs-identifier">answer</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="Euler.Problems.Problem42.html#InputText"><span class="hs-identifier hs-type">InputText</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Integer</span><span>
+</span><a name="line-30"></a><a name="answer"><a href="Euler.Problems.Problem42.html#answer"><span class="hs-identifier">answer</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-31"></a><span>  </span><a href="Euler.Problems.Problem42.html#parseWords"><span class="hs-identifier hs-var">parseWords</span></a><span> </span><span class="hs-operator hs-var">&gt;&gt;&gt;</span><span>
+</span><a name="line-32"></a><span>  </span><span class="hs-identifier hs-var">List.filter</span><span> </span><a href="Euler.Problems.Problem42.html#isTriangleWord"><span class="hs-identifier hs-var">isTriangleWord</span></a><span> </span><span class="hs-operator hs-var">&gt;&gt;&gt;</span><span>
+</span><a name="line-33"></a><span>  </span><span class="hs-identifier hs-var">List.length</span><span> </span><span class="hs-operator hs-var">&gt;&gt;&gt;</span><span>
+</span><a name="line-34"></a><span>  </span><span class="hs-identifier hs-var">fromIntegral</span><span>
+</span><a name="line-35"></a><span>
+</span><a name="line-36"></a><span class="hs-identifier">parseWords</span><span> </span><span class="hs-glyph">::</span><span> </span><a href="Euler.Problems.Problem42.html#InputText"><span class="hs-identifier hs-type">InputText</span></a><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-identifier hs-type">Text</span><span class="hs-special">]</span><span>
+</span><a name="line-37"></a><a name="parseWords"><a href="Euler.Problems.Problem42.html#parseWords"><span class="hs-identifier">parseWords</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-38"></a><span>  </span><span class="hs-identifier hs-var">Text.filter</span><span> </span><span class="hs-special">(</span><span class="hs-operator hs-var">/=</span><span> </span><span class="hs-char">'&quot;'</span><span class="hs-special">)</span><span> </span><span class="hs-operator hs-var">&gt;&gt;&gt;</span><span>
+</span><a name="line-39"></a><span>  </span><span class="hs-identifier hs-var">Text.splitOn</span><span> </span><span class="hs-string">&quot;,&quot;</span><span>
+</span><a name="line-40"></a><span>
+</span><a name="line-41"></a><span class="hs-comment">{- |
+
+Whether a word's score is a triangle number.
+
+-}</span><span>
+</span><a name="line-46"></a><span class="hs-identifier">isTriangleWord</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Text</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-identifier hs-type">Bool</span><span>
+</span><a name="line-47"></a><a name="isTriangleWord"><a href="Euler.Problems.Problem42.html#isTriangleWord"><span class="hs-identifier">isTriangleWord</span></a></a><span> </span><span class="hs-glyph">=</span><span>
+</span><a name="line-48"></a><span>  </span><a href="Euler.Util.WordScore.html#wordScoreText"><span class="hs-identifier hs-var">wordScoreText</span></a><span> </span><span class="hs-operator hs-var">&gt;&gt;&gt;</span><span>
+</span><a name="line-49"></a><span>  </span><a href="Euler.Util.FigurateNumbers.html#isTriangle"><span class="hs-identifier hs-var">isTriangle</span></a><span>
+</span><a name="line-50"></a></pre></body></html>

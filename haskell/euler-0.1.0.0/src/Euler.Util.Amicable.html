@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><link rel="stylesheet" type="text/css" href="style.css" /><script type="text/javascript" src="highlight.js"></script></head><body><pre><span class="hs-comment">{- |
+
+Let /d(n)/ be defined as the sum of proper divisors of /n/.
+
+If /d(a) = b/ and /d(b) = a/, where /a &#8800; b/, then /a/ and /b/ are an amicable
+pair and each of /a/ and /b/ are called amicable numbers.
+
+Amicable numbers are defined in Euler problem 21.
+
+ -}</span><span>
+</span><a name="line-11"></a><span class="hs-keyword">module</span><span> </span><span class="hs-identifier">Euler.Util.Amicable</span><span>
+</span><a name="line-12"></a><span>  </span><span class="hs-special">(</span><span> </span><a href="Euler.Util.Amicable.html#amicableNumbers"><span class="hs-identifier hs-var">amicableNumbers</span></a><span>
+</span><a name="line-13"></a><span>  </span><span class="hs-special">)</span><span> </span><span class="hs-keyword">where</span><span>
+</span><a name="line-14"></a><span>
+</span><a name="line-15"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Prelude.html"><span class="hs-identifier">Euler.Prelude</span></a><span> </span><span class="hs-keyword">hiding</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">max</span><span class="hs-special">)</span><span>
+</span><a name="line-16"></a><span>
+</span><a name="line-17"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.List</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">List</span><span>
+</span><a name="line-18"></a><span class="hs-keyword">import</span><span> </span><span class="hs-keyword">qualified</span><span> </span><span class="hs-identifier">Data.Map</span><span> </span><span class="hs-keyword">as</span><span> </span><span class="hs-identifier">Map</span><span>
+</span><a name="line-19"></a><span>
+</span><a name="line-20"></a><span class="hs-keyword">import</span><span> </span><a href="Euler.Util.Prime.html"><span class="hs-identifier">Euler.Util.Prime</span></a><span> </span><span class="hs-special">(</span><a href="Euler.Util.Prime.html#factorizations"><span class="hs-identifier hs-var">factorizations</span></a><span class="hs-special">,</span><span> </span><a href="Euler.Util.Prime.html#properDivisorsOfPrimeProduct"><span class="hs-identifier hs-var">properDivisorsOfPrimeProduct</span></a><span class="hs-special">)</span><span>
+</span><a name="line-21"></a><span>
+</span><a name="line-22"></a><span class="hs-comment">--------------------------------------------------------------------------------</span><span>
+</span><a name="line-23"></a><span>
+</span><a name="line-24"></a><span class="hs-comment">{- |
+
+@'amicableNumbers' n@ gives all of the amicable numbers on the inclusive
+range [2, /n/], in ascending order.
+
+-}</span><span>
+</span><a name="line-30"></a><span class="hs-identifier">amicableNumbers</span><span> </span><span class="hs-glyph">::</span><span> </span><span class="hs-identifier hs-type">Integer</span><span> </span><span class="hs-glyph">-&gt;</span><span> </span><span class="hs-special">[</span><span class="hs-identifier hs-type">Integer</span><span class="hs-special">]</span><span>
+</span><a name="line-31"></a><a name="amicableNumbers"><a href="Euler.Util.Amicable.html#amicableNumbers"><span class="hs-identifier">amicableNumbers</span></a></a><span> </span><a name="local-6989586621679078071"><a href="#local-6989586621679078071"><span class="hs-identifier">max</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-identifier hs-var">List.filter</span><span> </span><a href="#local-6989586621679078075"><span class="hs-identifier hs-var">isAmicable</span></a><span> </span><span class="hs-special">[</span><span class="hs-number">2</span><span class="hs-glyph">..</span><a href="#local-6989586621679078071"><span class="hs-identifier hs-var">max</span></a><span class="hs-special">]</span><span>
+</span><a name="line-32"></a><span>  </span><span class="hs-keyword">where</span><span>
+</span><a name="line-33"></a><span>    </span><a name="local-6989586621679078072"><a href="#local-6989586621679078072"><span class="hs-identifier">divisorSums</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-identifier hs-var">List.sum</span><span> </span><span class="hs-operator hs-var">.</span><span> </span><a href="Euler.Util.Prime.html#properDivisorsOfPrimeProduct"><span class="hs-identifier hs-var">properDivisorsOfPrimeProduct</span></a><span class="hs-special">)</span><span> </span><span class="hs-operator hs-var">&lt;$&gt;</span><span> </span><a href="Euler.Util.Prime.html#factorizations"><span class="hs-identifier hs-var">factorizations</span></a><span> </span><a href="#local-6989586621679078071"><span class="hs-identifier hs-var">max</span></a><span>
+</span><a name="line-34"></a><span>    </span><a name="local-6989586621679078073"><a href="#local-6989586621679078073"><span class="hs-identifier">d</span></a></a><span>  </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><a href="#local-6989586621679078072"><span class="hs-identifier hs-var">divisorSums</span></a><span> </span><span class="hs-operator hs-var">Map.!</span><span class="hs-special">)</span><span>
+</span><a name="line-35"></a><span>    </span><a name="local-6989586621679078074"><a href="#local-6989586621679078074"><span class="hs-identifier">d'</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-special">(</span><span class="hs-special">`</span><span class="hs-identifier hs-var">Map.lookup</span><span class="hs-special">`</span><span> </span><a href="#local-6989586621679078072"><span class="hs-identifier hs-var">divisorSums</span></a><span class="hs-special">)</span><span>
+</span><a name="line-36"></a><span>
+</span><a name="line-37"></a><span>    </span><a name="local-6989586621679078075"><a href="#local-6989586621679078075"><span class="hs-identifier">isAmicable</span></a></a><span> </span><a name="local-6989586621679078076"><a href="#local-6989586621679078076"><span class="hs-identifier">a</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><span class="hs-keyword">let</span><span> </span><a name="local-6989586621679078077"><a href="#local-6989586621679078077"><span class="hs-identifier">b</span></a></a><span> </span><span class="hs-glyph">=</span><span> </span><a href="#local-6989586621679078073"><span class="hs-identifier hs-var">d</span></a><span> </span><a href="#local-6989586621679078076"><span class="hs-identifier hs-var">a</span></a><span> </span><span class="hs-keyword">in</span><span> </span><a href="#local-6989586621679078077"><span class="hs-identifier hs-var">b</span></a><span> </span><span class="hs-operator hs-var">/=</span><span> </span><a href="#local-6989586621679078076"><span class="hs-identifier hs-var">a</span></a><span> </span><span class="hs-operator hs-var">&amp;&amp;</span><span> </span><a href="#local-6989586621679078074"><span class="hs-identifier hs-var">d'</span></a><span> </span><a href="#local-6989586621679078077"><span class="hs-identifier hs-var">b</span></a><span> </span><span class="hs-operator hs-var">==</span><span> </span><span class="hs-identifier hs-var">Just</span><span> </span><a href="#local-6989586621679078076"><span class="hs-identifier hs-var">a</span></a><span>
+</span><a name="line-38"></a></pre></body></html>
