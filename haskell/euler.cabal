@@ -86,10 +86,6 @@ test-suite doctest
     , semigroups
     , text
 
-  other-modules:
-      Euler.Test
-      Paths_euler
-
 test-suite fast
   default-language: Haskell2010
   type: exitcode-stdio-1.0
@@ -104,7 +100,6 @@ test-suite fast
     , containers
     , data-ordlist
     , euler
-    , euler-test
     , exceptions
     , multimap
     , multiset
@@ -134,7 +129,6 @@ test-suite one
     , containers
     , data-ordlist
     , euler
-    , euler-test
     , exceptions
     , multimap
     , multiset
